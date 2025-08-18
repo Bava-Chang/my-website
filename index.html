@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>我的個人風格網站</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+    />
+  </head>
+  <body>
+    <nav class="container-fluid">
+      <ul>
+        <li><strong>個人品牌 | 健身 × 工作 × AI</strong></li>
+      </ul>
+      <ul>
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="fitness.html">健身</a></li>
+        <li><a href="work.html">工作</a></li>
+        <li><a href="ai.html">AI</a></li>
+      </ul>
+    </nav>
+
+    <main class="container">
+      <div class="grid">
+        <section>
+          <hgroup>
+            <h2>打造自律生活</h2>
+            <h3>健身、工作與 AI 智能的實踐記錄</h3>
+          </hgroup>
+          <p>
+            歡迎來到我的個人網站。這裡紀錄我在健身、職場與 AI 領域的探索，希望透過分享，激勵更多人建立自己的成長系統。
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <section aria-label="訂閱區">
+      <div class="container">
+        <article>
+          <hgroup>
+            <h2>訂閱內容更新</h2>
+            <h3>每週一次寄送精選文章</h3>
+          </hgroup>
+          <form class="grid">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="你的名字"
+              required
+            />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="你的 Email"
+              required
+            />
+            <button type="submit" onclick="event.preventDefault()">訂閱</button>
+          </form>
+        </article>
+      </div>
+    </section>
+
+    <footer class="container">
+      <small>
+        <a href="#">隱私權政策</a> • <a href="#">聯絡我</a>
+      </small>
+    </footer>
+  </body>
+</html>
