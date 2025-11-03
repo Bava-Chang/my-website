@@ -1,88 +1,189 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>智慧排班雛形｜我的 AI 成長過程</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-<style>
-header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}
-blockquote{border-left:4px solid #38bdf8;padding-left:1rem;color:#475569}
-code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
-figure img{width:100%;height:auto;border-radius:.5rem}
-figure figcaption{color:#64748b;font-size:.9rem}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+  </style>
 </head>
 <body>
+  <!-- Top Nav -->
   <nav class="container-fluid">
     <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
     <ul>
       <li><a href="../index.html">首頁</a></li>
-      <li><a href="../ai.html">AI</a></li>
-      <li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
     </ul>
   </nav>
 
+  <!-- Hero -->
   <header class="hero">
     <main class="container">
-      <hgroup>
-        <h1>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案</h1>
-        <p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p>
-      </hgroup>
+      <p class="eyebrow">Field Note • Scheduling • Apps Script</p>
+      <h1>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案</h1>
+      <p class="secondary">交期要守、人力要省、爐要有人顧。把「眉角」變成機器看得懂的規則，班表就能自動長出來，而且說得清楚、改得快速。</p>
     </main>
   </header>
 
   <main class="container">
+    <!-- Cover -->
     <figure>
-      <img src="https://picsum.photos/1200/520?random=201" alt="智慧排班流程示意圖" />
-      <figcaption>把「真實限制」精準轉成「機器可讀」，是排班自動化能否落地的分水嶺。</figcaption>
+      <img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1600&auto=format&fit=crop" alt="智慧排班與工廠作業"/>
+      <figcaption>把現場規則落成「可運算」的條件，是自動化排班的第一步。</figcaption>
     </figure>
 
-    <h3>一、源由：人力受限、交期嚴格、現場變動大</h3>
-    <p>我們面對的不是單純的「把人排滿」而已，而是同時存在交期約束（例如友達 T32 必須在 12:00 前到貨）、機台瓶頸（B 區半自動、A 與 C 區全自動）、通宵限制（每人每月最多 4 天）、以及 A11 必須雙人值守等現場真實條件。傳統做法全靠主管經驗，容易「當天對、隔天錯」。我希望把這些約束變成規則，讓 AI 直接吐出可執行的排程表。</p>
+    <h3>一、源由：再也不靠記憶與直覺排班</h3>
+    <p>
+      在傳統產線，排班常靠「誰能通宵」「誰熟哪台」「今天哪區是瓶頸」這些隱性知識與口頭協調。剛開始靠經驗很快，但遇到高峰、插單、請假、設備維修，就容易出現
+      <em>局部優化</em>（顧到一區，拖垮另一區）或<em>決策不一致</em>（同樣情境做出不同排法）。我的目標很單純：
+      <strong>把所有眉角寫成規則，讓表格一跑就自動給答案，而且每一格都有「為什麼」</strong>。
+    </p>
 
-    <h3>二、目的：可落地的自動化，不是漂亮的理論</h3>
+    <div class="callout">
+      <strong>我們的基本面（摘要）</strong><br/>
+      <span class="badge">兩班制</span> 白班 08:00–16:30、夜班 16:30–01:00（內含休息邏輯）<br/>
+      <span class="badge">區位需求</span> A、B、C 各 1 人；A11 固定 2 人；爐必須值守（有生產就要人）<br/>
+      <span class="badge">人員限制</span> 有人可通宵、有的人限定白/晚、不跨區的熟練度偏好<br/>
+      <span class="badge">瓶頸管理</span> 目前 B 區是瓶頸（實務產能較低、換模頻繁）
+    </div>
+
+    <h3>二、目的：班表可執行、可解釋、可維護</h3>
+    <p>
+      我把排班系統的判斷標準定義為三件事：<span class="badge">可執行</span>（排下去就能做）、<span class="badge">可解釋</span>（每格有理由）、
+      <span class="badge">可維護</span>（新規則一加，系統不崩）。這意味著我們不追求一次就完美，而是透過
+      <strong>規則檔 → 生成人表 → 人工微調 → 回饋規則</strong> 的短迭代，讓系統越排越聰明。
+    </p>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1457305237443-44c3d5a30b89?q=80&w=1200&auto=format&fit=crop" alt="規則雛形草圖">
+        <figcaption>把「限制」拆成欄位：人員、時段、區位、不可排條件、偏好分數。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1660641083884-3a01b601f1f0?q=80&w=1200&auto=format&fit=crop" alt="產線與瓶頸">
+        <figcaption>以瓶頸為中心規畫人力；A11 固定兩人、爐值守不可空窗。</figcaption>
+      </figure>
+    </div>
+
+    <h3>三、過程：把規則寫進表格，讓 Apps Script 生成草案</h3>
+    <p class="keyline">
+      核心策略：<strong>規則資料化</strong>（Google Sheet），<strong>演算法最小化</strong>（貪婪 + 約束檢查 + 權重），<strong>結果可解釋化</strong>（理由欄）。
+    </p>
+
+    <h4>3.1 規則表設計（關鍵欄位）</h4>
     <ul>
-      <li>輸出是 <strong>Google Apps Script</strong>，能真的寫入 Google Sheet 的班表。</li>
-      <li>能處理例外：交期撞車、臨時缺勤、C 區 P3/P7 需雙人等。</li>
-      <li>產出具體的「人 × 區 × 班別」配置，並附說明理由（可稽核）。</li>
+      <li><strong>人員名錄：</strong>姓名、可上班時段（白/晚/通宵）、不可排日期、可執行區位（A/B/C/A11/爐）、偏好分數（例：阿方偏 C、B；避免 A）。</li>
+      <li><strong>區位需求表：</strong>每天每班所需人數（A=1、B=1、C=1、A11=2、爐=1）。</li>
+      <li><strong>約束條件：</strong>每人每月通宵上限（如 4 天）、特定人週二四可延長到 20:30、不可連兩天通宵等。</li>
+      <li><strong>例外清單：</strong>設備維修停機、臨時支援包裝、教育訓練時段。</li>
     </ul>
 
-    <h3>三、過程：把口語限制精準化 → 交給 AI 生成程式碼</h3>
-    <p>我先把現場規則化為結構化輸入表單（人員、技能、通宵額度、機台、交期、優先規則），再把「排班原則」寫到 Prompt。關鍵不是要 AI「想得很聰明」，而是要它「遵守得很精準」。</p>
+    <h4>3.2 生成人表（演算法最小可行版）</h4>
+    <p>
+      不追求學術上的最佳化，我採用<strong>「約束先決」的貪婪策略</strong>：先填滿不可違反的硬條件（爐值守、A11=2人），再依區位瓶頸與人員偏好分數填 A/B/C。
+      若出現衝突（例如某人同時滿足兩區最佳），就以「<em>總違規成本</em>最低」為決策，並把放棄的選擇記錄在「理由」欄以供人工檢視。
+    </p>
 
-    <details>
-      <summary><strong>關鍵 Prompt（精簡版）</strong></summary>
-      <pre><code>你是生管排程專家，請輸出能直接貼到 Google Apps Script 的程式碼，完成下列任務：
-1) 讀取工作表：
-   - 人員名單：姓名、可排區域(A/B/C/A11)、可否通宵(月額度)、技能標籤
-   - 機台清單：區域、是否半自動(人力需求)、特殊條件(P3/P7 需兩人)
-   - 交期清單：料號、數量、客戶、最晚出貨時段(例如 T32 需 12:00 前)
-2) 規則：
-   - A11 區固定 2 人
-   - C 區若為 P3 或 P7 當班需 2 人
-   - 每人每月通宵上限 4 天；大明不可通宵
-   - 有生產就要排爐(阿義或阿甲)
-   - 避開尖峰；出貨前一週內完成
-3) 目標：
-   - 先滿足交期、再盡量同區同人、最後平衡通宵與負載
-4) 輸出：
-   - 指定日期之白/夜班的「人員 × 區域」配置表，並把違規原因列於備註。</code></pre>
-    </details>
+    <pre><code>// 生成當日班表（Apps Script 節錄）
+function buildSchedule() {
+  const cfg = readConfig();        // 讀人員、區位需求、約束
+  const needs = demandOfToday();   // A=1, B=1, C=1, A11=2, 爐=1
+  const pool = candidatePool(cfg); // 篩掉請假/不可排者
 
-    <p>AI 依此生成的 Apps Script 能直接寫入 Google Sheet。第一次跑通常會遇到邊角情境（如 C 區臨時兩台同時要雙人），我就把這些狀況「回填進規則」，再讓 AI 生成新版本。</p>
+  const result = [];               // {slot:'A11-1/2', person:'阿駿', reason:'A11 固定兩人; 週四可到20:30'}
+  // 1) 先硬條件：爐 → A11 → 其他區
+  assignHard(result, pool, needs, cfg);
+  // 2) 再以偏好分數/瓶頸權重填 A/B/C
+  assignSoft(result, pool, needs, cfg);
+  // 3) 檢查通宵上限/連續班/跨區負荷
+  fixViolations(result, cfg);
+  writeSheet(result);              // 寫回「排班結果」＋「理由」
+}</code></pre>
 
-    <h3>四、困難與修正：三個易被忽略的坑</h3>
-    <ol>
-      <li><strong>規則矛盾</strong>：例如「友達 T32 要上午出貨」與「同人最好同區」同時存在時，AI 需知道哪個優先。<br>→ 解法：為每條規則設定權重與優先序，明確寫在 Prompt。</li>
-      <li><strong>資料潔淨度</strong>：人員表若缺「可否通宵」或錯字，演算法就會失真。<br>→ 解法：在程式中加入 <code>validate()</code>，缺值就報錯並停止寫入。</li>
-      <li><strong>說明可稽核</strong>：排完不是結束，主管要知道「為什麼這樣排」。<br>→ 解法：輸出時同時寫入「決策說明」欄（如：滿足 T32 運輸時限）。</li>
-    </ol>
+    <h4>3.3 可解釋輸出（理由欄）</h4>
+    <p>
+      每一格都有「為什麼」：例如「<em>選阿方@C：阿方偏好 C/B；避免 A；C 區同時有 P3 稼動需兩人；瓶頸權重 +2</em>」。
+      這一欄讓現場能快速確認是否合理，也成為調整規則時的依據。
+    </p>
 
-    <h3>五、結論與建議</h3>
-    <p>智慧排班的核心不是 AI 有多聰明，而是規則是否正確、資料是否乾淨、輸出是否可執行。先用小範圍驗證（例如只排 A11 與 C 區），再擴大到全廠，就能把「主管腦中的經驗」具象化成「所有人都能維護的系統」。下一步可以加入「歷史稼動率」與「人員學習曲線」，進一步做動態優化。</p>
+    <!-- Third visual -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="資料表與演算法示意"/>
+      <figcaption>規則在表格，演算法在雲端，輸出可讀；人機協作的節奏才跑得長。</figcaption>
+    </figure>
+
+    <h3>四、困難與修正：讓系統能「落地」而不是「好看」</h3>
+    <ul>
+      <li><strong>衝突太多：</strong>一開始同時卡「請假」「設備停機」「A11 要兩人」。解法：把「硬條件」與「軟偏好」分層，先硬後軟，能排多少是多少，剩下交給人工二次調整。</li>
+      <li><strong>跨區疲勞：</strong>同一人連兩天被排到 A→C，效率下滑。解法：加入「跨區成本」與「連續天數懲罰」，演算法優先避免。</li>
+      <li><strong>瓶頸誤判：</strong>實際上 B 區才是瓶頸，但系統一開始給了 A 區較高權重。解法：把真實產能與等待時間導回規則，B 區權重 +2，圖表周更。</li>
+      <li><strong>通宵配額：</strong>有些人每月限通宵 4 次。解法：新增「月度使用率」欄，超標者權重設極高懲罰。</li>
+    </ul>
+
+    <h3>五、成果：速度、透明、彈性</h3>
+    <p>
+      有了雛形後，當天的班表可在數十秒內產生出「可執行草案」。因為每格都有「理由」，現場主管能快速確認與微調。
+      遇到插單與臨時請假，只改規則或在「例外清單」加一列，重新生成即可。更重要的是，
+      <strong>人員偏好、瓶頸區權重、通宵配額</strong>都被資料化，從此不再靠口頭傳承。
+    </p>
+
+    <div class="callout">
+      <strong>指標（上線後兩週觀察）</strong><br/>
+      排班產出時間由 30–45 分 → <strong>2–5 分</strong>；<br/>
+      主管微調次數下降約 <strong>40%</strong>；<br/>
+      瓶頸區（B）加派人力的準確率明顯提升，臨時倒班事件下降。
+    </div>
+
+    <h3>六、我用的 Prompt 與節錄（可直接複用）</h3>
+    <pre><code>你是製造業排班與 Apps Script 專家。請依下列規則產生「Google 試算表排班草案」：
+1) 區位需求：A=1、B=1、C=1、A11=2、爐=1（有生產必排）
+2) 限制：白 08:00–16:30；晚 16:30–01:00；通宵上限每人每月 4 次
+3) 人員偏好：阿方偏 C/B，避免 A；大明不可通宵；阿駿、Peter 週二四可到 20:30
+4) 產線瓶頸：B 區權重 +2；C 區在 P3/P7 時需 2 人
+5) 請產生 Apps Script 節錄：讀取「規則表」、貪婪分配、違規修補、輸出「排班結果」與「理由」
+並提供表頭欄位設計。</code></pre>
+
+    <h3>七、結論與建議：規則先行，演算法其次</h3>
+    <p>
+      真正讓排班變簡單的，不是多高深的演算法，而是你願不願意把「眉角」寫清楚。先把規則寫進表格，再讓腳本跑出草案，
+      <strong>人機協作</strong>的節奏就會自然形成。未來我會把「瓶頸權重」自動連動歷史數據、把「請假/教育訓練」自動從行事曆抓入，
+      甚至把「建議排班」推到手機讓組長確認，一鍵回寫。
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p2.html">← 第 2 篇：烘房進出一掃送出</a>
+      <a href="./p3.html">第 3 篇：庫存查詢小工具 →</a>
+    </div>
   </main>
 
-  <footer class="container"><small>© 2025 Bava</small></footer>
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
 </body>
 </html>
