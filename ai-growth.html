@@ -3,22 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>我的 AI 成長過程｜10 篇實戰合集</title>
+  <title>我的 AI 成長過程｜實戰專區</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <style>
-    :root{--brand:#38bdf8}
-    header.hero{
-      padding:3rem 0 2rem;
-      background: radial-gradient(800px 400px at 10% -10%, #0ea5e922, transparent),
-                  radial-gradient(800px 400px at 90% 110%, #22d3ee22, transparent);
-      border-bottom:1px solid #e2e8f0;
+    :root {
+      --bg: #0f172a;
+      --panel: #0b1220;
+      --muted: #94a3b8;
+      --ink: #e2e8f0;
+      --line: #1f2a44;
+      --brand: #38bdf8;
     }
-    .eyebrow{font-size:.9rem;letter-spacing:.12em;color:#64748b;text-transform:uppercase}
-    .dot{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--brand);margin-right:.4rem;translate:0 -1px}
-    .card img{width:100%;height:auto;border-radius:.5rem}
-    .sub{color:#64748b;font-size:.95rem}
-    .kicker{color:#0ea5e9}
-    footer{margin-top:3rem;padding:2rem 0;border-top:1px solid #e2e8f0}
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    nav, footer {
+      background: transparent;
+    }
+
+    a { color: #7dd3fc; }
+
+    header.hero {
+      padding: 3rem 0 1.5rem;
+      border-bottom: 1px solid var(--line);
+      background: radial-gradient(900px 420px at 15% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 85% 110%, #22d3ee22, transparent);
+    }
+
+    .eyebrow {
+      font-size: .85rem;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .group-title {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin: 2.5rem 0 1rem;
+    }
+
+    .group-title .dot {
+      width: .55rem;
+      height: .55rem;
+      background: var(--brand);
+      border-radius: 999px;
+      display: inline-block;
+    }
+
+    .group-title h2 { margin: 0; color: #e2e8f0; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #0b1220, #0a1222);
+      box-shadow: 0 14px 28px rgba(2, 8, 23, .45);
+      transition: transform .25s ease, box-shadow .25s ease;
+      min-height: 540px;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 40px rgba(2, 8, 23, .6);
+    }
+
+    .thumb {
+      width: 100%;
+      height: 270px;
+      object-fit: cover;
+      filter: brightness(90%);
+      transition: filter .3s ease;
+    }
+
+    .card:hover .thumb {
+      filter: brightness(100%);
+    }
+
+    .pad {
+      padding: 1.4rem 1.5rem 1.6rem;
+    }
+
+    .pad h3 {
+      margin: .2rem 0 .8rem;
+      font-size: 1.55rem;
+      color: #e2e8f0;
+    }
+
+    .sub {
+      color: var(--muted);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 5.8em;
+      font-size: 1rem;
+    }
+
+    .meta {
+      color: #a5b4fc;
+      font-weight: 600;
+      margin-bottom: .4rem;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      color: #38bdf8;
+      font-weight: 600;
+      margin-top: .8rem;
+    }
+
+    .kicker::after {
+      content: '→';
+      transition: transform .2s ease;
+    }
+
+    .card:hover .kicker::after {
+      transform: translateX(3px);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 3rem 0 2rem;
+    }
+
+    footer.container {
+      text-align: center;
+      margin-top: 3rem;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
@@ -29,87 +162,138 @@
       <li><a href="fitness.html">健身</a></li>
       <li><a href="work.html">工作</a></li>
       <li><a href="ai.html">AI</a></li>
-      <li><a href="ai-growth.html" aria-current="page">AI 成長合集</a></li>
+      <li><a href="ai-growth.html" aria-current="page">AI 成長專區</a></li>
     </ul>
   </nav>
 
   <header class="hero">
     <main class="container">
-      <hgroup>
-        <h1>我的 AI 成長過程：10 個從零到一的工廠實戰</h1>
-        <p class="eyebrow"><span class="dot"></span>把 AI 變同事，把流程變系統</p>
-      </hgroup>
-      <p>這是一套用真實場景鍛鍊出來的工作法：以問題為核心、以資料為語言、以自動化收尾。每一篇都是可重複、可擴充、可落地的實作。點進任一章，能看到完整的背景、決策、關鍵 Prompt、程式與改版紀錄。</p>
+      <p class="eyebrow">Field Notes • 工廠數位化 • 系統設計</p>
+      <h1>我的 AI 成長過程｜十篇實戰記錄</h1>
+      <p class="secondary">以真實專案為例，從生產、管理到文化，展現 AI 如何解決傳統產業的困境。</p>
     </main>
   </header>
 
   <main class="container">
-    <article class="grid">
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 1 篇</p><h3>智慧排班雛形</h3></header>
-        <img src="https://picsum.photos/1200/600?random=101" alt="智慧排班示意" />
-        <p class="sub">從限制條件到演算法，讓 AI 先顧交期、再顧成本，輸出可執行的 Apps Script。</p>
-        <a class="contrast kicker" href="posts/p1.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 2 篇</p><h3>烘房進出一掃送出</h3></header>
-        <img src="https://picsum.photos/1200/600?random=102" alt="掃碼流程" />
-        <p class="sub">行動端掃描、後端去重、失敗暫存；一次把體驗與可靠度都顧到。</p>
-        <a class="contrast kicker" href="posts/p2.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 3 篇</p><h3>庫存查詢小工具</h3></header>
-        <img src="https://picsum.photos/1200/600?random=103" alt="庫存查詢" />
-        <p class="sub">doGet 路由、前端查詢頁與欄位校對，處理「查得到、寫不進」的鬼打牆。</p>
-        <a class="contrast kicker" href="posts/p3.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 4 篇</p><h3>製令成本估算</h3></header>
-        <img src="https://picsum.photos/1200/600?random=104" alt="成本模型" />
-        <p class="sub">把 Excel 規則抽象化，再用 Python 批次化；人改參數、機器算全場。</p>
-        <a class="contrast kicker" href="posts/p4.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 5 篇</p><h3>AI 版教育訓練教材</h3></header>
-        <img src="https://picsum.photos/1200/600?random=105" alt="教育訓練" />
-        <p class="sub">把法規寫成人話，附測驗、簽到與版本控管，讓合規變成日常。</p>
-        <a class="contrast kicker" href="posts/p5.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 6 篇</p><h3>噪音與熱負荷教材系統化</h3></header>
-        <img src="https://picsum.photos/1200/600?random=106" alt="熱負荷" />
-        <p class="sub">教材、測驗、簽到、成績上傳一條龍，減少人為遺漏。</p>
-        <a class="contrast kicker" href="posts/p6.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 7 篇</p><h3>Node-RED 入門到看板</h3></header>
-        <img src="https://picsum.photos/1200/600?random=107" alt="Node-RED 看板" />
-        <p class="sub">用資料流思維把 inject/switch/template 串成最小可行儀表板。</p>
-        <a class="contrast kicker" href="posts/p7.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 8 篇</p><h3>空壓機電費模型</h3></header>
-        <img src="https://picsum.photos/1200/600?random=108" alt="空壓機" />
-        <p class="sub">引入空車/重車、卸載比例與電價敏感度，投資有數可依。</p>
-        <a class="contrast kicker" href="posts/p8.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 9 篇</p><h3>8D 報告半自動化</h3></header>
-        <img src="https://picsum.photos/1200/600?random=109" alt="8D 報告" />
-        <p class="sub">客訴→全檢→補料→教育訓練→8D，用資料驅動生成與追蹤。</p>
-        <a class="contrast kicker" href="posts/p9.html">閱讀長文 →</a>
-      </section>
-      <section class="card">
-        <header><p class="eyebrow"><span class="dot"></span>第 10 篇</p><h3>組織文化變形</h3></header>
-        <img src="https://picsum.photos/1200/600?random=110" alt="文化變形" />
-        <p class="sub">當 AI 真的在保護人與績效，它就不再是工具，而是團隊成員。</p>
-        <a class="contrast kicker" href="posts/p10.html">閱讀長文 →</a>
-      </section>
-    </article>
+    <!-- Group 1 -->
+    <div class="group-title"><span class="dot"></span><h2>AI × 自動化與資料流</h2></div>
+    <section class="grid">
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1400&auto=format&fit=crop" alt="智慧排班">
+        <div class="pad">
+          <div class="meta">第 1 篇</div>
+          <h3>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案</h3>
+          <p class="sub">用 Google Sheet 與 Apps Script，把人員偏好、瓶頸權重、通宵配額轉為可運算的規則檔，生成有理由可追的班表。</p>
+          <a class="kicker" href="posts/p1.html">閱讀長文</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1400&auto=format&fit=crop" alt="掃碼作業">
+        <div class="pad">
+          <div class="meta">第 2 篇</div>
+          <h3>烘房進出一掃送出：行動端體驗 × 後端可靠度</h3>
+          <p class="sub">掃描 QR 即上傳、錯誤自動補傳。行動端速度 × 後端真實性的完美平衡，讓現場紀錄從手抄變成即時。</p>
+          <a class="kicker" href="posts/p2.html">閱讀長文</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1400&auto=format&fit=crop" alt="庫存查詢">
+        <div class="pad">
+          <div class="meta">第 3 篇</div>
+          <h3>庫存查詢小工具：doGet 路由 × 欄位校對</h3>
+          <p class="sub">設計輕量級查詢端點，用 URL 參數控制入口，並自動校對大小寫與全半形，簡化現場盤點流程。</p>
+          <a class="kicker" href="posts/p3.html">閱讀長文</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1660641083884-3a01b601f1f0?q=80&w=1400&auto=format&fit=crop" alt="製令成本">
+        <div class="pad">
+          <div class="meta">第 4 篇</div>
+          <h3>製令成本估算：把 Excel 規則抽象化，再交給 Python 批次</h3>
+          <p class="sub">以數據驅動取代直覺判斷，計算不同電價、工時、重車空車比例的真實成本，找出 ROI 最佳化解法。</p>
+          <a class="kicker" href="posts/p4.html">閱讀長文</a>
+        </div>
+      </article>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Group 2 -->
+    <div class="group-title"><span class="dot"></span><h2>AI × 教育訓練與合規</h2></div>
+    <section class="grid">
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1400&auto=format&fit=crop" alt="教育教材">
+        <div class="pad">
+          <div class="meta">第 5 篇</div>
+          <h3>AI 版教育訓練教材：把法規寫成人話，還要教得會</h3>
+          <p class="sub">自動生成教材、題庫與簽到表，AI 協助轉換艱澀法規成易懂教案，並支援多語版本同步。</p>
+          <a class="kicker" href="posts/p5.html">閱讀長文</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="熱負荷防護">
+        <div class="pad">
+          <div class="meta">第 6 篇</div>
+          <h3>噪音與熱負荷教材系統化：教材 × 測驗 × 簽到 × 成績一條龍</h3>
+          <p class="sub">建立完整的教育訓練閉環：教材內容、線上測驗與成績自動紀錄，合規又省工。</p>
+          <a class="kicker" href="posts/p6.html">閱讀長文</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1400&auto=format&fit=crop" alt="Node-RED">
+        <div class="pad">
+          <div class="meta">第 7 篇</div>
+          <h3>Node-RED 入門到看板：把資料「流」起來</h3>
+          <p class="sub">透過視覺化流程構建 IoT 資料流，實現從感測到即時看板的全自動化。</p>
+          <a class="kicker" href="posts/p7.html">閱讀長文</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1400&auto=format&fit=crop" alt="空壓系統">
+        <div class="pad">
+          <div class="meta">第 8 篇</div>
+          <h3>空壓機電費模型：理想 vs 實際與 ROI 敏感度</h3>
+          <p class="sub">利用實測電流與運轉比例重建能源模型，讓節能改造決策有憑有據。</p>
+          <a class="kicker" href="posts/p8.html">閱讀長文</a>
+        </div>
+      </article>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Group 3 -->
+    <div class="group-title"><span class="dot"></span><h2>AI × 管理與文化</h2></div>
+    <section class="grid">
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1400&auto=format&fit=crop" alt="8D報告">
+        <div class="pad">
+          <div class="meta">第 9 篇</div>
+          <h3>8D 報告半自動化：模板 × 資料 × 生成</h3>
+          <p class="sub">以資料驅動的品質改善流程，從客訴到教育訓練全自動產生 8D 報告與追蹤紀錄。</p>
+          <a class="kicker" href="posts/p9.html">閱讀長文</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img class="thumb" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1400&auto=format&fit=crop" alt="組織文化">
+        <div class="pad">
+          <div class="meta">第 10 篇</div>
+          <h3>組織文化變形：當 AI 真的在保護人與績效</h3>
+          <p class="sub">公開 KPI、共創需求、兩週迭代，讓 AI 從工具變成團隊的一員。</p>
+          <a class="kicker" href="posts/p10.html">閱讀長文</a>
+        </div>
+      </article>
+    </section>
   </main>
 
   <footer class="container">
-    <small>© 2025 Bava</small>
+    <small>© 2025 Bava · 深色主題 · 兩欄大卡摘要設計</small>
   </footer>
 </body>
 </html>
