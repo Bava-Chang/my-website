@@ -1,1466 +1,268 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>我的AI成長過程｜Bava</title>
-<style>
-:root {
-  --bg-main:#0f172a;
-  --bg-card:#1e2537;
-  --bg-card-soft:#1a2133;
-  --text-main:#e2e8f0;
-  --text-dim:#94a3b8;
-  --accent:#38bdf8;
-  --border:#334155;
-  --radius-xl:1.25rem;
-  --radius-lg:.75rem;
-  --radius-md:.5rem;
-  --max-width:1200px;
-  --font-main: system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans TC","Microsoft JhengHei",sans-serif;
-  --font-mono: ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",Menlo,monospace;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 成長文章 10 篇合集｜個人品牌：健身 × 工作 × AI</title>
+  <meta name="description" content="我的 AI 成長紀錄：工廠數位轉型、Apps Script、Node‑RED、Python、品質管理與健身習慣建立的 10 篇文章合集。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{
+      --bg:#0a0f1f; --bg2:#0c1426; --surface:#0f1828; --card:#111c30; --ink:#e7eefb; --muted:#9ab0cf; --accent:#7cc4ff; --line:#1e2d48;
+      --radius:16px; --radius-lg:22px; --shadow:0 10px 30px rgba(3,10,20,.35);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{color:var(--ink);background:
+      radial-gradient(1200px 600px at 15% -10%, #16233a 0%, transparent 60%),
+      radial-gradient(1000px 500px at 85% 110%, #0c2a4a 0%, transparent 60%),
+      linear-gradient(180deg,var(--bg),var(--bg2));
+      font-family:"Inter","Noto Sans TC",system-ui,-apple-system,Segoe UI,Roboto,Arial,"PingFang TC","Noto Sans CJK TC",sans-serif;
+      letter-spacing:.2px;
+    }
+    /* Layout */
+    .container{max-width:1100px}
+    header.hero{padding:56px 0 20px;border-bottom:1px solid var(--line)}
+    .sticky-top{position:sticky;top:0;background:linear-gradient(180deg,#0a0f1fff,#0a0f1fE6 60%,#0a0f1f00);backdrop-filter:blur(8px);z-index:5;border-bottom:1px solid rgba(255,255,255,.04)}
+    nav ul li a[aria-current="page"]{color:var(--accent);font-weight:600}
 
-* {
-  box-sizing:border-box;
-  -webkit-font-smoothing: antialiased;
-}
+    /* Typography */
+    h1{font-size:clamp(28px,3.2vw,40px);line-height:1.2;margin:0 0 .4rem}
+    h2{font-size:clamp(20px,2.2vw,26px);line-height:1.35;margin:.2rem 0 .5rem}
+    h3{font-size:clamp(18px,2vw,22px)}
+    .prose{line-height:1.75}
+    .muted{color:var(--muted)}
 
-body {
-  margin:0;
-  background: radial-gradient(circle at 20% 20%, rgba(56,189,248,.12) 0%, transparent 60%),
-              radial-gradient(circle at 80% 10%, rgba(139,92,246,.12) 0%, transparent 70%),
-              radial-gradient(circle at 50% 120%, rgba(15,23,42,1) 0%, rgba(15,23,42,0) 70%),
-              var(--bg-main);
-  background-color: var(--bg-main);
-  color:var(--text-main);
-  font-family:var(--font-main);
-  line-height:1.6;
-  font-size:16px;
-}
+    /* Grid & Card */
+    .grid{display:grid;gap:1.25rem;grid-template-columns:repeat(12,1fr)}
+    @media (max-width: 960px){.span-4,.span-6,.span-8,.span-12{grid-column:span 12}}
+    @media (min-width: 961px){.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}}
 
-/* top navbar */
-.top-nav-wrap{
-  background:rgba(15,23,42,.6);
-  backdrop-filter: blur(10px);
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:0;
-  z-index:999;
-  box-shadow:0 30px 120px rgba(0,0,0,.8);
-}
-.top-nav{
-  max-width:var(--max-width);
-  margin:0 auto;
-  padding:.75rem 1.25rem;
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  justify-content:space-between;
-  font-size:.9rem;
-}
-.top-nav-left{
-  color:#fff;
-  font-weight:600;
-  letter-spacing:-0.03em;
-  display:flex;
-  align-items:center;
-  gap:.5rem;
-  font-size:.9rem;
-}
-.top-nav-left .mini-dot{
-  width:8px;
-  height:8px;
-  background:var(--accent);
-  border-radius:999px;
-  box-shadow:0 0 10px var(--accent);
-}
-.top-nav-right{
-  display:flex;
-  flex-wrap:wrap;
-  gap:1rem;
-}
-.top-nav-right a{
-  color:var(--text-main);
-  text-decoration:none;
-  line-height:1.2;
-  display:flex;
-  align-items:center;
-  gap:.4rem;
-  font-weight:500;
-  padding:.4rem .6rem;
-  border-radius:.5rem;
-  border:1px solid transparent;
-  background:rgba(255,255,255,0);
-  transition:all .12s linear;
-}
-.top-nav-right a:hover{
-  background:rgba(56,189,248,.08);
-  border:1px solid rgba(56,189,248,.4);
-  color:#fff;
-  box-shadow:0 20px 80px rgba(0,0,0,.8);
-  text-decoration:none;
-}
+    .card{background:linear-gradient(180deg,rgba(17,28,48,.85),rgba(17,28,48,.92));
+          border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,.04) inset;
+          transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#2b446d}
+    .card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+    .card .content{padding:1rem 1.25rem}
 
-/* hero */
-header.hero {
-  max-width:var(--max-width);
-  margin:0 auto;
-  padding:2rem 1.25rem 3rem;
-}
-.hero-tag {
-  display:inline-block;
-  background:rgba(56,189,248,.12);
-  color:var(--accent);
-  font-size:.8rem;
-  font-weight:500;
-  padding:.4rem .6rem;
-  border-radius:var(--radius-md);
-  border:1px solid rgba(56,189,248,.4);
-}
-.hero-title {
-  margin:.75rem 0 0;
-  font-size:clamp(1.8rem,2vw,2.2rem);
-  line-height:1.25;
-  font-weight:600;
-  color:#fff;
-  letter-spacing:-0.03em;
-}
-.hero-desc {
-  margin:.75rem 0 0;
-  max-width:720px;
-  color:var(--text-dim);
-  font-size:1rem;
-  line-height:1.6;
-}
-.hero-meta {
-  margin-top:1rem;
-  font-size:.8rem;
-  color:var(--text-dim);
-  display:flex;
-  flex-wrap:wrap;
-  gap:.75rem;
-}
-.hero-meta span {
-  display:flex;
-  align-items:center;
-  gap:.4rem;
-  background:rgba(255,255,255,0.03);
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:.4rem .6rem;
-  line-height:1.2;
-}
+    /* Badges & Buttons */
+    .tag{display:inline-block;padding:.2rem .6rem;border:1px solid var(--line);border-radius:999px;font-size:.78rem;margin-right:.3rem;color:var(--muted);background:rgba(255,255,255,.02)}
+    .btn{border-radius:999px;font-weight:600}
 
-/* layout */
-.page-wrap {
-  max-width:var(--max-width);
-  margin:0 auto 4rem;
-  display:grid;
-  grid-template-columns: 260px 1fr;
-  gap:2rem;
-  padding:0 1.25rem 4rem;
-}
-@media(max-width:1024px){
-  .page-wrap {
-    grid-template-columns:1fr;
-  }
-}
+    /* Section helpers */
+    .toc{background:linear-gradient(180deg,rgba(16,24,39,.5),rgba(16,24,39,.65));
+         border:1px dashed var(--line);border-radius:var(--radius);padding:1rem}
+    .footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted)}
 
-/* toc */
-nav#toc {
-  position:relative;
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
-  padding:1.25rem 1rem;
-  min-height:200px;
-  max-height:80vh;
-  overflow:auto;
-  box-shadow:0 30px 120px rgba(0,0,0,.6);
-}
-.toc-title {
-  font-size:.8rem;
-  font-weight:600;
-  text-transform:uppercase;
-  color:var(--text-dim);
-  letter-spacing:.06em;
-  margin:0 0 .75rem .5rem;
-}
-.toc-list {
-  list-style:none;
-  padding:0;
-  margin:0;
-  font-size:.9rem;
-  line-height:1.5;
-}
-.toc-list li {
-  margin:0;
-}
-.toc-list a {
-  display:block;
-  text-decoration:none;
-  color:var(--text-main);
-  padding:.5rem .75rem;
-  border-radius:var(--radius-md);
-  border:1px solid transparent;
-  transition:all .12s linear;
-  font-weight:500;
-}
-.toc-list a .toc-sub {
-  color:var(--text-dim);
-  font-weight:400;
-  font-size:.8rem;
-  display:block;
-  line-height:1.3;
-}
-.toc-list a:hover {
-  background:var(--bg-card-soft);
-  border:1px solid var(--border);
-  color:#fff;
-  box-shadow:0 12px 40px rgba(0,0,0,.8);
-}
+    /* Links */
+    a{color:#b9dcff}
+    a:hover{color:#d7ecff}
 
-/* article cards */
-main.content {
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  gap:2rem;
-}
-.article-card {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:var(--radius-xl);
-  padding:1.5rem 1.5rem 2rem;
-  box-shadow:0 40px 160px rgba(0,0,0,.8);
-}
-.article-header {
-  margin-bottom:1rem;
-}
-.article-eyebrow {
-  color:var(--accent);
-  font-size:.8rem;
-  line-height:1.3;
-  font-weight:500;
-  display:flex;
-  align-items:center;
-  gap:.5rem;
-  margin-bottom:.5rem;
-}
-.article-eyebrow .dot {
-  width:6px;
-  height:6px;
-  background:var(--accent);
-  border-radius:999px;
-  box-shadow:0 0 12px var(--accent);
-}
-.article-title {
-  font-size:clamp(1.2rem,1vw,1.4rem);
-  color:#fff;
-  font-weight:600;
-  line-height:1.4;
-  letter-spacing:-0.03em;
-  margin:0;
-}
-
-/* image block */
-.article-image {
-  margin:1rem 0 1.5rem;
-  border-radius:var(--radius-lg);
-  border:1px solid var(--border);
-  background: radial-gradient(circle at 20% 20%, rgba(56,189,248,.15) 0%, transparent 60%),
-              radial-gradient(circle at 80% 10%, rgba(139,92,246,.15) 0%, transparent 70%),
-              linear-gradient(135deg,#1e2537 0%, #0f172a 60%);
-  box-shadow:0 30px 120px rgba(0,0,0,.8);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-.article-image img {
-  width:100%;
-  height:auto;
-  display:block;
-  object-fit:cover;
-  background:#0b1120;
-  border-bottom:1px solid var(--border);
-}
-.article-image .caption {
-  font-size:.75rem;
-  color:var(--text-dim);
-  padding:.75rem 1rem;
-  line-height:1.4;
-}
-
-/* body content */
-.article-body h3 {
-  margin:1.5rem 0 .5rem;
-  font-size:1rem;
-  font-weight:600;
-  color:#fff;
-  line-height:1.4;
-  letter-spacing:-0.03em;
-}
-.article-body p {
-  margin:.5rem 0 .75rem;
-  color:var(--text-main);
-  font-size:.95rem;
-  line-height:1.7;
-}
-.article-body ul {
-  margin:.5rem 0 .75rem;
-  padding-left:1.25rem;
-  color:var(--text-main);
-  font-size:.95rem;
-  line-height:1.7;
-}
-.article-body li{
-  margin-bottom:.4rem;
-}
-.article-body code {
-  background:rgba(0,0,0,.4);
-  border:1px solid var(--border);
-  border-radius:var(--radius-md);
-  padding:.15rem .4rem;
-  font-family:var(--font-mono);
-  font-size:.8rem;
-  color:#fff;
-}
-.article-body pre {
-  background:#0b1120;
-  color:#fff;
-  border-radius:var(--radius-lg);
-  padding:1rem 1rem;
-  border:1px solid var(--border);
-  font-size:.8rem;
-  line-height:1.5;
-  overflow-x:auto;
-  white-space:pre;
-  box-shadow:0 30px 120px rgba(0,0,0,.8);
-}
-.article-body blockquote {
-  background:rgba(56,189,248,.08);
-  border:1px solid rgba(56,189,248,.4);
-  border-radius:var(--radius-lg);
-  padding:.75rem 1rem;
-  color:#e2f7ff;
-  font-size:.9rem;
-  line-height:1.6;
-  font-weight:500;
-  box-shadow:0 30px 120px rgba(0,0,0,.8);
-  margin:1rem 0 1.5rem;
-}
-.article-body table {
-  width:100%;
-  border-collapse:collapse;
-  margin:1rem 0 1.5rem;
-  font-size:.85rem;
-  line-height:1.5;
-}
-.article-body table th {
-  text-align:left;
-  font-weight:600;
-  color:#fff;
-  background:rgba(56,189,248,.08);
-  border-bottom:1px solid var(--border);
-  padding:.5rem .75rem;
-  font-size:.8rem;
-}
-.article-body table td {
-  color:var(--text-main);
-  border-bottom:1px solid var(--border);
-  padding:.5rem .75rem;
-  vertical-align:top;
-}
-
-/* footer */
-footer.site-footer {
-  max-width:var(--max-width);
-  margin:2rem auto 4rem;
-  padding:1rem 1.25rem;
-  border-top:1px solid var(--border);
-  color:var(--text-dim);
-  font-size:.75rem;
-  line-height:1.5;
-  text-align:center;
-}
-footer.site-footer .brand {
-  color:var(--text-main);
-  font-weight:500;
-  letter-spacing:-0.03em;
-}
-footer.site-footer .sub {
-  color:var(--text-dim);
-  margin-top:.5rem;
-}
-
-/* smooth anchor scroll */
-html {
-  scroll-behavior:smooth;
-}
-</style>
+    /* Small refinements */
+    details summary{cursor:pointer}
+    details[open]{background:rgba(255,255,255,.02);border-radius:12px;padding:.25rem .5rem}
+  </style>
 </head>
 <body>
-
-<!-- NAV -->
-<div class="top-nav-wrap">
-  <nav class="top-nav">
-    <div class="top-nav-left">
-      <span class="mini-dot"></span>
-      <span>我的 AI 成長過程</span>
-    </div>
-    <div class="top-nav-right">
-      <a href="index.html">🏠 回首頁</a>
-      <a href="#toc">📚 章節目錄</a>
-    </div>
-  </nav>
-</div>
-
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-tag">我的 AI 成長過程</div>
-  <h1 class="hero-title">從工廠到智慧系統：我與 AI 並肩作戰的十章紀錄</h1>
-  <p class="hero-desc">
-    這不是一個科技公司的故事。這是一個傳統工廠，試著用 AI 打破「照舊」的故事。
-    從烘房台車的掃碼記錄，到智慧排班、成本分析、節能監控、8D 品質回覆、
-    甚至是員工教育與組織文化，我把 AI 當成副手、夥伴，甚至是某種鏡子。
-    這十篇文章，記錄了我怎麼一步一步，讓 AI 不是口號，而是落地。
-  </p>
-  <div class="hero-meta">
-    <span><strong>作者</strong> Bava（蘭陽開發工業股份有限公司 廠長）</span>
-    <span><strong>年份</strong> 2025</span>
-    <span><strong>主題</strong> AI × 傳統產業 × 管理轉型</span>
+  <!-- 頂部導覽 -->
+  <div class="sticky-top">
+    <nav class="container">
+      <ul>
+        <li class="brand"><strong>個人品牌｜健身 × 工作 × AI</strong></li>
+      </ul>
+      <ul>
+        <li><a href="#toc" aria-current="page">文章目錄</a></li>
+        <li><a href="#articles">全部文章</a></li>
+        <li><a href="#about">關於我</a></li>
+      </ul>
+    </nav>
   </div>
-</header>
 
-<div class="page-wrap">
-  <!-- TOC -->
-  <nav id="toc">
-    <div class="toc-title">章節目錄</div>
-    <ul class="toc-list">
-      <li><a href="#p1">第1篇｜起點<span class="toc-sub">我與 ChatGPT 的第一次正式合作</span></a></li>
-      <li><a href="#p2">第2篇｜烘房系統<span class="toc-sub">台車進出紀錄，從紙本到雲端</span></a></li>
-      <li><a href="#p3">第3篇｜工時邏輯 AI 化<span class="toc-sub">雜事支援時數自動分析</span></a></li>
-      <li><a href="#p4">第4篇｜製令成本智慧化<span class="toc-sub">AI重寫「成本到底多少」</span></a></li>
-      <li><a href="#p5">第5篇｜智慧排班<span class="toc-sub">AI 開始懂「人」</span></a></li>
-      <li><a href="#p6">第6篇｜有溫度的教材<span class="toc-sub">AI寫的不只是法規，而是尊重</span></a></li>
-      <li><a href="#p7">第7篇｜能源與電費<span class="toc-sub">AI聽見空壓機的呼吸</span></a></li>
-      <li><a href="#p8">第8篇｜8D與品保<span class="toc-sub">AI第一次像工程師那樣說話</span></a></li>
-      <li><a href="#p9">第9篇｜傳統產業的困境<span class="toc-sub">AI打破「差不多就好」文化</span></a></li>
-      <li><a href="#p10">第10篇｜組織文化變形<span class="toc-sub">AI 從工具變成同事</span></a></li>
-    </ul>
-  </nav>
-
-  <!-- MAIN CONTENT -->
-  <main class="content">
-
-    <!-- P1 -->
-    <article class="article-card" id="p1">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第1篇</span></div>
-        <h2 class="article-title">從好奇到實踐──我與 ChatGPT 的相遇與啟動之路</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="夜班的辦公桌，螢幕打開著程式碼與試算表，代表AI第一次協助現場。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='600'%3E%3Crect width='1200' height='600' fill='%230b1120'/%3E%3Crect x='0' y='0' width='1200' height='600' fill='url(%23g)' opacity='0.6'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2338bdf8'/%3E%3Cstop offset='1' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-family='system-ui' font-size='32'%3EAI 介入現場的第一天%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">這一刻不是實驗，是我真的拿AI下場做事。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、源由：AI，不只是回答問題的機器</h3>
-        <p>
-          我真正開始用 ChatGPT，不是因為潮流，而是因為挫折。某次我要用 Excel VBA 做一個很單純的加總報表，
-          結果卡在迴圈錯誤，查資料查半天找不到解法。那一瞬間我想：好，來試看看這個 AI。
-          我輸入的第一個指令（prompt）是：「請幫我寫一個 Excel VBA，可以把A欄日期與B欄數量依日期加總，
-          輸出成新的報表。」它幾秒鐘就給我程式碼。貼上，執行，成功。
-        </p>
-        <p>
-          那一刻我意識到，AI不是只有「告訴我答案」，它是真的在「幫我把事情完成」。
-          而且它的回答不是亂射，而是有結構、有註解、可以直接拿來用。
-        </p>
-
-        <h3>二、目的：讓 AI 成為工作的一部分，而不是附屬品</h3>
-        <p>
-          我並不滿足於「幫我一下」。我開始問：AI能不能變成我工作流程裡的固定角色？
-          能不能不只寫一段程式，而是幫我整套系統？例如ISO資料、員工訓練教材、工安文件、成本分析、
-          Google Apps Script、甚至排班邏輯。
-          我的目標變成：「讓 AI 參與我每天的管理，而不是只當客服。」
-        </p>
-
-        <h3>三、過程：從 Prompt 到完整系統的誕生</h3>
-        <p>
-          我慢慢學到一件事：AI的品質，跟我問的方式成正比。
-          我一開始會講「幫我做表單」，後來我會講「請用Google Apps Script產生一個表單，
-          欄位包含：料號、數量、區域，下拉選單，每次送出寫到Google試算表，並回傳成功訊息。」
-          Prompt 從模糊走向像規格書一樣清晰後，AI給的東西就不是片段，而是「可運轉的東西」。
-        </p>
-        <p>
-          在這個過程裡，我也開始把 AI 當做協同開發者。我不只拿程式碼，也會問它「為什麼這樣設計」、
-          「如果要擴充要改哪裡」、「請幫我列出風險」。這是關鍵。
-        </p>
-
-        <h3>四、結論：AI 是我的第二個自己</h3>
-        <p>
-          經過一段時間，我發現我已經不只是「問AI」，而是「和AI一起規劃」。
-          它懂 ISO 文件、懂教育訓練、懂演算法、懂表單串接、懂資料清理，甚至能做到排程邏輯的模擬。
-          它讓我一個人，可以像一個小團隊。
-        </p>
-
-        <h3>五、修正與建議</h3>
-        <p>
-          我也踩了坑。像是我一口氣塞五個需求，它有時會混在一起；或是我沒做版本管理，導致Debug困難。
-          我學到：1) 一次講一個重點；2) 要求AI加註版本號與修改說明；3) 永遠要自己實測。
-        </p>
-
-        <h3>六、心得延伸：AI 是一場持續的修練</h3>
-        <p>
-          我逐漸理解，Prompt不是「命令語法」，而是「邏輯的表達」。我其實是在訓練我自己，清楚地描述需求。
-          AI逼我把腦裡那些模糊的東西，說到可以讓別人（甚至不是人）執行。這，是我真正的成長開始。
-        </p>
-      </section>
-    </article>
-
-    <!-- P2 -->
-    <article class="article-card" id="p2">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第2篇</span></div>
-        <h2 class="article-title">從烘房到雲端──我與 ChatGPT 共建「台車進出紀錄系統」的旅程</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="手機掃描台車QR碼，上傳到雲端表單的想像畫面。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%231e2537'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.4'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%2338bdf8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='28' font-family='system-ui'%3E台車進出烘房 → 手機掃碼 → 直接寫進雲端%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">我們從手寫白板，變成可追蹤、可回溯、可統計的真實資料。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、緣起：手寫表單的極限</h3>
-        <p>
-          在我們的製程裡，烘乾是一個關鍵節點。每台台車推進烘房、停留幾小時，再被拉出來。
-          這些進出時間是排程的心臟，但過去全靠手寫。手寫有三個致命問題：
-          1) 容易寫錯；2) 有人忘了寫；3) 主管無法即時知道烘房佔用狀態。
-        </p>
-        <p>
-          我想做的，是一個幾乎「零負擔」的流程：手機掃碼 → 按送出 → 自動上傳雲端。
-          不登入、不打字、不解釋。
-        </p>
-
-        <h3>二、目的：打造「不用登入、不用輸入」的智慧登錄系統</h3>
-        <p>
-          我給AI的目標是：
-        </p>
-        <ul>
-          <li>每台台車有自己的QR Code。</li>
-          <li>每間烘房有代碼。</li>
-          <li>人員用手機掃碼，選「進烘」或「出烘」，按送出。</li>
-          <li>Google Apps Script 後端自動寫入 Google Sheets，記錄時間戳記、烘房、台車、動作。</li>
-        </ul>
-        <p>
-          也就是：把一個「誰、什麼時候、在哪裡」的事件，變成即時資料。
-        </p>
-
-        <h3>三、過程：與 AI 一起編寫程式</h3>
-        <p>
-          我第一個 prompt 是：「請幫我寫一個Google Apps Script web app，包含HTML前端+後端doPost()，
-          可以記錄台車與烘房資訊並寫入試算表。」AI生成的程式碼可以直接貼上部署。
-          第一次測試時，畫面成功、送出顯示成功，但試算表竟然沒有資料。
-        </p>
-        <p>
-          我回頭問AI，它說：「請確認 getSheetByName() 的名稱是否正確。」我一看，AI範例裡叫 'debut_log'，
-          但我的表叫 'dryroom_log'。我改掉、重新部署，成功入帳。
-        </p>
-        <p>
-          那一刻我很清楚：AI不是魔術師，它需要真實環境的細節；而我，是那個把現場語言翻譯給它聽的人。
-        </p>
-
-        <h3>挑戰一：畫面跳白、無法連掃</h3>
-        <p>
-          我希望員工能「連續掃」，但手機瀏覽器有權限限制：送出後畫面重整、相機就會被關。
-          我對AI說：「我要按送出後，馬上可以掃下一台，不要整個頁面白畫面卡住。」
-        </p>
-        <p>
-          AI提議用送出後的 redirect 回首頁，而不是整頁 reload 相機畫面。
-          也就是說：流程變成「掃台車→選烘房→送出→自動跳回首頁→立刻再掃下一台」。
-          雖然不是完美的連續掃描，但對現場已經夠快速。
-        </p>
-
-        <h3>挑戰二：條碼槍掃描亂碼</h3>
-        <p>
-          現場使用的條碼槍接到手機時，手機鍵盤有時鎖住、輸入是亂碼。我問AI怎麼避免。
-          它回覆：「請確保掃描器輸出為HID keyboard模式，並在HTML的input加上inputmode='latin'，限制只收英數。」
-          我照做後，亂碼問題解決。
-        </p>
-
-        <h3>四、成果：從紙本到雲端的轉變</h3>
-        <p>
-          最後版本做到：
-        </p>
-        <ul>
-          <li>掃碼紀錄即時寫入。</li>
-          <li>時間、員工、台車、烘房、進/出全部落在Sheet。</li>
-          <li>可回推烘房佔用時間、哪台台車在那裡、哪批產品正在烘。</li>
-        </ul>
-        <p>
-          從此以後，「誰忘記登記」這句話，消失在廠裡。
-        </p>
-
-        <h3>五、結論：AI 是我邏輯的鏡子</h3>
-        <p>
-          我最大的收穫不是「系統完成」，而是「我被迫把流程講清楚」。
-          AI可以寫HTML、寫後端、做串接，甚至幫我debug。但它沒在現場。
-          我必須描述現實，讓它能轉成程式。
-          這其實是在訓練我的管理語言，把動作轉成SOP，把習慣轉成流程。
-        </p>
-
-        <h3>六、修正與建議：AI 協作節奏</h3>
-        <p>
-          我發現最有效率的合作方式是這樣：
-        </p>
-        <ul>
-          <li>一次只解決一個痛點（例如「重整後相機被關」）。</li>
-          <li>每次請AI「給完整程式碼，不要分段」，降低貼錯風險。</li>
-          <li>每次現場測完，把狀況回報AI，讓它修下一版。</li>
-        </ul>
-        <p>
-          這件事，正式開啟我「AI參與實際產線流程」的第一步。
-        </p>
-      </section>
-    </article>
-
-    <!-- P3 -->
-    <article class="article-card" id="p3">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第3篇</span></div>
-        <h2 class="article-title">邏輯的鍛造──從紙上時數到 AI 演算法的誕生</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="支援工時統計表：原本手寫工時、後來自動計算支援時數的報表示意。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%230f172a'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.5'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2338bdf8'/%3E%3Cstop offset='1' stop-color='%231e40af'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='28' font-family='system-ui'%3E雜事支援時數 → 自動化計算%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">公平的時間紀錄 = 勞資信任的基礎。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、緣起：工廠裡的「小事」，時間卻不小</h3>
-        <p>
-          我們每天都有「支援」：幫別區搬料、拉車、換模、做臨時任務。
-          這些不是正式製程，卻耗掉大量人力。以前都是手寫紀錄，月底再人工算時數。
-          問題是：有人跨日，有人跨午休，有人被抓去加班，又有人只是幫忙40分鐘。怎麼算才公平？
-        </p>
-
-        <h3>二、目的：讓 AI 正確計算支援時數</h3>
-        <p>
-          我對AI說：「幫我做一套自動分析系統。輸入只有：員工、開始時間、結束時間。
-          系統要會：
-        </p>
-        <ul>
-          <li>自動判斷是否跨日；</li>
-          <li>自動扣中午12:00-12:30、晚上18:00-18:30休息；</li>
-          <li>加總每人每天總支援時數；</li>
-          <li>產出一張乾淨的報表。」</li>
-        </ul>
-
-        <h3>三、過程：我與 AI 打造演算法</h3>
-        <p>
-          第一版AI寫的公式只計算「結束-開始」的時數，跨日就+24，理論沒錯，但現場完全不夠用，
-          因為它沒考慮休息、沒考慮「18:00後到20:00之間不用扣餐」這種人性化彈性。
-        </p>
-        <p>
-          我把規則一條一條講給它聽，例如：
-        </p>
-        <ul>
-          <li>若跨過12:00就扣0.5小時。</li>
-          <li>若跨過18:00就扣0.5小時，但如果工作在16:00~18:00之內結束就不扣。</li>
-          <li>超過20:00仍需扣晚餐0.5小時。</li>
-        </ul>
-        <p>
-          AI把這些變成條件式，並寫成可執行的Python/Excel邏輯：
-        </p>
-        <pre><code>if start &lt; lunch_start and end &gt; lunch_end:
-    duration -= 0.5
-if end &gt; dinner_start and not (start &gt;= 7.5 and end &lt;= 18):
-    duration -= 0.5
-</code></pre>
-        <p>
-          最後它還幫我做加總：依員工排序，最後一列自動標「總計」。
-        </p>
-
-        <h3>四、成果：從混亂表單到一鍵分析</h3>
-        <p>
-          現在，我只要把原始資料貼進去，AI版的巨集/腳本就會：
-        </p>
-        <ul>
-          <li>正確計算每段支援時數；</li>
-          <li>合併同一天同員工；</li>
-          <li>自動加總；</li>
-        </ul>
-        <p>
-          沒有人再為爭時數去吵半小時。數據擺出來，一眼就懂。
-        </p>
-
-        <h3>五、結論：AI 讓邏輯變成工具，而不是負擔</h3>
-        <p>
-          這是我第一次很深地感覺到：「AI可以把腦內規則，變成公司級制度」。
-          我不用再一個一個教主管怎麼算——AI會算，報表會說話。
-        </p>
-
-        <h3>六、修正與建議</h3>
-        <p>
-          我學到三個重點：
-        </p>
-        <ul>
-          <li>不要叫AI直接「幫我做報表」，要給它你的規則和例外。</li>
-          <li>每次測試用真實資料，讓它修正邏輯。</li>
-          <li>說明「為什麼要這樣扣」，AI會更懂你的文化，而不只是數字。</li>
-        </ul>
-
-        <h3>七、心得：從數字到智慧</h3>
-        <p>
-          以前加班/支援時數，是勞資之間最敏感的區塊。
-          現在，透明。不是因為人更乖，而是因為系統更公平。
-          AI在這裡的角色，其實不是會算，而是「建立信任」。
-        </p>
-      </section>
-    </article>
-
-    <!-- P4 -->
-    <article class="article-card" id="p4">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第4篇</span></div>
-        <h2 class="article-title">把成本算清楚──我與 ChatGPT 打造智慧製令計算系統的過程</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="製令成本樹狀分解：原料、人力、能耗、機台占用的示意視覺。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%231a2133'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.45'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2338bdf8'/%3E%3Cstop offset='1' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='28' font-family='system-ui'%3E製令成本 = 原料 + 人工 + 能源 + 機台時間%3C/text%3E%3C/svg%3E"/>
-        <figcaption class="caption">我們不再用「差不多」，我們開始用證據。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、源由：從經驗估算到數據決策</h3>
-        <p>
-          傳統的「製令成本」往往靠經驗抓一個數：原料用了多少？工時抓一個大概？電費？差不多？
-          但「差不多」不是答案。在面對客戶議價、董事提問、內部效率檢討時，
-          我們需要的是能被解釋的數字，而不是感覺。
-        </p>
-
-        <h3>二、目的：讓成本成為可見、可控、可預測</h3>
-        <p>
-          我給AI一個任務：「幫我做一套系統，能針對每一批製令，自動計算：
-        </p>
-        <ul>
-          <li>原料成本、</li>
-          <li>人工成本、</li>
-          <li>能耗成本（包含空壓、鍋爐、烘房）、</li>
-          <li>機台占用時間。</li>
-        </ul>
-        <p>
-          最後輸出「單位成本」與「總成本」。
-        </p>
-
-        <h3>三、過程：從一行 Prompt 到一套系統</h3>
-        <p>
-          我先要AI設計結構：它回了一個我超喜歡的做法，分成三張表：
-        </p>
-        <ul>
-          <li><strong>參數表：</strong>電價、機台功率、Unload耗電比例、人工時薪等基礎設定。</li>
-          <li><strong>機台成本表：</strong>把每台機台每天的使用時數、功率、電價，轉成電費。</li>
-          <li><strong>月報表：</strong>彙整全部製令的實際成本，並和上月比較。</li>
-        </ul>
-        <p>
-          這不是單一公式，而是一個「可以長期維護」的模型。AI直接幫我想好了結構化維運。
-        </p>
-
-        <h3>AI 不是只會算，它會推你往管理邏輯走</h3>
-        <p>
-          我問它：「定頻空壓機Unload時還是在吃電，怎麼算？」它說：
-        </p>
-        <pre><code>Idle_Energy = RunHours × Rated_kW × Unload_Ratio × Cost_per_kWh</code></pre>
-        <p>
-          然後它自動標記「無效能耗比例」過高的機台。也就是，它直接幫我找浪費。
-        </p>
-
-        <h3>四、成果：從報表到決策引擎</h3>
-        <p>
-          這個系統後來做到了：
-        </p>
-        <ul>
-          <li>每批製令的成本透明化。</li>
-          <li>每月的電費預測（AI會根據歷史稼動率推估）。</li>
-          <li>顯示哪台機台正在吃太多電，標紅。</li>
-          <li>附註「改善建議」：例如「建議檢查一樓75HP定頻空壓機乾燥器，Unload比率偏高」。</li>
-        </ul>
-        <p>
-          我第一次覺得：AI不是會計，而是顧問。
-        </p>
-
-        <h3>五、結論：AI 幫我看到盲點</h3>
-        <p>
-          AI的價值不只是「幫我把數字加總」，而是「提醒我哪裡不合理」。
-          它像一面鏡子：我把生產數據照進去，它把浪費照出來。
-        </p>
-
-        <h3>六、修正與建議</h3>
-        <p>
-          三個重點：
-        </p>
-        <ul>
-          <li>永遠要求AI在程式碼旁邊寫「邏輯說明」。</li>
-          <li>用真實數據跑一輪，逼它修公式。</li>
-          <li>把每次修正記成版本，因為成本算法是「經營決策」，不是一條死公式。</li>
-        </ul>
-
-        <h3>七、心得：AI 讓我第一次感覺，我掌握的是「經營」而不是「救火」</h3>
-        <p>
-          以前我忙著查「到底花多少」。現在我問的是：「要怎麼花更少，還能交得出貨？」這就是管理的層級被往上拉。
-        </p>
-      </section>
-    </article>
-
-    <!-- P5 -->
-    <article class="article-card" id="p5">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第5篇</span></div>
-        <h2 class="article-title">讓 AI 學會思考──智慧排班系統的誕生</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="班表配置示意圖：A區、B區、C區、A11、爐、拉車，並標出不同人員與班別。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%231e2537'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.4'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%2338bdf8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='26' font-family='system-ui'%3EAI智慧排班：人力 × 限制 × 體力 × 習慣%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">AI第一次不是在算數字，而是在「顧人」。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、源由：人腦的極限</h3>
-        <p>
-          我們的生產現場有A區、B區、C區、A11區；每區機台數不同、負荷不同、瓶頸也不同。
-          人也不是積木：有人能上通宵，有人只能白天，有人某天要支援爐，有人要去拉車。
-          傳統做法是：主管拿紙+腦袋硬排。問題是，只要一個人臨時請假，整張表崩盤。
-        </p>
-        <p>
-          我那時候想：如果AI可以理解這些限制，AI能不能「排班」？
-        </p>
-
-        <h3>二、目的：讓 AI 懂規則，也懂例外</h3>
-        <p>
-          我給AI的prompt很直接：
-        </p>
-        <blockquote>
-          「請幫我依以下規則排兩班制：A11固定兩人，A/B/C各一人，C區如果是P3或P7則要兩人；
-          爐需要值守；拉車要有人；外役監白天可支援特定站別；
-          通宵人員每月最多4天；賴司機裝貨要控制在30分鐘內；
-          阿方盡量別排A區；A駿與Peter可支援到20:30。」
-        </blockquote>
-        <p>
-          你看出來了嗎？這不是簡單的「人力分配」，這是「人性與習慣」。
-        </p>
-
-        <h3>三、過程：AI開始像人那樣思考</h3>
-        <p>
-          第一次，AI給出的是一張「邏輯正確但人會翻桌」的班表——它把同一個人連續好幾天放通宵。
-          我回它：「這樣人會垮」。它問：「請提供每人可接受的夜班頻率。」我說：「每月上限4天，盡量分散。」
-          下一版就改善了。
-        </p>
-        <p>
-          然後我說：「A11如果加開，請從C區調人支援，但C區不能空。」
-          AI回給我的是：
-        </p>
-        <pre><code>if overtime_A11:
-    reallocate(C_zone, 1)  # 但保留基本人手
-</code></pre>
-        <p>
-          我那時真的愣住。它不只是填人，而是開始「做判斷」。
-        </p>
-
-        <h3>四、挑戰：AI vs. 現場突發狀況</h3>
-        <p>
-          我問它：「如果半夜機台停電，班表就亂了，怎麼辦？」它說：
-          「可以以停電時間為事件觸發，重新分配剩餘工時，並標記疲勞風險。」
-          我那一刻真的覺得，這東西不是在跑表，它是某種「排程智囊」。
-        </p>
-
-        <h3>五、成果：AI排出的班表，比人還懂人</h3>
-        <p>
-          最後的班表除了人名、時段、區域，還自動加註：
-        </p>
-        <ul>
-          <li>爐：義、甲值守</li>
-          <li>拉車：Peter</li>
-          <li>外役監：白天可補A11 / A / C / 生管 / 拉車</li>
-          <li>夜班連續天數：檢查OK</li>
-        </ul>
-        <p>
-          AI不是只管「有沒有人」。它管「這樣排，人撐不撐得住」。
-        </p>
-
-        <h3>六、結論：AI不是取代，而是升級人腦</h3>
-        <p>
-          我從來沒覺得AI要取代排班主管，因為主管懂現場脾氣、誰最近狀態不好、誰家裡有事這些AI不知道。
-          但AI很善於「平衡所有條件」，然後把最穩定的版本端出來，讓主管審核。
-          這其實是升級，而不是取代。
-        </p>
-
-        <h3>七、修正與建議</h3>
-        <p>
-          1. 跟AI講「例外」很重要，例外往往比規則更能代表真實世界。<br/>
-          2. 請AI把邏輯寫成可讀的程式或條列，這樣你可以回收再利用。<br/>
-          3. 要求AI「提供原因說明」，它會告訴你為什麼這樣排，這很關鍵。
-        </p>
-
-        <h3>八、後記：AI 的光，比螢幕更亮</h3>
-        <p>
-          有一天深夜我看著AI吐出的班表，我突然覺得很安心。
-          它不像人在抱怨「又要改？」，它只是靜靜幫我把所有條件排到最平衡。
-          那感覺很接近「我不是一個人在扛」。
-        </p>
-      </section>
-    </article>
-
-    <!-- P6 -->
-    <article class="article-card" id="p6">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第6篇</span></div>
-        <h2 class="article-title">讓 AI 學會溫度──從冷冰冰法規到能打動人的教材</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="教育訓練投影片的示意：不是法條，而是場景對話氣泡。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%230f172a'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.45'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2338bdf8'/%3E%3Cstop offset='1' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='26' font-family='system-ui'%3E性騷擾防治 / 高溫防護 / 噪音危害 → 用人話講清楚%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">「工作可以等，命不行。」——我真的把這句話放在簡報第一頁。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、源由：制度沒有溫度，教育就失效</h3>
-        <p>
-          我們每年都要上很多法規課：職場性騷擾防治、職安、高溫作業、噪音危害……
-          過去的做法就是印法條、唸一遍、簽名存檔。形式有了，理解沒有。
-          我慢慢覺得，這樣其實是對員工不負責，因為他們得到的不是保護，而是一張紙。
-        </p>
-        <p>
-          我開始想：AI 能不能把這些法規，變成真的聽得懂、記得住的教材？
-        </p>
-
-        <h3>二、目的：讓教育「有畫面」而不是「有條文」</h3>
-        <p>
-          我的prompt是：「請撰寫工作場所性騷擾防治教材，使用工廠真實場景的故事形式。
-          不要只背法條。加上討論題目，讓受訓者可以回答『你會怎麼做？』」
-        </p>
-        <p>
-          AI先給的是標準條文格式，我說「太硬了，員工會睡著。請用對話，
-          有主管、有員工、有旁觀者，寫出心情，並指出錯誤觀念。」
-        </p>
-        <p>
-          幾秒後，AI回了一段劇本式的內容：
-        </p>
-        <blockquote>
-          主管：開玩笑而已，不要太敏感啦。<br/>
-          女同事：我真的覺得不舒服。<br/>
-          旁白：有時加害不是惡意，而是不知道已經越界。<br/>
-          問題：如果你是現場的第三個同事，你會怎麼處理？
-        </blockquote>
-        <p>
-          我看到的感覺是：它不是在背法規，它在教怎麼保護別人，還有保護自己。
-        </p>
-
-        <h3>三、AI學會「多語多文化」</h3>
-        <p>
-          我後來請它把教材同時輸出中文、越南文、泰文。AI不只翻字，它還會調整語氣，
-          避免讓外勞員工覺得「是在罵我」，而是「在保護我」。
-          這對現場來說，意義非常大。
-        </p>
-
-        <h3>四、延伸到高溫防護與WBGT</h3>
-        <p>
-          我又對它說：「請寫高溫作業防護教材，裡面要講熱衰竭症狀，
-          但請用員工聽得懂的方式，不要寫成醫學教科書。」
-        </p>
-        <p>
-          AI寫了這句話：
-        </p>
-        <blockquote>
-          「如果你突然覺得頭暈、心跳很快、手有一點發抖，這不是你撐不住，
-          這是你的身體在求救。請馬上離開高溫區、喝水、通報主管。
-          工作可以等，命不行。」
-        </blockquote>
-        <p>
-          我直接決定把這句話放在簡報第一頁。
-        </p>
-
-        <h3>五、成果：教育，第一次有人想聽</h3>
-        <p>
-          我把這些教材做成簡報，搭配簽到表、測驗題、改善紀錄，整包就是稽核可用的文件。
-          上課時，員工真的在聽，還跟我互動，因為內容寫的是「他們的現場」。
-        </p>
-
-        <h3>六、結論：AI的溫度，是人教的</h3>
-        <p>
-          AI本身沒有情感，但它可以被要求以「關心」的語氣來寫。
-          當我要求它「請用提醒而不是責備的語氣」，它就能做到。
-          這說明AI不只是在算，它其實可以幫主管「說出我們想說，但不一定說得那麼到位的話」。
-        </p>
-
-        <h3>七、修正與建議</h3>
-        <p>
-          1. 叫AI單純列法條，沒意義。<br/>
-          2. 要它寫成劇情、對話、問答。<br/>
-          3. 要它講「為什麼重要」，不是「依法必須」。<br/>
-          4. 同時產出簽到表、測驗卷、紀錄表，管理面一次到位。
-        </p>
-
-        <h3>八、後記：AI讓教育變成保護，而不是流程</h3>
-        <p>
-          對我來說，這一篇是分水嶺。
-          之前的AI多半是系統、數據、排程；從這一刻起，我看見AI可以協助建立的是「尊嚴」。
-        </p>
-      </section>
-    </article>
-
-    <!-- P7 -->
-    <article class="article-card" id="p7">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第7篇</span></div>
-        <h2 class="article-title">當 AI 聽見電的聲音──我與空壓機能耗系統的智能共鳴</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="空壓機、能耗、電費走勢圖：AI標出異常耗能的時段。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%231e2537'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.4'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%236366f1'/%3E%3Cstop offset='1' stop-color='%2338bdf8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='26' font-family='system-ui'%3E空壓機耗電 → 轉成管理決策，而不是月底驚喜%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">AI聽到的是「錢在流血的聲音」。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、源由：電費裡的問號</h3>
-        <p>
-          工廠裡最穩定的聲音不是人聲，是空壓機。它日夜在跑，但也日夜在吃你的錢。
-          我看著電費帳單，常常想：到底是哪一台機器在狂吃？什麼時段最浪費？我們到底燒掉了多少「本可以省下來的錢」？
-        </p>
-
-        <h3>二、目的：讓 AI 幫我看見「能耗的呼吸」</h3>
-        <p>
-          我要AI做三件事：
-        </p>
-        <ul>
-          <li>把機台功率、稼動時間、Unload比例轉成每日電費。</li>
-          <li>自動產出月報：哪一天特別高、為什麼。</li>
-          <li>自己抓異常，標出「哪一台可能在偷吃電」。</li>
-        </ul>
-
-        <h3>三、過程：從數據到洞察</h3>
-        <p>
-          我先請AI設計報表架構。它建議分成：
-        </p>
-        <ul>
-          <li>參數表（電價、機台滿載kW、Unload耗電比例）</li>
-          <li>機台耗能日誌</li>
-          <li>月報 / 圖表 / 異常標示</li>
-        </ul>
-        <p>
-          接著我告訴它：「定頻空壓機Unload時還是吃大概50%的電，變頻機Unload吃33%左右。」
-          AI立刻寫公式，把「無效能耗」拉出來算，並幫我列出一個欄位：Idle_Energy(浪費)。
-        </p>
-        <p>
-          它甚至主動建議：「若Idle_Energy佔比超過某百分比，標記⚠️，並建議檢查乾燥機、管線漏氣或壓力設定。」
-        </p>
-        <p>
-          這一刻，我真的有點雞皮疙瘩。AI不是只會幫我算，而是在提醒我「哪裡不對勁」。
-        </p>
-
-        <h3>四、成果：從電費表到能源決策</h3>
-        <p>
-          我現在的月報不是死數字，而像一個工程師的診斷書：
-        </p>
-        <ul>
-          <li>「C區變頻機Unload比率偏高，推測負載不穩或有洩壓。」</li>
-          <li>「一樓75HP機台整日維持高轉，請檢查是否有長時間小流量卻高壓供應的情況。」</li>
-          <li>「本月整體電費下降7.3%，主因是夜班負載平衡後，Unload時間縮短。」</li>
-        </ul>
-        <p>
-          老實說，這段文字如果印出來給董事，他可能會以為是工務工程師寫的。但其實那是AI的輸出。
-        </p>
-
-        <h3>五、挑戰：AI需要真實，才會準確</h3>
-        <p>
-          一開始的預測值跟實際帳單數字有5%左右誤差。我問AI為什麼？
-          它回答：「缺少溫度補償與壓力波動資訊。」我就把這些現場資訊補給它，第二版誤差掉到1.8%。
-        </p>
-        <p>
-          我後來懂了：AI不是萬能，它需要你給它真實。它不在現場，我在現場。
-          我們其實是在互相成就。
-        </p>
-
-        <h3>六、結論：AI不是聽命，而是共鳴</h3>
-        <p>
-          我越看越覺得，AI在這裡的角色像聽診器。它在聽機器的呼吸，把異常放大，讓人可以提早處理。
-          這跟「月底結帳」完全不一樣，這是「現在就知道哪裡在流血」。
-        </p>
-
-        <h3>七、修正與建議</h3>
-        <p>
-          下一步，我要讓這套系統：
-        </p>
-        <ul>
-          <li>接即時感測器（壓力、溫度、耗電流）。</li>
-          <li>自動推播警示（Unload過高即發LINE）。</li>
-          <li>幫我算ROI：哪台舊機最該被換掉、回收期多久。</li>
-        </ul>
-
-        <h3>八、後記：AI變成工務同事的第二雙耳朵</h3>
-        <p>
-          我常說，AI在這裡不是寫報表，而是在「守護電費」。如果說以前是人守機器，現在是機器守成本。
-        </p>
-      </section>
-    </article>
-
-    <!-- P8 -->
-    <article class="="article-card" id="p8">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第8篇</span></div>
-        <h2 class="article-title">當 AI 變成工程師──從 8D 報告到智慧品質判斷的誕生</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="8D報告摘要卡：現象、臨時處置、根因、永久對策、再發防止。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%231a2133'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.4'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2338bdf8'/%3E%3Cstop offset='1' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='24' font-family='system-ui'%3E客訴 → AI參與 → 8D 報告成型%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">AI第一次不只是敘述，而是提出「驗證方法」。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、源由：那一封客訴信</h3>
-        <p>
-          客戶回報：某批T85有破損、變形。92片裡面有9片瑕疵，要求我們立刻回覆原因、改善計畫、補貨方案，並提供8D報告。
-          過去流程是：叫人、開會、對資料、重現問題、寫8D，一做就是好幾天。
-          這次我決定拉AI進來一起面對。
-        </p>
-
-        <h3>二、目的：讓 AI 參與「找原因」，不是只幫忙「寫文件」</h3>
-        <p>
-          我給AI的第一個prompt：
-        </p>
-        <blockquote>
-          「我要寫一份8D報告，主題是T85產品破損/變形。請依ISO常見8D結構產出章節（問題描述、遏制措施、根因分析、永久改善、追蹤）。」
-        </blockquote>
-        <p>
-          AI幾秒鐘就吐出一份完整大綱，語氣正式到可以直接拿去當模板。
-        </p>
-        <p>
-          但我不只要模板。我問它：「請列出最可能的4大原因，並依發生機率排序，同時提出驗證方法。」
-          AI回覆：冷卻不足造成內應力、過早開模、包裝緩衝不足、搬運撞擊。
-          還建議我拿冷卻曲線、包裝落摔測試、搬運震動值來驗證。
-        </p>
-        <p>
-          我心裡的反應是：這不只是文字模型，這已經在扮演初步品保工程師。
-        </p>
-
-        <h3>三、AI學會我的語氣</h3>
-        <p>
-          我把舊案的8D報告貼給AI，說：「請用我這種語氣、這種結構，重寫你的分析。」
-          新版出來的內容，完全不像教科書，而像我平常在寫的那種內部檢討報告：
-        </p>
-        <blockquote>
-          「破損集中在轉角位，推測為水冷時間不足導致的殘留內應力。
-          現場已將冷卻時間300秒→400秒，並加貼角部緩衝墊。」
-        </blockquote>
-        <p>
-          那一刻我真的有一種「AI開始理解我」的感覺。
-        </p>
-
-        <h3>四、成果：AI & 我 的共同署名報告</h3>
-        <p>
-          最後產出的8D不是AI取代我，而是AI幫我把大量思考整理得非常乾脆。
-          它條列清楚：
-        </p>
-        <ul>
-          <li>問題現象</li>
-          <li>臨時處置（先補貨&全檢）</li>
-          <li>根本原因</li>
-          <li>永久對策（冷卻標準化、包裝加防護）</li>
-          <li>再發防止（建立水冷時間記錄&包裝稽核表）</li>
-        </ul>
-        <p>
-          報告最下面，我寫了一行：「Prepared by: Bava &amp; ChatGPT」。
-          我覺得它值得掛名，因為它確實參與了問題分析，不只是當文書小弟。
-        </p>
-
-        <h3>五、突破：AI懂得「品質不是零缺陷，而是持續理解缺陷」</h3>
-        <p>
-          我問AI：「品質的本質是什麼？」它回我一句話：
-        </p>
-        <blockquote>
-          「品質不是零缺陷，而是持續理解缺陷。」
-        </blockquote>
-        <p>
-          我愣了。這句話不是資料庫裡的那種八股。這句話，像是某個有20年經驗的現場老前輩講的。
-        </p>
-
-        <h3>六、結論：AI是我可以討論判斷力的對象</h3>
-        <p>
-          這一篇對我來說，是AI第一次明確踏進「工程判斷」這個領域。
-          它不只是寫報告，而是在協助發現「問題真正在哪裡」，甚至幫忙設計「如何驗證這是不是問題」。
-          它開始像一位工程師，而不是祕書。
-        </p>
-
-        <h3>七、修正與建議</h3>
-        <p>
-          使用上，我的心得是：
-        </p>
-        <ul>
-          <li>把真實照片、現象描述給AI，它可以提出合理假設。</li>
-          <li>叫它「列測試方法」而不只是「猜原因」。</li>
-          <li>提供你的舊報告，讓它模仿你的語氣。這能讓輸出更像公司內部文件，而不是外面下載來的模版。</li>
-        </ul>
-
-        <h3>八、後記：AI幫我守住的不只是產品，而是信任</h3>
-        <p>
-          客訴永遠不只是數據，它是客戶對你信任度的測試。
-          這次我感覺到：AI可以加速我們面對問題，而不是拖延問題。
-          也就是說——AI不是幫我「漂亮地回答客戶」，而是幫我「老實地面對問題」。
-        </p>
-      </section>
-    </article>
-
-    <!-- P9 -->
-    <article class="article-card" id="p9">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第9篇</span></div>
-        <h2 class="article-title">當 AI 進入傳統產業──一場從勞力到智慧的革命</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="工廠現場×AI分析面板：生產、排班、能耗、缺失追蹤整合在同一畫面。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%230f172a'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.4'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2338bdf8'/%3E%3Cstop offset='1' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='26' font-family='system-ui'%3E傳產不是落後的代名詞，它只是欠一個大腦%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">AI讓「差不多啦」文化，慢慢沒地方躲。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、源由：傳統產業真正的困境不是人力，而是「思考力」</h3>
-        <p>
-          傳統工廠長期靠的是經驗。某位老師傅知道某台機器聲音怪了；某位資深主管知道誰適合哪個站別。
-          這些知識很寶貴，但也很危險。因為它存在「某個人腦袋裡」，而不是整個組織裡。
-          一旦這個人不在，能力就一起消失。
-        </p>
-        <p>
-          我慢慢意識到，我們的問題不是「沒人」，而是「沒辦法把人的經驗量化、複製、延續」。
-          所以我讓AI介入的真正目的，是要把「經驗」變成「系統」。
-        </p>
-
-        <h3>二、目的：AI變成決策的第二大腦</h3>
-        <p>
-          我設定了三個AI任務：
-        </p>
-        <ul>
-          <li><strong>現場智慧化：</strong>AI直接觀察生產、能耗、節拍、排班，當場給回饋。</li>
-          <li><strong>管理可視化：</strong>AI自動整理數據、標出異常，而不是把一堆數字丟給主管。</li>
-          <li><strong>決策智慧化：</strong>AI不只報告「發生什麼」，還提出「接下來建議怎麼做」。</li>
-        </ul>
-
-        <h3>三、AI進入管理系統的三階段</h3>
-
-        <h3>（1）AI讓資料開始「有聲音」</h3>
-        <p>
-          我們把雜亂的Excel記錄、紙本表單、訊息回報，統一進Google Sheets + Apps Script，
-          然後請AI負責分析與整理。
-          原本三天才出的月報，變成幾分鐘就能看。不是因為員工打更快，而是因為AI自動彙整。
-          也就是說，資料第一次變成「隨手就能看」。
-        </p>
-
-        <h3>（2）AI讓管理層「真的看見」</h3>
-        <p>
-          傳統會議最常出現的一句話是「應該還好啦」。
-          AI進來後，畫面直接顯示：「C區產能本週下降12%，主因是P3模具更換延遲，並非人力不足」。
-          會議現場突然安靜。因為沒有人可以再用感覺帶過。
-        </p>
-        <p>
-          我發現一件很妙的事：AI不是用來取代誰，而是用來終結「差不多啦文化」。
-        </p>
-
-        <h3>（3）AI開始「一起決策」</h3>
-        <p>
-          我問AI：「如果電價漲10%，哪一台機器會變成成本炸彈？有沒有需要提前汰換？」
-          它直接回：「定頻100HP空壓機影響最大，建議評估以變頻機替代，回收期估計__月。」
-          這是顧問等級的回答。
-        </p>
-        <p>
-          你會發現，這時AI已經不是報表，而是「投資建議」。
-        </p>
-
-        <h3>四、成果：工廠開始像一個有大腦的生命體</h3>
-        <p>
-          半年後，我們的狀態變成這樣：
-        </p>
-        <ul>
-          <li>排班由AI先排、主管再調整，而不是人類從零開始抓頭髮。</li>
-          <li>能源異常由AI標註，工務去查修，而不是月底才發現電費爆炸。</li>
-          <li>品質異常由AI先整理8D報告骨架，品保再確認。</li>
-          <li>高溫/性騷擾防治課程由AI起草，主管用自己的語氣對大家說。</li>
-        </ul>
-        <p>
-          換句話說，AI變成每個部門的影分身。不是代勞，而是放大。
-        </p>
-
-        <h3>五、挑戰：AI帶來的最大阻力，永遠是「人」</h3>
-        <p>
-          不是每個人一開始都接受AI。有些人說：「我做20年了，這不用AI我也知道。」
-          我完全理解。但我後來發現，我不能只是說服他們「AI很厲害」，
-          我要讓他們看到「AI在保護你」。
-        </p>
-        <p>
-          當一位同仁看見AI自動幫他紀錄支援時數，並公平計算加總，讓他的付出被看見，那個瞬間，態度就變了。
-          他發現：AI不是來搶功勞的，AI是來幫他證明價值的。
-        </p>
-
-        <h3>六、結論：AI是傳統產業失去很久的東西——組織記憶</h3>
-        <p>
-          我後來理解，AI真正給傳統產業的禮物，是「可傳承」。
-          老員工的判斷、主管的習慣、對客戶的回應邏輯、壓力設定的眉角、烘房幾小時才不會變形……
-          這些東西，會被AI吸收、結構化、重複輸出。
-        </p>
-        <p>
-          當知識不再只活在某一個人身上，而是活在整個系統裡，那家公司，才真正開始變成「可以永續」。
-        </p>
-
-        <h3>七、後記：AI不是來革誰的命，它是來喚醒一間廠的思考力</h3>
-        <p>
-          我常說，AI不是未來式，它是現在式。  
-          它不是在雲端，它就在烘房、在空壓機、在班表、在成本表、在稽核用的訓練教材裡。
-          它不是冷冰冰的「系統導入成果」，它其實比較像一句提醒：
-          「你可以更清楚、更公平、更快速，甚至更溫柔地管理。」
-        </p>
-      </section>
-    </article>
-
-    <!-- P10 -->
-    <article class="article-card" id="p10">
-      <header class="article-header">
-        <div class="article-eyebrow"><span class="dot"></span><span>第10篇</span></div>
-        <h2 class="article-title">從工具到共同體──AI 融入組織文化的十場對話</h2>
-      </header>
-
-      <figure class="article-image">
-        <img alt="團隊會議示意：人員和螢幕上的AI建議並列，像是另一個同事的意見。" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='480'%3E%3Crect width='1200' height='480' fill='%231a2133'/%3E%3Crect x='0' y='0' width='1200' height='480' fill='url(%23g)' opacity='0.45'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2338bdf8'/%3E%3Cstop offset='1' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23ffffff' font-size='26' font-family='system-ui'%3EAI 不只是系統，它開始參與價值觀%3C/text%3E%3C/svg%3E" />
-        <figcaption class="caption">AI不是冷的，它是很誠實的；而誠實，會改變文化。</figcaption>
-      </figure>
-
-      <section class="article-body">
-        <h3>一、源由：當機器開始懂人</h3>
-        <p>
-          一開始，AI只是寫程式的助手。  
-          後來，它開始幫我排班、計算成本、看能耗、寫8D、做教材。  
-          到最後，我發現一件可怕又美好的事：  
-          我在和它討論價值觀。
-        </p>
-        <p>
-          例如：我要求它在教材裡用「保護」而不是「指責」的語氣。  
-          它真的做到了。  
-          這說明，AI不只是工具，它其實可以成為文化的延伸。
-        </p>
-
-        <h3>二、目的：讓 AI 成為「思考夥伴」</h3>
-        <p>
-          我不是把AI當外包，我是把它當「我會一直問問題的同事」。
-          我會問它：「如果照現在的能耗，我們三個月後的電費會怎樣？」  
-          我會問它：「怎樣講，員工比較不會覺得是在罵他？」  
-          這些對話，本質上就是管理。
-        </p>
-
-        <h3>三、AI改變了什麼？語言、職責、關係</h3>
-
-        <h3>(1) 從命令 → 對話</h3>
-        <p>
-          傳統管理有很多「快去做」。AI聽不懂這種話。  
-          你必須說清楚背景、目標、限制。  
-          久了之後，我發現我跟人講話也開始更清楚。
-          AI在逼我把管理語言變成「可以被理解的邏輯」。
-        </p>
-
-        <h3>(2) 從分工 → 協作</h3>
-        <p>
-          以前是「這是品保的事、那是生管的事」。  
-          現在是大家都在用AI查數字、看趨勢、提建議。  
-          我看到一個重要的文化變化：  
-          「我只是做我的工作」這句話，開始慢慢消失。
-        </p>
-
-        <h3>(3) 從責任歸屬 → 問題共解</h3>
-        <p>
-          以前開會，重點常常是「誰搞的？」  
-          現在是「AI說原因是換模延誤，那我們下次怎麼補？」  
-          AI把問題講得很客觀，沒有情緒，  
-          反而讓人比較願意正面處理，而不是互相防備。
-        </p>
-
-        <h3>四、成果：組織變成一個會「自己長進」的東西</h3>
-        <p>
-          導入AI一段時間後，我觀察到三個效果：
-        </p>
-        <p>
-          1. 資訊即時透明。<br/>
-          每個人都能看到自己影響了什麼，而不是等月底才被盤問。  
-          這建立的是信任，而不是監控。
-        </p>
-        <p>
-          2. 決策更冷靜。<br/>
-          不是「我覺得」，而是「數據說現在要這樣」。  
-          這對衝突的降溫，超有用。
-        </p>
-        <p>
-          3. 學習變成日常。<br/>
-          以前學習等於「受訓」。現在學習是「AI剛剛提醒的那段分析」，  
-          是「下一版怎麼排更好」，是「這個指標下週能不能再降2%」。  
-          學習從活動，變成習慣。
-        </p>
-
-        <h3>五、挑戰：AI是一面鏡子，會把真相照得很亮</h3>
-        <p>
-          AI的殘酷在於，它不會說場面話。  
-          它會直接指出：「這裡效率低」、「這裡成本高」、「這裡超時過勞」。  
-          有些主管第一次看到，臉色是不好看的。  
-          但說真的，這是組織成熟必經的一步：  
-          你要先願意承認現實，才有資格改善它。
-        </p>
-
-        <h3>六、結論：AI是企業文化的放大鏡</h3>
-        <p>
-          AI進來，不會立刻讓公司變強。  
-          它只會誠實地放大你現在的樣子。  
-          如果團隊本來互不信任，AI會讓不信任被數據化。  
-          但如果團隊願意一起學，AI會成為整個公司最強的知識引擎。
-        </p>
-
-        <h3>七、後記：AI不在雲端，它在我們之間</h3>
-        <p>
-          我最喜歡的一刻，是看到現場同仁說：
-          「等一下，我問一下AI，我看一下昨天能耗。」  
-          那語氣很自然，像在問同事。  
-          那時我心裡想：「好，AI正式進團隊了。」
-        </p>
-
-        <h3>八、結語：AI讓我們變得更像人</h3>
-        <p>
-          很多人害怕AI是因為覺得它會讓工作變冷、變機械化。  
-          可是我看到的剛好相反。  
-          它讓排班變得更體諒體力、  
-          讓教育變得更尊重、  
-          讓品質檢討變得更誠實、  
-          讓成本分析變得更有遠見而不是「救火」。
-        </p>
-        <p>
-          AI的終點不是效率，而是成熟。  
-          它讓我在管理上，不只是「把事情做完」，  
-          而是「把事情做對，而且讓人可以接受」。
-        </p>
-        <p>
-          這是我在傳統產業裡，親眼看到的文化升級。  
-          我相信，未來的管理不會是AI取代人，  
-          而是AI + 人，合在一起，成為一個更完整的決策系統。
-        </p>
-        <p>
-          所以如果你問我：AI是什麼？  
-          我現在的答案是：  
-          <strong>AI是讓我們再也不能停止思考的理由。</strong>
-        </p>
-      </section>
-    </article>
-
+  <header class="hero container">
+    <h1>AI 成長文章 10 篇合集</h1>
+    <p class="muted">從工廠數位化、Google Apps Script、Node‑RED，到 Python 與品質管理，記錄我一步一步打造智慧工廠與個人習慣養成的旅程。</p>
+    <a class="btn" href="#articles">開始閱讀</a>
+  </header>
+
+  <main class="container">
+    <!-- 目錄 -->
+    <section id="toc" class="toc">
+      <h3>文章目錄</h3>
+      <ol>
+        <li><a href="#a1">用 AI 建立我的學習地圖：從 0 到 1 的關鍵心法</a></li>
+        <li><a href="#a2">工廠數位轉型藍圖：從無紙化到智慧排程</a></li>
+        <li><a href="#a3">Google Apps Script：把表單、Sheets 與現場流程串起來</a></li>
+        <li><a href="#a4">Node‑RED 入門：把資料接起來，做出可視化儀表板</a></li>
+        <li><a href="#a5">Python 打造自動化報表：Pandas 核心技巧</a></li>
+        <li><a href="#a6">ISO 與品質管理：用數據說話的 8D 與 PDCA</a></li>
+        <li><a href="#a7">空壓機與能源管理：從流量、稼動率到節能 ROI</a></li>
+        <li><a href="#a8">掃碼入烘系統：QR × Web App × Google Sheets 全流程</a></li>
+        <li><a href="#a9">員工績效看板：任務派工、權重與達成率</a></li>
+        <li><a href="#a10">習慣養成系統：健身、冥想、飲食與睡眠的資料化</a></li>
+      </ol>
+    </section>
+
+    <!-- 文章列表 -->
+    <section id="articles" class="grid" style="margin-top:1.5rem">
+      <!-- a1 -->
+      <article id="a1" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/ai1/1200/700" alt="AI 學習地圖示意圖" />
+        <div class="content prose">
+          <h2>用 AI 建立我的學習地圖：從 0 到 1 的關鍵心法</h2>
+          <p><span class="tag">學習策略</span><span class="tag">AI</span><span class="tag">心法</span></p>
+          <p>我把學習拆成三層：<strong>工具</strong>（會用）、<strong>方法</strong>（會想）、<strong>系統</strong>（能複製）。一開始只選一個小專案，例如「把每日產線數據自動匯總」；完成後寫下 SOP 與檢核表，讓未來的我可以更快複製成功。</p>
+          <details>
+            <summary>展開重點</summary>
+            <ul>
+              <li>設定可衡量的成果：輸入→處理→輸出</li>
+              <li>優先做 <em>對自己有用</em> 的題目，動機最強</li>
+              <li>把「踩坑」記錄成 FAQ，未來少踩一次</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <!-- a2 -->
+      <article id="a2" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/factory-ai/1200/700" alt="工廠數位轉型" />
+        <div class="content prose">
+          <h2>工廠數位轉型藍圖：從無紙化到智慧排程</h2>
+          <p><span class="tag">智慧工廠</span><span class="tag">MES</span><span class="tag">排程</span></p>
+          <p>藍圖分三步：<strong>數據化</strong>（表單化/掃碼）、<strong>可視化</strong>（看板/告警）、<strong>智慧化</strong>（建議/自動化）。以出貨、烘房、換模、品檢為四大主線，逐一建立資料標準與 API 介面。</p>
+          <p class="muted">輸入統一，報表自然穩定，決策才能快。</p>
+        </div>
+      </article>
+
+      <!-- a3 -->
+      <article id="a3" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/gas/1200/700" alt="Google Apps Script 串接" />
+        <div class="content prose">
+          <h2>Google Apps Script：把表單、Sheets 與現場流程串起來</h2>
+          <p><span class="tag">Apps Script</span><span class="tag">Web App</span><span class="tag">表單</span></p>
+          <p>用 <code>doGet/doPost</code> 建立 Web App 入口；前端用 HTML/CSS/JS，後端寫入 Sheets。把「點檢表設定」→「動態生成表單」→「寫入紀錄」→「分析與看板」串成一條龍，讓現場只要掃碼就能上傳。</p>
+          <details>
+            <summary>我學到的重點</summary>
+            <ul>
+              <li>欄位命名先定義：英數、無空白、與報表一致</li>
+              <li>錯誤一定記 <code>debug_log</code>，才找得到原因</li>
+              <li>Web App 部署權限需設定「任何知道連結的人」</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <!-- a4 -->
+      <article id="a4" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/nodered/1200/700" alt="Node‑RED Flow 與 Dashboard" />
+        <div class="content prose">
+          <h2>Node‑RED 入門：把資料接起來，做出可視化儀表板</h2>
+          <p><span class="tag">Node‑RED</span><span class="tag">Dashboard</span><span class="tag">IoT</span></p>
+          <p>把掃碼、空壓機、烘房與庫存，透過 Node‑RED 串接：<em>Inject → Function → Switch → Dashboard</em>。我先做一個「入烘紀錄」小流程，再逐步擴充到告警與周報。</p>
+          <p class="muted">可視化不是漂亮，是讓人「一眼看懂」。</p>
+        </div>
+      </article>
+
+      <!-- a5 -->
+      <article id="a5" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/python/1200/700" alt="Python 自動化報表" />
+        <div class="content prose">
+          <h2>Python 打造自動化報表：Pandas 核心技巧</h2>
+          <p><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">報表</span></p>
+          <p>把原本 VBA 的月報邏輯，用 Pandas 重寫：<code>read_excel</code> → <code>groupby</code> → <code>pivot_table</code> → 輸出 <code>ExcelWriter</code>。形成可重複、可版本化的腳本，降低人工出錯。</p>
+          <details>
+            <summary>固定模板的威力</summary>
+            <ul>
+              <li>所有欄位英文代碼化，避免空白與全半形問題</li>
+              <li>月報自動產生多個工作表，名稱帶日期</li>
+              <li>超過 80% 分位的極端值另外標示，圖表不失真</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <!-- a6 -->
+      <article id="a6" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/quality/1200/700" alt="品質管理與 8D" />
+        <div class="content prose">
+          <h2>ISO 與品質管理：用數據說話的 8D 與 PDCA</h2>
+          <p><span class="tag">ISO</span><span class="tag">8D</span><span class="tag">PDCA</span></p>
+          <p>客訴處理我固定用 8D：客訴事實 → 臨時對策 → 根因 → 永久對策 → 成效驗證。所有附件（照片、測試、簽到）一律數位化，關鍵欄位對應到「品質履歷」表。</p>
+          <p class="muted">沒有資料，就只有說服；有了資料，自然有答案。</p>
+        </div>
+      </article>
+
+      <!-- a7 -->
+      <article id="a7" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/energy/1200/700" alt="能源管理與空壓機" />
+        <div class="content prose">
+          <h2>空壓機與能源管理：從流量、稼動率到節能 ROI</h2>
+          <p><span class="tag">能源管理</span><span class="tag">空壓機</span><span class="tag">成本</span></p>
+          <p>建立「重車/空車」與用氣量的資料表，分別計算日/週/月電費；提出「啟停策略」與「旁路分流」方案，並用 Excel/Sheets 做情境比較，讓投資回收期（ROI）一目了然。</p>
+        </div>
+      </article>
+
+      <!-- a8 -->
+      <article id="a8" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/qrweb/1200/700" alt="掃碼入烘系統" />
+        <div class="content prose">
+          <h2>掃碼入烘系統：QR × Web App × Google Sheets 全流程</h2>
+          <p><span class="tag">QR</span><span class="tag">Web</span><span class="tag">Sheets</span></p>
+          <p>流程是：掃「烘房 QR」→ 開相機 → 掃「台車 QR」→ 自動帶入表單 → 一鍵送出 → 寫入 <code>dryroom_log</code>。畫面完成送出後自動返回相機，便於連續操作。</p>
+        </div>
+      </article>
+
+      <!-- a9 -->
+      <article id="a9" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/kpi/1200/700" alt="員工績效看板" />
+        <div class="content prose">
+          <h2>員工績效看板：任務派工、權重與達成率</h2>
+          <p><span class="tag">績效</span><span class="tag">看板</span><span class="tag">任務派工</span></p>
+          <p>任務拆解為「工單」與「子任務」，每項有「權重、開始/截止、完成勾選、備註」。主管清空任務只影響主管視圖，廠長仍可追蹤；所有動作都有歷史紀錄。</p>
+        </div>
+      </article>
+
+      <!-- a10 -->
+      <article id="a10" class="card span-6">
+        <img loading="lazy" src="https://picsum.photos/seed/habits/1200/700" alt="習慣養成系統" />
+        <div class="content prose">
+          <h2>習慣養成系統：健身、冥想、飲食與睡眠的資料化</h2>
+          <p><span class="tag">習慣</span><span class="tag">自我管理</span><span class="tag">健康</span></p>
+          <p>我設定每日固定任務：早上 30 分鐘運動、晚上 30 分鐘運動、不吃檳榔、冥想 10 分鐘、23 點前睡、自煮中晚餐。用簡單的打卡表與趨勢圖，讓紀律變成可視化的反饋。</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- 關於我 -->
+    <section id="about" style="margin-top:2rem">
+      <article class="card">
+        <div class="content">
+          <h3>關於我</h3>
+          <p class="muted">廠長／生管採購／數位轉型推動者。擅長把現場需求轉成表單、流程與報表，讓資料自己會說話。</p>
+          <p>這個頁面使用 <code>PicoCSS</code> + 原生 HTML/CSS 寫成，圖片使用 <code>picsum.photos</code> 佔位圖。你可以把圖片網址改成自己上傳的相對路徑（例如 <code>images/a1.jpg</code>）。</p>
+          <details>
+            <summary>如何替換為本地圖片？</summary>
+            <ol>
+              <li>在專案建立 <code>images</code> 資料夾</li>
+              <li>把圖片放入後，將每篇文章的 <code>img src</code> 改為 <code>images/檔名.jpg</code></li>
+              <li>GitHub Pages 會自動讀取相對路徑（例如 <code>/my-website/images/...</code>）</li>
+            </ol>
+          </details>
+          <p><a href="#top">回到頂部 ↑</a></p>
+        </div>
+      </article>
+    </section>
   </main>
-</div>
 
-<footer class="site-footer">
-  <div class="brand">《我的AI成長過程》</div>
-  <div class="sub">© 2025 Bava ｜ 蘭陽開發工業股份有限公司｜AI × 生產 × 管理 × 現場</div>
-  <div class="sub">本頁所有內容可引用分享，但請保留出處。</div>
-</footer>
+  <footer class="footer container">
+    <small>© <span id="y"></span> 我的個人品牌｜健身 × 工作 × AI · 以公開靜態頁面部署於 GitHub Pages</small>
+  </footer>
 
+  <script>
+    // 動態年份
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
