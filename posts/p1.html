@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>智慧排班雛形｜我的 AI 成長過程</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+<style>
+header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}
+blockquote{border-left:4px solid #38bdf8;padding-left:1rem;color:#475569}
+code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+figure img{width:100%;height:auto;border-radius:.5rem}
+figure figcaption{color:#64748b;font-size:.9rem}
+</style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../ai.html">AI</a></li>
+      <li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <main class="container">
+      <hgroup>
+        <h1>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案</h1>
+        <p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p>
+      </hgroup>
+    </main>
+  </header>
+
+  <main class="container">
+    <figure>
+      <img src="https://picsum.photos/1200/520?random=201" alt="智慧排班流程示意圖" />
+      <figcaption>把「真實限制」精準轉成「機器可讀」，是排班自動化能否落地的分水嶺。</figcaption>
+    </figure>
+
+    <h3>一、源由：人力受限、交期嚴格、現場變動大</h3>
+    <p>我們面對的不是單純的「把人排滿」而已，而是同時存在交期約束（例如友達 T32 必須在 12:00 前到貨）、機台瓶頸（B 區半自動、A 與 C 區全自動）、通宵限制（每人每月最多 4 天）、以及 A11 必須雙人值守等現場真實條件。傳統做法全靠主管經驗，容易「當天對、隔天錯」。我希望把這些約束變成規則，讓 AI 直接吐出可執行的排程表。</p>
+
+    <h3>二、目的：可落地的自動化，不是漂亮的理論</h3>
+    <ul>
+      <li>輸出是 <strong>Google Apps Script</strong>，能真的寫入 Google Sheet 的班表。</li>
+      <li>能處理例外：交期撞車、臨時缺勤、C 區 P3/P7 需雙人等。</li>
+      <li>產出具體的「人 × 區 × 班別」配置，並附說明理由（可稽核）。</li>
+    </ul>
+
+    <h3>三、過程：把口語限制精準化 → 交給 AI 生成程式碼</h3>
+    <p>我先把現場規則化為結構化輸入表單（人員、技能、通宵額度、機台、交期、優先規則），再把「排班原則」寫到 Prompt。關鍵不是要 AI「想得很聰明」，而是要它「遵守得很精準」。</p>
+
+    <details>
+      <summary><strong>關鍵 Prompt（精簡版）</strong></summary>
+      <pre><code>你是生管排程專家，請輸出能直接貼到 Google Apps Script 的程式碼，完成下列任務：
+1) 讀取工作表：
+   - 人員名單：姓名、可排區域(A/B/C/A11)、可否通宵(月額度)、技能標籤
+   - 機台清單：區域、是否半自動(人力需求)、特殊條件(P3/P7 需兩人)
+   - 交期清單：料號、數量、客戶、最晚出貨時段(例如 T32 需 12:00 前)
+2) 規則：
+   - A11 區固定 2 人
+   - C 區若為 P3 或 P7 當班需 2 人
+   - 每人每月通宵上限 4 天；大明不可通宵
+   - 有生產就要排爐(阿義或阿甲)
+   - 避開尖峰；出貨前一週內完成
+3) 目標：
+   - 先滿足交期、再盡量同區同人、最後平衡通宵與負載
+4) 輸出：
+   - 指定日期之白/夜班的「人員 × 區域」配置表，並把違規原因列於備註。</code></pre>
+    </details>
+
+    <p>AI 依此生成的 Apps Script 能直接寫入 Google Sheet。第一次跑通常會遇到邊角情境（如 C 區臨時兩台同時要雙人），我就把這些狀況「回填進規則」，再讓 AI 生成新版本。</p>
+
+    <h3>四、困難與修正：三個易被忽略的坑</h3>
+    <ol>
+      <li><strong>規則矛盾</strong>：例如「友達 T32 要上午出貨」與「同人最好同區」同時存在時，AI 需知道哪個優先。<br>→ 解法：為每條規則設定權重與優先序，明確寫在 Prompt。</li>
+      <li><strong>資料潔淨度</strong>：人員表若缺「可否通宵」或錯字，演算法就會失真。<br>→ 解法：在程式中加入 <code>validate()</code>，缺值就報錯並停止寫入。</li>
+      <li><strong>說明可稽核</strong>：排完不是結束，主管要知道「為什麼這樣排」。<br>→ 解法：輸出時同時寫入「決策說明」欄（如：滿足 T32 運輸時限）。</li>
+    </ol>
+
+    <h3>五、結論與建議</h3>
+    <p>智慧排班的核心不是 AI 有多聰明，而是規則是否正確、資料是否乾淨、輸出是否可執行。先用小範圍驗證（例如只排 A11 與 C 區），再擴大到全廠，就能把「主管腦中的經驗」具象化成「所有人都能維護的系統」。下一步可以加入「歷史稼動率」與「人員學習曲線」，進一步做動態優化。</p>
+  </main>
+
+  <footer class="container"><small>© 2025 Bava</small></footer>
+</body>
+</html>

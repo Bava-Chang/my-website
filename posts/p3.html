@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>庫存查詢小工具｜我的 AI 成長過程</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+<style>
+header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}
+figure img{width:100%;height:auto;border-radius:.5rem}
+figure figcaption{color:#64748b;font-size:.9rem}
+code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+</style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../ai.html">AI</a></li>
+      <li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <main class="container">
+      <hgroup>
+        <h1>庫存查詢小工具：doGet 路由 × 前端查詢頁 × 欄位校對</h1>
+        <p class="secondary">避免「查得到、寫不進」的現場冏境</p>
+      </hgroup>
+    </main>
+  </header>
+
+  <main class="container">
+    <figure>
+      <img src="https://picsum.photos/1200/520?random=203" alt="庫存查詢頁示意" />
+      <figcaption>以 <code>?page=inventory_search</code> 控制入口，減少維運複雜度。</figcaption>
+    </figure>
+
+    <h3>源由與目的</h3>
+    <p>人員想快速查剩餘庫存，但「查詢」與「領料」常被寫成兩條資料管線，導致實際扣帳錯表。目標是把查詢與寫入都對準 <strong>同一張庫存表</strong>，前端只變門面，後端維持單一真相來源。</p>
+
+    <h3>過程與關鍵 Prompt</h3>
+    <p>用 Apps Script 的 <code>doGet(e)</code> 解析 <code>e.parameter.page</code>，動態回傳對應 HTML。欄位名稱與大小寫嚴格一致；查詢與扣帳都經由同一個庫存 Repo。</p>
+    <details>
+      <summary><strong>關鍵 Prompt（精簡版）</strong></summary>
+      <pre><code>請以 Apps Script 實作：
+- doGet(e)：若 page=inventory_search 則回前端查詢 HTML
+- 後端讀寫都只對應「庫存」工作表；欄位名精確比對（大小寫一致）
+- 頁面載入顯示「查詢中」spinner；請在 2 秒內給出結果或提示重試</code></pre>
+    </details>
+
+    <h3>困難與修正</h3>
+    <ul>
+      <li>入口函式命名：新版 Web App 介面無「入口函式」欄位，直接以 <code>doGet</code> 為入口。</li>
+      <li>大小寫與半全形：建立欄位對照表，先 normalize 後再比對。</li>
+      <li>效能：先回骨架，再補資料（避免卡在空白頁）。</li>
+    </ul>
+
+    <h3>結論與建議</h3>
+    <p>把前端多樣化需求統一到一個後端資料源，是「穩」的核心。下一步可加：最常查料號快取、權限控管與操作審計。</p>
+  </main>
+
+  <footer class="container"><small>© 2025 Bava</small></footer>
+</body>
+</html>

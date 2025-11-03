@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>製令成本估算｜我的 AI 成長過程</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/><style>header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}figure img{width:100%;height:auto;border-radius:.5rem}figure figcaption{color:#64748b;font-size:.9rem}code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}</style></head>
+<body><nav class="container-fluid"><ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul><ul><li><a href="../index.html">首頁</a></li><li><a href="../ai.html">AI</a></li><li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li></ul></nav>
+<header class="hero"><main class="container"><hgroup><h1>製令成本估算：把 Excel 規則抽象化，再交給 Python 批次</h1><p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p></hgroup></main></header>
+<main class="container">
+<figure><img src="https://picsum.photos/1200/520?random=204" alt="成本模型"/> <figcaption>人調參、機器算；分離「規則」與「數據」才好維護。</figcaption></figure>
+<h3>源由</h3><p>Excel 能算，但面對多製令、多版本參數時就會崩。我要的是「一鍵批次」、可追蹤、可回溯。</p>
+<h3>目的</h3><ul><li>把成本邏輯（電費、工時、報廢率、耗材）獨立成 YAML/JSON 參數。</li><li>用 Python 讀取製令清單，逐筆計算，產出彙總與敏感度分析。</li><li>保留「假設場景」：例如電價上調 10%、空車時間縮短 20%。</li></ul>
+<h3>過程與 Prompt</h3><p>先在 Excel 將公式「命名化」，對應到 Python 函式，再讓 AI 產生批次處理骨架。</p>
+<details><summary><strong>關鍵 Prompt（精簡版）</strong></summary><pre><code>請用 Python 寫一個成本批次工具：
+- 讀取 ./orders.csv 與 ./params.yaml
+- 對每筆製令計算：原料 + 能耗 + 人工 + 報廢
+- 另產生兩份附檔：sensitivity.csv（針對電價、空車率）、summary.csv（各製令總表）</code></pre></details>
+<h3>困難與修正</h3><ul><li>單位不一致：在載入時做單位標準化（kWh、kg、hr）。</li><li>邏輯漂移：每次改動參數都要留版本；Python 以檔名帶日期。</li><li>驗證：抽樣與 Excel 人工計算比對，偏差超過閾值就標示。</li></ul>
+<h3>結論與建議</h3><p>抽象化 + 批次化 = 把成本算清楚。下一步可加入工單實際回饋，變成「預算 vs 實績」。</p>
+</main><footer class="container"><small>© 2025 Bava</small></footer></body></html>

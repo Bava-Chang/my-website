@@ -3,258 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI 成長文章 10 篇合集｜個人品牌：健身 × 工作 × AI</title>
-  <meta name="description" content="我的 AI 成長紀錄：工廠數位轉型、Apps Script、Node‑RED、Python、品質管理與健身習慣建立的 10 篇文章合集。" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>我的 AI 成長過程｜10 篇實戰合集</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <style>
-    :root{
-      --bg:#0a0f1f; --bg2:#0c1426; --surface:#0f1828; --card:#111c30; --ink:#e7eefb; --muted:#9ab0cf; --accent:#7cc4ff; --line:#1e2d48;
-      --radius:16px; --radius-lg:22px; --shadow:0 10px 30px rgba(3,10,20,.35);
+    :root{--brand:#38bdf8}
+    header.hero{
+      padding:3rem 0 2rem;
+      background: radial-gradient(800px 400px at 10% -10%, #0ea5e922, transparent),
+                  radial-gradient(800px 400px at 90% 110%, #22d3ee22, transparent);
+      border-bottom:1px solid #e2e8f0;
     }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{color:var(--ink);background:
-      radial-gradient(1200px 600px at 15% -10%, #16233a 0%, transparent 60%),
-      radial-gradient(1000px 500px at 85% 110%, #0c2a4a 0%, transparent 60%),
-      linear-gradient(180deg,var(--bg),var(--bg2));
-      font-family:"Inter","Noto Sans TC",system-ui,-apple-system,Segoe UI,Roboto,Arial,"PingFang TC","Noto Sans CJK TC",sans-serif;
-      letter-spacing:.2px;
-    }
-    /* Layout */
-    .container{max-width:1100px}
-    header.hero{padding:56px 0 20px;border-bottom:1px solid var(--line)}
-    .sticky-top{position:sticky;top:0;background:linear-gradient(180deg,#0a0f1fff,#0a0f1fE6 60%,#0a0f1f00);backdrop-filter:blur(8px);z-index:5;border-bottom:1px solid rgba(255,255,255,.04)}
-    nav ul li a[aria-current="page"]{color:var(--accent);font-weight:600}
-
-    /* Typography */
-    h1{font-size:clamp(28px,3.2vw,40px);line-height:1.2;margin:0 0 .4rem}
-    h2{font-size:clamp(20px,2.2vw,26px);line-height:1.35;margin:.2rem 0 .5rem}
-    h3{font-size:clamp(18px,2vw,22px)}
-    .prose{line-height:1.75}
-    .muted{color:var(--muted)}
-
-    /* Grid & Card */
-    .grid{display:grid;gap:1.25rem;grid-template-columns:repeat(12,1fr)}
-    @media (max-width: 960px){.span-4,.span-6,.span-8,.span-12{grid-column:span 12}}
-    @media (min-width: 961px){.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}}
-
-    .card{background:linear-gradient(180deg,rgba(17,28,48,.85),rgba(17,28,48,.92));
-          border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,.04) inset;
-          transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease}
-    .card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#2b446d}
-    .card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
-    .card .content{padding:1rem 1.25rem}
-
-    /* Badges & Buttons */
-    .tag{display:inline-block;padding:.2rem .6rem;border:1px solid var(--line);border-radius:999px;font-size:.78rem;margin-right:.3rem;color:var(--muted);background:rgba(255,255,255,.02)}
-    .btn{border-radius:999px;font-weight:600}
-
-    /* Section helpers */
-    .toc{background:linear-gradient(180deg,rgba(16,24,39,.5),rgba(16,24,39,.65));
-         border:1px dashed var(--line);border-radius:var(--radius);padding:1rem}
-    .footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted)}
-
-    /* Links */
-    a{color:#b9dcff}
-    a:hover{color:#d7ecff}
-
-    /* Small refinements */
-    details summary{cursor:pointer}
-    details[open]{background:rgba(255,255,255,.02);border-radius:12px;padding:.25rem .5rem}
+    .eyebrow{font-size:.9rem;letter-spacing:.12em;color:#64748b;text-transform:uppercase}
+    .dot{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--brand);margin-right:.4rem;translate:0 -1px}
+    .card img{width:100%;height:auto;border-radius:.5rem}
+    .sub{color:#64748b;font-size:.95rem}
+    .kicker{color:#0ea5e9}
+    footer{margin-top:3rem;padding:2rem 0;border-top:1px solid #e2e8f0}
   </style>
 </head>
 <body>
-  <!-- 頂部導覽 -->
-  <div class="sticky-top">
-    <nav class="container">
-      <ul>
-        <li class="brand"><strong>個人品牌｜健身 × 工作 × AI</strong></li>
-      </ul>
-      <ul>
-        <li><a href="#toc" aria-current="page">文章目錄</a></li>
-        <li><a href="#articles">全部文章</a></li>
-        <li><a href="#about">關於我</a></li>
-      </ul>
-    </nav>
-  </div>
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="fitness.html">健身</a></li>
+      <li><a href="work.html">工作</a></li>
+      <li><a href="ai.html">AI</a></li>
+      <li><a href="ai-growth.html" aria-current="page">AI 成長合集</a></li>
+    </ul>
+  </nav>
 
-  <header class="hero container">
-    <h1>AI 成長文章 10 篇合集</h1>
-    <p class="muted">從工廠數位化、Google Apps Script、Node‑RED，到 Python 與品質管理，記錄我一步一步打造智慧工廠與個人習慣養成的旅程。</p>
-    <a class="btn" href="#articles">開始閱讀</a>
+  <header class="hero">
+    <main class="container">
+      <hgroup>
+        <h1>我的 AI 成長過程：10 個從零到一的工廠實戰</h1>
+        <p class="eyebrow"><span class="dot"></span>把 AI 變同事，把流程變系統</p>
+      </hgroup>
+      <p>這是一套用真實場景鍛鍊出來的工作法：以問題為核心、以資料為語言、以自動化收尾。每一篇都是可重複、可擴充、可落地的實作。點進任一章，能看到完整的背景、決策、關鍵 Prompt、程式與改版紀錄。</p>
+    </main>
   </header>
 
   <main class="container">
-    <!-- 目錄 -->
-    <section id="toc" class="toc">
-      <h3>文章目錄</h3>
-      <ol>
-        <li><a href="#a1">用 AI 建立我的學習地圖：從 0 到 1 的關鍵心法</a></li>
-        <li><a href="#a2">工廠數位轉型藍圖：從無紙化到智慧排程</a></li>
-        <li><a href="#a3">Google Apps Script：把表單、Sheets 與現場流程串起來</a></li>
-        <li><a href="#a4">Node‑RED 入門：把資料接起來，做出可視化儀表板</a></li>
-        <li><a href="#a5">Python 打造自動化報表：Pandas 核心技巧</a></li>
-        <li><a href="#a6">ISO 與品質管理：用數據說話的 8D 與 PDCA</a></li>
-        <li><a href="#a7">空壓機與能源管理：從流量、稼動率到節能 ROI</a></li>
-        <li><a href="#a8">掃碼入烘系統：QR × Web App × Google Sheets 全流程</a></li>
-        <li><a href="#a9">員工績效看板：任務派工、權重與達成率</a></li>
-        <li><a href="#a10">習慣養成系統：健身、冥想、飲食與睡眠的資料化</a></li>
-      </ol>
-    </section>
-
-    <!-- 文章列表 -->
-    <section id="articles" class="grid" style="margin-top:1.5rem">
-      <!-- a1 -->
-      <article id="a1" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/ai1/1200/700" alt="AI 學習地圖示意圖" />
-        <div class="content prose">
-          <h2>用 AI 建立我的學習地圖：從 0 到 1 的關鍵心法</h2>
-          <p><span class="tag">學習策略</span><span class="tag">AI</span><span class="tag">心法</span></p>
-          <p>我把學習拆成三層：<strong>工具</strong>（會用）、<strong>方法</strong>（會想）、<strong>系統</strong>（能複製）。一開始只選一個小專案，例如「把每日產線數據自動匯總」；完成後寫下 SOP 與檢核表，讓未來的我可以更快複製成功。</p>
-          <details>
-            <summary>展開重點</summary>
-            <ul>
-              <li>設定可衡量的成果：輸入→處理→輸出</li>
-              <li>優先做 <em>對自己有用</em> 的題目，動機最強</li>
-              <li>把「踩坑」記錄成 FAQ，未來少踩一次</li>
-            </ul>
-          </details>
-        </div>
-      </article>
-
-      <!-- a2 -->
-      <article id="a2" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/factory-ai/1200/700" alt="工廠數位轉型" />
-        <div class="content prose">
-          <h2>工廠數位轉型藍圖：從無紙化到智慧排程</h2>
-          <p><span class="tag">智慧工廠</span><span class="tag">MES</span><span class="tag">排程</span></p>
-          <p>藍圖分三步：<strong>數據化</strong>（表單化/掃碼）、<strong>可視化</strong>（看板/告警）、<strong>智慧化</strong>（建議/自動化）。以出貨、烘房、換模、品檢為四大主線，逐一建立資料標準與 API 介面。</p>
-          <p class="muted">輸入統一，報表自然穩定，決策才能快。</p>
-        </div>
-      </article>
-
-      <!-- a3 -->
-      <article id="a3" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/gas/1200/700" alt="Google Apps Script 串接" />
-        <div class="content prose">
-          <h2>Google Apps Script：把表單、Sheets 與現場流程串起來</h2>
-          <p><span class="tag">Apps Script</span><span class="tag">Web App</span><span class="tag">表單</span></p>
-          <p>用 <code>doGet/doPost</code> 建立 Web App 入口；前端用 HTML/CSS/JS，後端寫入 Sheets。把「點檢表設定」→「動態生成表單」→「寫入紀錄」→「分析與看板」串成一條龍，讓現場只要掃碼就能上傳。</p>
-          <details>
-            <summary>我學到的重點</summary>
-            <ul>
-              <li>欄位命名先定義：英數、無空白、與報表一致</li>
-              <li>錯誤一定記 <code>debug_log</code>，才找得到原因</li>
-              <li>Web App 部署權限需設定「任何知道連結的人」</li>
-            </ul>
-          </details>
-        </div>
-      </article>
-
-      <!-- a4 -->
-      <article id="a4" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/nodered/1200/700" alt="Node‑RED Flow 與 Dashboard" />
-        <div class="content prose">
-          <h2>Node‑RED 入門：把資料接起來，做出可視化儀表板</h2>
-          <p><span class="tag">Node‑RED</span><span class="tag">Dashboard</span><span class="tag">IoT</span></p>
-          <p>把掃碼、空壓機、烘房與庫存，透過 Node‑RED 串接：<em>Inject → Function → Switch → Dashboard</em>。我先做一個「入烘紀錄」小流程，再逐步擴充到告警與周報。</p>
-          <p class="muted">可視化不是漂亮，是讓人「一眼看懂」。</p>
-        </div>
-      </article>
-
-      <!-- a5 -->
-      <article id="a5" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/python/1200/700" alt="Python 自動化報表" />
-        <div class="content prose">
-          <h2>Python 打造自動化報表：Pandas 核心技巧</h2>
-          <p><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">報表</span></p>
-          <p>把原本 VBA 的月報邏輯，用 Pandas 重寫：<code>read_excel</code> → <code>groupby</code> → <code>pivot_table</code> → 輸出 <code>ExcelWriter</code>。形成可重複、可版本化的腳本，降低人工出錯。</p>
-          <details>
-            <summary>固定模板的威力</summary>
-            <ul>
-              <li>所有欄位英文代碼化，避免空白與全半形問題</li>
-              <li>月報自動產生多個工作表，名稱帶日期</li>
-              <li>超過 80% 分位的極端值另外標示，圖表不失真</li>
-            </ul>
-          </details>
-        </div>
-      </article>
-
-      <!-- a6 -->
-      <article id="a6" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/quality/1200/700" alt="品質管理與 8D" />
-        <div class="content prose">
-          <h2>ISO 與品質管理：用數據說話的 8D 與 PDCA</h2>
-          <p><span class="tag">ISO</span><span class="tag">8D</span><span class="tag">PDCA</span></p>
-          <p>客訴處理我固定用 8D：客訴事實 → 臨時對策 → 根因 → 永久對策 → 成效驗證。所有附件（照片、測試、簽到）一律數位化，關鍵欄位對應到「品質履歷」表。</p>
-          <p class="muted">沒有資料，就只有說服；有了資料，自然有答案。</p>
-        </div>
-      </article>
-
-      <!-- a7 -->
-      <article id="a7" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/energy/1200/700" alt="能源管理與空壓機" />
-        <div class="content prose">
-          <h2>空壓機與能源管理：從流量、稼動率到節能 ROI</h2>
-          <p><span class="tag">能源管理</span><span class="tag">空壓機</span><span class="tag">成本</span></p>
-          <p>建立「重車/空車」與用氣量的資料表，分別計算日/週/月電費；提出「啟停策略」與「旁路分流」方案，並用 Excel/Sheets 做情境比較，讓投資回收期（ROI）一目了然。</p>
-        </div>
-      </article>
-
-      <!-- a8 -->
-      <article id="a8" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/qrweb/1200/700" alt="掃碼入烘系統" />
-        <div class="content prose">
-          <h2>掃碼入烘系統：QR × Web App × Google Sheets 全流程</h2>
-          <p><span class="tag">QR</span><span class="tag">Web</span><span class="tag">Sheets</span></p>
-          <p>流程是：掃「烘房 QR」→ 開相機 → 掃「台車 QR」→ 自動帶入表單 → 一鍵送出 → 寫入 <code>dryroom_log</code>。畫面完成送出後自動返回相機，便於連續操作。</p>
-        </div>
-      </article>
-
-      <!-- a9 -->
-      <article id="a9" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/kpi/1200/700" alt="員工績效看板" />
-        <div class="content prose">
-          <h2>員工績效看板：任務派工、權重與達成率</h2>
-          <p><span class="tag">績效</span><span class="tag">看板</span><span class="tag">任務派工</span></p>
-          <p>任務拆解為「工單」與「子任務」，每項有「權重、開始/截止、完成勾選、備註」。主管清空任務只影響主管視圖，廠長仍可追蹤；所有動作都有歷史紀錄。</p>
-        </div>
-      </article>
-
-      <!-- a10 -->
-      <article id="a10" class="card span-6">
-        <img loading="lazy" src="https://picsum.photos/seed/habits/1200/700" alt="習慣養成系統" />
-        <div class="content prose">
-          <h2>習慣養成系統：健身、冥想、飲食與睡眠的資料化</h2>
-          <p><span class="tag">習慣</span><span class="tag">自我管理</span><span class="tag">健康</span></p>
-          <p>我設定每日固定任務：早上 30 分鐘運動、晚上 30 分鐘運動、不吃檳榔、冥想 10 分鐘、23 點前睡、自煮中晚餐。用簡單的打卡表與趨勢圖，讓紀律變成可視化的反饋。</p>
-        </div>
-      </article>
-    </section>
-
-    <!-- 關於我 -->
-    <section id="about" style="margin-top:2rem">
-      <article class="card">
-        <div class="content">
-          <h3>關於我</h3>
-          <p class="muted">廠長／生管採購／數位轉型推動者。擅長把現場需求轉成表單、流程與報表，讓資料自己會說話。</p>
-          <p><a href="#top">回到頂部 ↑</a></p>
-        </div>
-      </article>
-    </section>
+    <article class="grid">
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 1 篇</p><h3>智慧排班雛形</h3></header>
+        <img src="https://picsum.photos/1200/600?random=101" alt="智慧排班示意" />
+        <p class="sub">從限制條件到演算法，讓 AI 先顧交期、再顧成本，輸出可執行的 Apps Script。</p>
+        <a class="contrast kicker" href="posts/p1.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 2 篇</p><h3>烘房進出一掃送出</h3></header>
+        <img src="https://picsum.photos/1200/600?random=102" alt="掃碼流程" />
+        <p class="sub">行動端掃描、後端去重、失敗暫存；一次把體驗與可靠度都顧到。</p>
+        <a class="contrast kicker" href="posts/p2.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 3 篇</p><h3>庫存查詢小工具</h3></header>
+        <img src="https://picsum.photos/1200/600?random=103" alt="庫存查詢" />
+        <p class="sub">doGet 路由、前端查詢頁與欄位校對，處理「查得到、寫不進」的鬼打牆。</p>
+        <a class="contrast kicker" href="posts/p3.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 4 篇</p><h3>製令成本估算</h3></header>
+        <img src="https://picsum.photos/1200/600?random=104" alt="成本模型" />
+        <p class="sub">把 Excel 規則抽象化，再用 Python 批次化；人改參數、機器算全場。</p>
+        <a class="contrast kicker" href="posts/p4.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 5 篇</p><h3>AI 版教育訓練教材</h3></header>
+        <img src="https://picsum.photos/1200/600?random=105" alt="教育訓練" />
+        <p class="sub">把法規寫成人話，附測驗、簽到與版本控管，讓合規變成日常。</p>
+        <a class="contrast kicker" href="posts/p5.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 6 篇</p><h3>噪音與熱負荷教材系統化</h3></header>
+        <img src="https://picsum.photos/1200/600?random=106" alt="熱負荷" />
+        <p class="sub">教材、測驗、簽到、成績上傳一條龍，減少人為遺漏。</p>
+        <a class="contrast kicker" href="posts/p6.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 7 篇</p><h3>Node-RED 入門到看板</h3></header>
+        <img src="https://picsum.photos/1200/600?random=107" alt="Node-RED 看板" />
+        <p class="sub">用資料流思維把 inject/switch/template 串成最小可行儀表板。</p>
+        <a class="contrast kicker" href="posts/p7.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 8 篇</p><h3>空壓機電費模型</h3></header>
+        <img src="https://picsum.photos/1200/600?random=108" alt="空壓機" />
+        <p class="sub">引入空車/重車、卸載比例與電價敏感度，投資有數可依。</p>
+        <a class="contrast kicker" href="posts/p8.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 9 篇</p><h3>8D 報告半自動化</h3></header>
+        <img src="https://picsum.photos/1200/600?random=109" alt="8D 報告" />
+        <p class="sub">客訴→全檢→補料→教育訓練→8D，用資料驅動生成與追蹤。</p>
+        <a class="contrast kicker" href="posts/p9.html">閱讀長文 →</a>
+      </section>
+      <section class="card">
+        <header><p class="eyebrow"><span class="dot"></span>第 10 篇</p><h3>組織文化變形</h3></header>
+        <img src="https://picsum.photos/1200/600?random=110" alt="文化變形" />
+        <p class="sub">當 AI 真的在保護人與績效，它就不再是工具，而是團隊成員。</p>
+        <a class="contrast kicker" href="posts/p10.html">閱讀長文 →</a>
+      </section>
+    </article>
   </main>
 
-  <footer class="footer container">
-    <small>© <span id="y"></span> 我的個人品牌｜健身 × 工作 × AI · 以公開靜態頁面部署於 GitHub Pages</small>
+  <footer class="container">
+    <small>© 2025 Bava</small>
   </footer>
-
-  <script>
-    // 動態年份
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
-

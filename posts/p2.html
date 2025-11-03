@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>烘房進出一掃送出｜我的 AI 成長過程</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+<style>
+header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}
+blockquote{border-left:4px solid #38bdf8;padding-left:1rem;color:#475569}
+figure img{width:100%;height:auto;border-radius:.5rem}
+figure figcaption{color:#64748b;font-size:.9rem}
+code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+.badge{display:inline-block;background:#e0f2fe;color:#0369a1;border-radius:.375rem;padding:.15rem .5rem;margin-right:.25rem}
+</style>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../ai.html">AI</a></li>
+      <li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <main class="container">
+      <hgroup>
+        <h1>烘房進出一掃送出：行動端體驗 × 後端可靠度</h1>
+        <p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p>
+      </hgroup>
+    </main>
+  </header>
+
+  <main class="container">
+    <figure>
+      <img src="https://picsum.photos/1200/520?random=202" alt="掃碼操作示意" />
+      <figcaption>掃碼 → 選烘房 → 送出：兩步到位；失敗暫存與去重讓資料可信。</figcaption>
+    </figure>
+
+    <h3>一、源由：人跑得比資料快</h3>
+    <p>現場要連續把多台台車推進烘房，人工填寫容易漏記或重複。手機相機掃碼是最快的入口，但瀏覽器相機 API、條碼解碼與 iOS/Android 差異，讓實作容易卡關。</p>
+
+    <h3>二、目的：兩個重點同時成立</h3>
+    <p><span class="badge">一掃送出</span><span class="badge">資料可靠</span> 行動端只做兩件事：掃台車 QR、選烘房。後端要能「去重、落盤、失敗暫存、補寫入」。</p>
+
+    <h3>三、過程：Web App + Google Sheets</h3>
+    <ol>
+      <li>前端：<strong>掃碼頁</strong>（相機或外接掃碼槍），拿到 <code>cart_id</code>。</li>
+      <li>互動：選 <code>dryroom_id</code>，按送出；UI 回到相機畫面以便連掃。</li>
+      <li>後端：<code>doPost</code> 寫入 <code>log</code>，以 <code>cart_id + timestamp</code> 去重；寫入失敗則存 <code>localStorage</code> 暫存，由前端定時重送。</li>
+    </ol>
+
+    <details>
+      <summary><strong>關鍵 Prompt（精簡版）</strong></summary>
+      <pre><code>請產出前後端程式：
+- 前端：行動相容、掃碼取得 cart_id、選單選 dryroom_id、送出後自動回到相機頁
+- 後端（Apps Script）：doPost 寫 Google Sheets，主鍵為 cart_id + ts，偵測重複則回 409
+- 失敗暫存：前端將 payload 存 localStorage，並每 10 秒嘗試補送</code></pre>
+    </details>
+
+    <h3>四、困難與修正：三個關鍵細節</h3>
+    <ul>
+      <li><strong>相機權限</strong>：iOS 瀏覽器權限較嚴。解法：若相機開不起來，退回「掃碼槍模式」。</li>
+      <li><strong>去重策略</strong>：以 <code>cart_id + floor(ts/5s)</code> 做粗去重，避免連點；再以 Sheets 內的唯一索引做嚴去重。</li>
+      <li><strong>回到相機</strong>：送出成功後 <code>location.replace('#scan')</code>，確保流暢連掃。</li>
+    </ul>
+
+    <h3>五、結論與建議</h3>
+    <p>現場速度決定方案設計。把 UX 縮到最少步（掃 → 選 → 送），把可靠度交給後端（去重、暫存、補送），就能做到「人快、資料也跟得上」。下一步可以加上「烘房佔用率」即時看板與「異常卡時」提醒。</p>
+  </main>
+
+  <footer class="container"><small>© 2025 Bava</small></footer>
+</body>
+</html>
