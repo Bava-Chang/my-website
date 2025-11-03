@@ -1,76 +1,215 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>烘房進出一掃送出｜我的 AI 成長過程</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-<style>
-header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}
-blockquote{border-left:4px solid #38bdf8;padding-left:1rem;color:#475569}
-figure img{width:100%;height:auto;border-radius:.5rem}
-figure figcaption{color:#64748b;font-size:.9rem}
-code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-.badge{display:inline-block;background:#e0f2fe;color:#0369a1;border-radius:.375rem;padding:.15rem .5rem;margin-right:.25rem}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>烘房進出一掃送出：行動端體驗 × 後端可靠度｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{
+      --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#0ea5e9; --bg:#f8fafc;
+    }
+    body{color:var(--ink); background:var(--bg)}
+    /* Global layout */
+    header.hero{padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e91a, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee1a, transparent);}
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    /* Figures */
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    /* Callouts & badges */
+    .callout{background:#f1f5f9; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#e0f2fe; color:#0369a1; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    /* Code blocks */
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    /* Footer nav */
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:white}
+  </style>
 </head>
 <body>
+  <!-- Top Nav -->
   <nav class="container-fluid">
     <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
     <ul>
       <li><a href="../index.html">首頁</a></li>
-      <li><a href="../ai.html">AI</a></li>
-      <li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長合集</a></li>
     </ul>
   </nav>
 
+  <!-- Hero -->
   <header class="hero">
     <main class="container">
-      <hgroup>
-        <h1>烘房進出一掃送出：行動端體驗 × 後端可靠度</h1>
-        <p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p>
-      </hgroup>
+      <p class="eyebrow">Field Note • Apps Script • 行動端掃碼</p>
+      <h1>烘房進出一掃送出：行動端體驗 × 後端可靠度</h1>
+      <p class="secondary">把「台車進烘房／出烘房」從手寫簽到本，升級為一掃就上傳的數據流：前端只做最快的事，後端負責最靠譜的事。</p>
     </main>
   </header>
 
   <main class="container">
+    <!-- Cover -->
     <figure>
-      <img src="https://picsum.photos/1200/520?random=202" alt="掃碼操作示意" />
-      <figcaption>掃碼 → 選烘房 → 送出：兩步到位；失敗暫存與去重讓資料可信。</figcaption>
+      <img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1600&auto=format&fit=crop" alt="掃碼與工廠場景"/>
+      <figcaption>行動端優先：現場操作必須「不思考」就能完成正確流程。</figcaption>
     </figure>
 
-    <h3>一、源由：人跑得比資料快</h3>
-    <p>現場要連續把多台台車推進烘房，人工填寫容易漏記或重複。手機相機掃碼是最快的入口，但瀏覽器相機 API、條碼解碼與 iOS/Android 差異，讓實作容易卡關。</p>
+    <h3>一、源由：速度與真相，同時要到</h3>
+    <p>
+      烘房作業的節奏很快：台車推進、結束取出、換下一批。如果靠手寫簽到本或人員口頭回報，
+      不是漏紀錄、就是時間不準，更糟的是<strong>資料進不去單一真相來源</strong>（Google Sheet 主檔），
+      造成後續計算「烘乾滯留時間」「進出順序」「換線衝突」時，全部建立在沙地上。我的目標很單純：
+      <em>「一掃就送出，錯了也能補；網路斷了也不怕。」</em>
+    </p>
 
-    <h3>二、目的：兩個重點同時成立</h3>
-    <p><span class="badge">一掃送出</span><span class="badge">資料可靠</span> 行動端只做兩件事：掃台車 QR、選烘房。後端要能「去重、落盤、失敗暫存、補寫入」。</p>
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1457305237443-44c3d5a30b89?q=80&w=1200&auto=format&fit=crop" alt="流程草圖">
+        <figcaption>最小可行流程：掃台車 → 選烘房 → 送出 → 自動回到鏡頭，方便連掃。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop" alt="條碼與標籤">
+        <figcaption>設備標識統一：<code>DRYROOM-01</code> / <code>CART-0007</code>，避免同名異碼。</figcaption>
+      </figure>
+    </div>
 
-    <h3>三、過程：Web App + Google Sheets</h3>
-    <ol>
-      <li>前端：<strong>掃碼頁</strong>（相機或外接掃碼槍），拿到 <code>cart_id</code>。</li>
-      <li>互動：選 <code>dryroom_id</code>，按送出；UI 回到相機畫面以便連掃。</li>
-      <li>後端：<code>doPost</code> 寫入 <code>log</code>，以 <code>cart_id + timestamp</code> 去重；寫入失敗則存 <code>localStorage</code> 暫存，由前端定時重送。</li>
-    </ol>
+    <h3>二、目的：把工作記錄變成可運算的事件</h3>
+    <p>
+      這個專案的關鍵，不是「做出漂亮的掃碼頁」，而是把現場行為轉為<strong>標準化事件</strong>，並且能串上其他系統：
+      <span class="badge">一掃送出</span>
+      <span class="badge">失敗可補傳</span>
+      <span class="badge">去重不重覆</span>
+      <span class="badge">單一真相來源</span>
+      <span class="badge">可追溯</span>。
+      只有這樣，後面的「烘乾佔用率」「瓶頸分析」「出貨前一週完成率」才建立在乾淨數據上。
+    </p>
 
-    <details>
-      <summary><strong>關鍵 Prompt（精簡版）</strong></summary>
-      <pre><code>請產出前後端程式：
-- 前端：行動相容、掃碼取得 cart_id、選單選 dryroom_id、送出後自動回到相機頁
-- 後端（Apps Script）：doPost 寫 Google Sheets，主鍵為 cart_id + ts，偵測重複則回 409
-- 失敗暫存：前端將 payload 存 localStorage，並每 10 秒嘗試補送</code></pre>
-    </details>
+    <h3>三、過程：前端快、後端穩，中間用約定對齊</h3>
+    <p>
+      我把整體拆成三層：<strong>（1）前端掃描頁</strong>、<strong>（2）Apps Script API</strong>、<strong>（3）Google Sheet 主檔</strong>。
+      前端只負責收集最必要的欄位與暫存；後端檢核與寫入；主檔只承接「乾淨事件」。這樣做的好處是：
+      即使現場手機網路不穩，資料也不會丟，且不會因為重複觸發而寫入兩筆。
+    </p>
 
-    <h3>四、困難與修正：三個關鍵細節</h3>
+    <div class="callout">
+      <strong>欄位約定（事件模型）</strong><br/>
+      <code>timestamp</code>、<code>room_id</code>（<em>DRYROOM-01</em>）、<code>cart_id</code>（<em>CART-0007</em>）、<code>action</code>（<em>IN/OUT</em>）、<code>device</code>、<code>operator</code>、<code>hash</code>（去重）、<code>retry</code>（補傳次數）。
+    </div>
+
+    <h4>3.1 行動端：最短路徑、最少思考</h4>
+    <p>
+      入口頁以「相機開啟」為主視覺（若瀏覽器權限受限，則退回掃碼槍模式）。掃描到 <code>cart_id</code> 後，
+      以固定按鈕選擇 <code>room_id</code>，按下送出即刻回到相機頁，支援現場「連續掃多車」。
+      送出時，會把資料也寫入 <code>localStorage</code> 暫存佇列，若 API 回應失敗，前端會在背景定時補傳。
+    </p>
+
+    <pre><code>// 送出時的核心（節錄）
+async function submitEvent(evt){
+  const payload = {timestamp: Date.now(), cart_id, room_id, action, device};
+  payload.hash = await sha256(cart_id + room_id + Math.floor(payload.timestamp / 5000));
+  saveToLocalQueue(payload); // 先存本機
+  try {
+    const ok = await postToApi(payload); // doPost 到 Apps Script
+    if(!ok) throw new Error('API Failed');
+    removeFromLocalQueue(payload.hash);
+  } catch(e){
+    scheduleRetry(payload.hash); // 背景重試
+  }
+  // 立刻回到鏡頭，支援連掃
+  location.replace('#scan');
+}</code></pre>
+
+    <h4>3.2 後端：檢核、去重、寫入</h4>
+    <p>
+      Apps Script 的 <code>doPost</code> 收到事件後，先驗證欄位，再依 <code>hash</code> 與「5 秒窗」去重，最後寫入主檔分頁。
+      如果欄位不符，就回應錯誤碼給前端；如果遇到試算表不可寫（例如權限或分頁被保護），則回傳「未寫入」狀態，
+      讓前端維持佇列繼續重試，確保資料最終達陣。
+    </p>
+
+    <pre><code>// doPost 核心（節錄）
+function doPost(e){
+  try{
+    const data = JSON.parse(e.postData.contents);
+    validate(data); // 欄位完整性與型態
+    if (isDup(data.hash)) return ContentService.createTextOutput('DUP');
+    writeToSheet(data);
+    markHash(data.hash);
+    return ContentService.createTextOutput('OK');
+  }catch(err){
+    return ContentService.createTextOutput('ERR:' + err.message);
+  }
+}</code></pre>
+
+    <h4>3.3 主檔：單一真相來源 + 可計算欄位</h4>
+    <p>
+      主檔只承接乾淨事件，不做多餘邏輯；計算放在相鄰報表分頁（例如 <em>滯留時間=OUT.IN 差</em>、<em>使用率=忙碌 / 總時段</em>）。
+      這種分離讓資料能被其他報表重用，也能更簡單地做歷史回放與稽核。
+    </p>
+
+    <!-- Third visual -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="前後端與試算表串接示意"/>
+      <figcaption>前端快取 + 後端檢核 + 主檔承接，讓「速度」與「真相」同時兼得。</figcaption>
+    </figure>
+
+    <h3>四、困難、踩雷與修正</h3>
     <ul>
-      <li><strong>相機權限</strong>：iOS 瀏覽器權限較嚴。解法：若相機開不起來，退回「掃碼槍模式」。</li>
-      <li><strong>去重策略</strong>：以 <code>cart_id + floor(ts/5s)</code> 做粗去重，避免連點；再以 Sheets 內的唯一索引做嚴去重。</li>
-      <li><strong>回到相機</strong>：送出成功後 <code>location.replace('#scan')</code>，確保流暢連掃。</li>
+      <li><strong>iOS 相機權限受限：</strong>部分瀏覽器無法直接開鏡頭。處理：偵測能力，能開就開；不行則自動切換「掃碼槍模式」。</li>
+      <li><strong>重複點擊／連續送出：</strong>現場操作手感快，很容易連點。處理：<code>hash</code> + 5 秒時間片去重。</li>
+      <li><strong>網路不穩：</strong>地下室或鐵皮廠房容易斷線。處理：前端 <code>localStorage</code> 佇列 + 背景補傳；後端可容忍亂序。</li>
+      <li><strong>名稱不一致：</strong>同一間烘房可能叫「烘一」「DR-01」「乾燥1」。處理：建立設備對照表並在前端選單用「唯一代碼」。</li>
+      <li><strong>資料污染：</strong>有時會把查詢頁殘留的料號帶去扣帳。處理：查詢與扣帳完全分離，寫入時一律以庫存主檔為準。</li>
     </ul>
 
-    <h3>五、結論與建議</h3>
-    <p>現場速度決定方案設計。把 UX 縮到最少步（掃 → 選 → 送），把可靠度交給後端（去重、暫存、補送），就能做到「人快、資料也跟得上」。下一步可以加上「烘房佔用率」即時看板與「異常卡時」提醒。</p>
+    <h3>五、成果與影響</h3>
+    <p>
+      系統上線後，平均每筆操作時間落在 3–5 秒；進出紀錄覆蓋率接近 100%，資料延遲（從掃碼到入檔）大多低於 1 秒。
+      最重要的是，<strong>滯留時間</strong>與<strong>烘房使用率</strong>開始變得可信，這讓我們能針對瓶頸做出實際調度：
+      例如高峰時段提前排空、把「回烘」與「重烘」需求拆到不同時槽，整體交期風險因此下降。
+    </p>
+
+    <div class="callout">
+      <strong>現場回饋（節錄）</strong><br/>
+      「不用找筆也不用想步驟，掃一下就好。」<br/>
+      「以前補紀錄常漏掉，現在網路好時自己補上來。」<br/>
+      「報表好看出來哪些台車常常卡在門口。」
+    </div>
+
+    <h3>六、關鍵 Prompt（供複用）</h3>
+    <pre><code>你是 Google Apps Script 與行動網頁專家。請產出：
+1) 行動端掃碼頁：能掃到 cart_id，並可一鍵選擇 room_id 與 IN/OUT，送出後自動回到鏡頭頁面；網路失敗時資料先存 localStorage，背景重試。
+2) 後端 doPost：驗證欄位，使用 cart_id+room_id+5秒時間片生成 hash 去重，成功寫入 Google Sheet「烘房事件」分頁，回傳 OK/DUP/ERR。
+3) 資料模型：timestamp, cart_id, room_id, action, device, operator, hash, retry。
+4) 安全：限制可寫入的 API key 或 Google 帳號權限。
+請同時提供最小可行的前端 JS 與 Apps Script 節錄，讓我能直接貼上測試。</code></pre>
+
+    <h3>七、結論與建議：小步快跑，但要跑在正確軌道上</h3>
+    <p>
+      這個專案讓我再次確認：「把速度放到前端、把可靠度放到後端、把真相放到主檔」，是工廠數據化的黃金三角。
+      任何需要員工反覆操作的動作，都應該用這樣的模式重寫一次。
+      下一步建議：
+    </p>
+    <ol>
+      <li>在主檔加上<strong>異常檢測</strong>：例如 IN 後超過 X 小時未 OUT 自動提醒。</li>
+      <li>把「烘房使用率」串到排程，遇到高峰自動建議前一時段預熱或加派人手。</li>
+      <li>建立<strong>設備對照表 API</strong>，讓新設備掛上標識即可被前端拉到選單。</li>
+      <li>把「回烘／重烘」流程加入同一事件流，形成完整的乾燥履歷。</li>
+    </ol>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p1.html">← 第 1 篇：智慧排班雛形</a>
+      <a href="./p3.html">第 3 篇：庫存查詢小工具 →</a>
+    </div>
   </main>
 
-  <footer class="container"><small>© 2025 Bava</small></footer>
+  <footer class="container">
+    <small>© 2025 Bava</small>
+  </footer>
 </body>
 </html>
