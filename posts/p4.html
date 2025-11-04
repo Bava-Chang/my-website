@@ -1,16 +1,183 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>製令成本估算｜我的 AI 成長過程</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/><style>header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}figure img{width:100%;height:auto;border-radius:.5rem}figure figcaption{color:#64748b;font-size:.9rem}code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}</style></head>
-<body><nav class="container-fluid"><ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul><ul><li><a href="../index.html">首頁</a></li><li><a href="../ai.html">AI</a></li><li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li></ul></nav>
-<header class="hero"><main class="container"><hgroup><h1>製令成本估算：把 Excel 規則抽象化，再交給 Python 批次</h1><p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p></hgroup></main></header>
-<main class="container">
-<figure><img src="https://picsum.photos/1200/520?random=204" alt="成本模型"/> <figcaption>人調參、機器算；分離「規則」與「數據」才好維護。</figcaption></figure>
-<h3>源由</h3><p>Excel 能算，但面對多製令、多版本參數時就會崩。我要的是「一鍵批次」、可追蹤、可回溯。</p>
-<h3>目的</h3><ul><li>把成本邏輯（電費、工時、報廢率、耗材）獨立成 YAML/JSON 參數。</li><li>用 Python 讀取製令清單，逐筆計算，產出彙總與敏感度分析。</li><li>保留「假設場景」：例如電價上調 10%、空車時間縮短 20%。</li></ul>
-<h3>過程與 Prompt</h3><p>先在 Excel 將公式「命名化」，對應到 Python 函式，再讓 AI 產生批次處理骨架。</p>
-<details><summary><strong>關鍵 Prompt（精簡版）</strong></summary><pre><code>請用 Python 寫一個成本批次工具：
-- 讀取 ./orders.csv 與 ./params.yaml
-- 對每筆製令計算：原料 + 能耗 + 人工 + 報廢
-- 另產生兩份附檔：sensitivity.csv（針對電價、空車率）、summary.csv（各製令總表）</code></pre></details>
-<h3>困難與修正</h3><ul><li>單位不一致：在載入時做單位標準化（kWh、kg、hr）。</li><li>邏輯漂移：每次改動參數都要留版本；Python 以檔名帶日期。</li><li>驗證：抽樣與 Excel 人工計算比對，偏差超過閾值就標示。</li></ul>
-<h3>結論與建議</h3><p>抽象化 + 批次化 = 把成本算清楚。下一步可加入工單實際回饋，變成「預算 vs 實績」。</p>
-</main><footer class="container"><small>© 2025 Bava</small></footer></body></html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>製令成本估算：把 Excel 規則抽象化，再交給 Python 批次｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+  </style>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <main class="container">
+      <p class="eyebrow">Field Note • Data Model • Python</p>
+      <h1>製令成本估算：把 Excel 規則抽象化，再交給 Python 批次</h1>
+      <p class="secondary">當生產數據太多、計算太複雜時，AI 不能只是幫你「算」，而要幫你「抽象化」。我用 Python 重現 Excel 規則，讓成本分析能自動批次、版本控管、快速對比。</p>
+    </main>
+  </header>
+
+  <main class="container">
+    <!-- Cover -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1660641083884-3a01b601f1f0?q=80&w=1600&auto=format&fit=crop" alt="Excel 成本分析與 Python 模型"/>
+      <figcaption>從 Excel 到 Python：核心不是程式，而是先整理出「可被機器理解的邏輯」。</figcaption>
+    </figure>
+
+    <h3>一、源由：Excel 越算越重，卻又離不開它</h3>
+    <p>
+      在蘭陽，幾乎所有成本分析都發生在 Excel。  
+      不論是 <strong>電費</strong>、<strong>工時</strong>、<strong>材料損耗</strong> 還是 <strong>空壓機耗能</strong>，最後都會匯入同一張表。  
+      但隨著欄位越來越多、連結越來越深，  
+      表格變慢、公式錯亂、版本混亂成了常態。  
+      於是我決定：讓 Excel 保留輸入介面，  
+      把所有計算邏輯抽出來，交給 Python 去「批次代算」。
+    </p>
+
+    <div class="callout">
+      <strong>痛點列表</strong><br/>
+      <span class="badge">慢</span> 每次開啟都要等 30 秒，公式交叉連動。<br/>
+      <span class="badge">不透明</span> 誰改了公式不確定。<br/>
+      <span class="badge">無版本</span> 上月電價 vs 本月工時比不出來。<br/>
+      <span class="badge">高錯誤風險</span> 一個單位錯，全表跟著崩。<br/>
+    </div>
+
+    <h3>二、目的：讓公式成為模組，而非密碼</h3>
+    <p>
+      我設定三個目標：  
+      <strong>1️⃣ 規則抽象化</strong>：把公式變成「文字規則 + 參數表」。  
+      <strong>2️⃣ 計算批次化</strong>：Python 批量處理、輸出月報。  
+      <strong>3️⃣ 結果可追溯</strong>：任何版本都能還原公式。  
+      這樣一來，成本分析不再是「某個人」的 Excel，而是全公司可維護的邏輯。
+    </p>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1596496050855-9e3d1c6679e6?q=80&w=1200&auto=format&fit=crop" alt="公式抽象化設計">
+        <figcaption>公式轉成「規則表」：每一行是運算步驟、對應欄位與參數。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1634704784919-d7c33a7a93f2?q=80&w=1200&auto=format&fit=crop" alt="Python 批次計算流程圖">
+        <figcaption>批次處理：每個製令一個 JSON，Python 一鍵匯出所有報表。</figcaption>
+      </figure>
+    </div>
+
+    <h3>三、過程：從公式到規則，再到 Python</h3>
+    <p class="keyline">Excel 的靈魂是規則，不是儲存格。先把規則拆出來，才能讓程式理解。</p>
+
+    <h4>3.1 建立規則表（Rule Mapping）</h4>
+    <pre><code>規則名稱, 輸入欄, 運算, 輸出欄
+電費, kWh, * 電價(元/度), 電費(元)
+人事, 工時, * 時薪(元/時), 人事費(元)
+能源效率, 重車比, * 變頻係數, 實際耗電(kW)
+總成本, (電費+人事費+耗電), 無, 製令成本(元)</code></pre>
+
+    <p>
+      這樣就不再是寫死的公式，而是可由 Python 逐行解讀的規則。
+      Excel 使用者只要輸入參數，Python 就能批次計算並輸出。
+    </p>
+
+    <h4>3.2 Python 批次模型（程式節錄）</h4>
+    <pre><code>import pandas as pd
+rules = pd.read_csv('rules.csv')
+data  = pd.read_excel('input.xlsx')
+
+for i, rule in rules.iterrows():
+    if rule['運算'] == '* 電價(元/度)':
+        data[rule['輸出欄']] = data[rule['輸入欄']] * 3.6
+    elif rule['運算'] == '* 時薪(元/時)':
+        data[rule['輸出欄']] = data[rule['輸入欄']] * 180
+    # 其他規則略...
+
+data['製令成本(元)'] = data['電費(元)'] + data['人事費(元)'] + data['實際耗電(kW)']
+data.to_excel('output.xlsx', index=False)</code></pre>
+
+    <p>
+      這樣一來，任何改動（例如電價變動、工時調整）都能重新執行批次，
+      所有報表立即更新，無需人工改公式。
+    </p>
+
+    <!-- Visual 3 -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=1600&auto=format&fit=crop" alt="Excel與Python雙向結合"/>
+      <figcaption>Python 與 Excel 的協作：前者算，後者顯；結果回填可視化報表。</figcaption>
+    </figure>
+
+    <h3>四、困難與修正</h3>
+    <ul>
+      <li><strong>單位錯誤：</strong>Excel 內欄位有人用「小時」、有人用「分鐘」。<em>解法：</em>統一換算到標準單位，在規則表加「單位」欄。</li>
+      <li><strong>不同版本公式：</strong>不同產品公式不同。<em>解法：</em>規則表分版本，每次執行載入指定版本。</li>
+      <li><strong>資料缺漏：</strong>有時 Excel 少欄。<em>解法：</em>Python 加上 <code>fillna(0)</code>，同時在輸出列出缺欄警告。</li>
+      <li><strong>複雜依存：</strong>總成本依賴電費、人事費。<em>解法：</em>在規則表加入「依存欄位」，照順序執行。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>成果</strong><br/>
+      批次時間從 30 分鐘降至 <strong>1 分鐘內</strong>；  
+      電費、工時版本控制化，可追溯每次改動；  
+      整體錯誤率顯著下降，報表可視化更穩定。
+    </div>
+
+    <h3>五、我用的 Prompt</h3>
+    <pre><code>你是製造業數據工程師，請幫我將「Excel 成本公式」抽象化：
+1) 產生「規則表」欄位：規則名稱、輸入欄、運算、輸出欄、單位
+2) 生成 Python 範例，讀 rules.csv 與 input.xlsx，逐行依規則計算
+3) 支援批次輸出 output.xlsx
+4) 保留可調參數（電價、時薪、變頻係數）
+5) 顯示執行日誌：每筆製令、成本、誤差百分比</code></pre>
+
+    <h3>六、結論：Excel 是介面，Python 是引擎</h3>
+    <p>
+      很多公司誤以為「數據化」是改用 Python 或 ERP。  
+      其實真正的關鍵在於：<strong>把 Excel 變成介面、把邏輯移出介面</strong>。  
+      一旦規則抽象化、運算模組化、報表自動化，  
+      再大的數據量也能在幾秒內重算。  
+      我學到的重點是：  
+      <em>AI 不一定是要取代人，而是幫助人把「規則化的思考」自動執行。</em>
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p3.html">← 第 3 篇：庫存查詢小工具</a>
+      <a href="./p5.html">第 5 篇：AI 版教育訓練教材 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
+</body>
+</html>
