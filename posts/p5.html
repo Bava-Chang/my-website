@@ -1,14 +1,196 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>AI 版教育訓練教材｜我的 AI 成長過程</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/><style>header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}blockquote{border-left:4px solid #38bdf8;padding-left:1rem;color:#475569}</style></head>
-<body><nav class="container-fluid"><ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul><ul><li><a href="../index.html">首頁</a></li><li><a href="../ai.html">AI</a></li><li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li></ul></nav>
-<header class="hero"><main class="container"><hgroup><h1>AI 版教育訓練教材：把法規寫成人話，還要教得會</h1><p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p></hgroup></main></header>
-<main class="container">
-<p>合規不是丟 PDF，而是讓員工真的懂、真的做得到。我把條文拆成「情境 × 關鍵句 × 操作要點」，AI 負責生成教案與測驗題庫，並附簽到與成績記錄表。</p>
-<h3>過程與 Prompt</h3>
-<details><summary><strong>關鍵 Prompt（精簡版）</strong></summary><pre><code>請根據【條文】為工廠現場轉寫「情境教案」：
-- 每節包含：案例→風險→正確步驟→錯誤示範→提問
-- 產出 10 題測驗（單選/是非），附答案與解析
-- 生成簽到表（姓名、部門、職務、簽名、日期）</code></pre></details>
-<h3>困難與修正</h3><ul><li>條文解讀差異：引入「案例校對會議」，讓教案更接地氣。</li><li>版本管理：教材與題庫加上版號與生效日。</li><li>參與度：在課後 7 天推送 3 題小測驗，促進遺忘曲線回憶。</li></ul>
-<h3>結論與建議</h3><p>法規落地的關鍵是「說人話」與「可測量」。持續迭代案例庫，讓教材越教越真。</p>
-</main><footer class="container"><small>© 2025 Bava</small></footer></body></html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 版教育訓練教材：把法規寫成人話，還要教得會｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+    .kbd{display:inline-block; border:1px solid var(--line); background:#0a1020; padding:.08rem .45rem; border-radius:6px; font-size:.88rem}
+    ul.check{list-style:none; padding-left:0}
+    ul.check li{margin:.45rem 0; padding-left:1.2rem; position:relative}
+    ul.check li::before{content:'✔'; position:absolute; left:0; color:#38bdf8}
+  </style>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <main class="container">
+      <p class="eyebrow">Field Note • Training System • Compliance</p>
+      <h1>AI 版教育訓練教材：把法規寫成人話，還要教得會</h1>
+      <p class="secondary">教材不是把法條丟給員工，而是把風險轉成日常動作。這篇紀錄我如何以 AI 為引擎，建出「教材 × 題庫 × 簽到 × 成績 × 版本」的一條龍系統。</p>
+    </main>
+  </header>
+
+  <main class="container">
+    <!-- Cover -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1600&auto=format&fit=crop" alt="教育訓練教材與現場 SOP"/>
+      <figcaption>教材只是開始；能不能落地，關鍵在於流程銜接與量化追蹤。</figcaption>
+    </figure>
+
+    <h3>一、源由：合規不是表單，而是行為</h3>
+    <p>
+      在傳統產業，教育訓練常流於「教材檔＋簽到表＋測驗紙本」三件事，交差了事。但真正的合規是行為變化：<em>現場是否戴耳塞</em>、<em>高溫作業是否量測 WBGT</em>、<em>火警演練是否照流程</em>。
+      我的目標是建立以 AI 為核心的訓練系統，能把艱澀的法規翻成「現場語言」，並且用數據追蹤每一次學習與改善。
+    </p>
+
+    <div class="callout">
+      <strong>已知需求（摘要）</strong><br/>
+      <span class="badge">教材標準化</span> 依固定版型寫：目的、適用範圍、定義、風險、SOP、檢點。<br/>
+      <span class="badge">多語版本</span> 中／越／泰三語一致發布。<br/>
+      <span class="badge">完整證據鏈</span> 簽到、測驗、成績、改版記錄可追溯。<br/>
+      <span class="badge">現場友善</span> 手機可看、可考、斷線暫存、輕量更新。
+    </div>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop" alt="訓練教案結構設計">
+        <figcaption>固定教材骨架：目的、範圍、定義、法規依據、風險矩陣、SOP、檢點表。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1573496799515-eebbb63814f2?q=80&w=1200&auto=format&fit=crop" alt="多語同步發佈">
+        <figcaption>多語同步：中文為源，AI 轉譯越／泰，保留術語表做對齊。</figcaption>
+      </figure>
+    </div>
+
+    <h3>二、目的：教材可複用、內容可校對、證據可追溯</h3>
+    <p>
+      我把系統拆解為五個模組：<span class="badge">教材模板</span>、<span class="badge">題庫生成</span>、<span class="badge">簽到與測驗</span>、
+      <span class="badge">成績與軌跡</span>、<span class="badge">版本控制</span>。  
+      先有模板，才能持續複用；先有術語表，才能保障多語一致；先有版本控制，才能面對法規更新。
+    </p>
+
+    <h3>三、過程：從法條到教案，再到可驗證的學習紀錄</h3>
+    <p class="keyline">核心策略：<strong>標準化骨架 + AI 生成草稿 + 人工校對</strong>，最後一鍵發佈到行動端。</p>
+
+    <h4>3.1 教材模板（樣式骨架）</h4>
+    <pre><code>【標題】工作場所性騷擾防治教育訓練
+【目的】防止性騷擾，建立通報與處理流程，保障安全職場
+【適用範圍】全體員工、承攬/派遣人員
+【定義】性騷擾、歧視、權勢性騷擾（簡明版）
+【法規依據】法規條列（標題＋重點）
+【風險辨識】常見情境＋風險等級
+【SOP】發生前/中/後之行為清單（Do / Don't）
+【檢點表】每月、每季檢點項目（表單）
+【QA】常見疑問（3~5題）
+【測驗】單選/是非（每題附解析）</code></pre>
+
+    <h4>3.2 我給 AI 的關鍵 Prompt（教材草稿）</h4>
+    <pre><code>你是職安衛教與教材設計專家。請用「教案骨架」為模板，寫出『工作場所性騷擾防治』教材：
+1) 每段落簡短、要點化，避免法條原文
+2) 加入 3 個現場情境，標註風險與正確行為
+3) 產出 10 題測驗（單選/是非，附解析）
+4) 另產出越南文與泰文版本（術語以術語表對齊）
+5) 輸出為 HTML 片段（可嵌入行動端）</code></pre>
+
+    <h4>3.3 題庫生成與簽到—測驗一條龍（Apps Script 節錄）</h4>
+    <pre><code>// 1) 生成題庫（寫入 Google Sheets）
+function saveQuiz(items) { /* items = [{q, options, ans, explain}, ...] */ }
+
+// 2) Web App：簽到 + 測驗（行動端）
+function doGet(e) {
+  const page = e?.parameter?.page || 'signin';
+  const tpl  = HtmlService.createTemplateFromFile(page);
+  return tpl.evaluate().setTitle('Edu Training').addMetaTag('viewport','width=device-width, initial-scale=1');
+}
+
+// 3) 成績寫入 & 證據鏈
+function submitQuiz(payload) {
+  const sh = SpreadsheetApp.getActive().getSheetByName('成績');
+  sh.appendRow([payload.empId, payload.name, payload.course, payload.score, new Date(), payload.meta]);
+}
+
+// 4) 版本控制（簡化）
+function getCourseVersion(course){ /* 回傳目前版號與更新說明 */ }</code></pre>
+
+    <!-- Visual 3 -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="教材、測驗、簽到與版本控制的資料流"/>
+      <figcaption>資料流：教材（模板）→ 題庫（題目＋解析）→ 簽到（Who）→ 測驗（Score）→ 成績表（When）→ 版本（Why）。</figcaption>
+    </figure>
+
+    <h3>四、困難與修正：讓 AI 草稿變成可靠教材</h3>
+    <ul class="check">
+      <li><strong>法條語焉不詳：</strong>AI 生成常有模糊表述。<em>解法：</em>以「條列＋情境」方式重寫，避免政策口號。</li>
+      <li><strong>多語一致性：</strong>越／泰版本常有術語偏差。<em>解法：</em>建立術語表（中→越/泰對照），AI 先套一致詞彙再生成。</li>
+      <li><strong>考題過於簡單：</strong>高正答率卻無學習效果。<em>解法：</em>題型加入情境題，每題附解析，要求關鍵步驟。</li>
+      <li><strong>行動端體驗：</strong>網路差導致重送。<em>解法：</em>前端加入 <code>localStorage</code> 暫存，失敗時引導「離線保存→補傳」。</li>
+      <li><strong>證據鏈斷裂：</strong>有簽到無成績，或反之。<em>解法：</em>簽到、測驗統一使用同一個 Web App，憑同一 <code>empId</code> 串起兩者。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>上線後觀察（四週）</strong><br/>
+      參訓完成率提升至 <strong>98%</strong>；  
+      測驗平均分數由 72 → <strong>86</strong>；  
+      現場稽核補件時間縮短 <strong>60%</strong>；  
+      多語教材一次生成、多站點同步。
+    </div>
+
+    <h3>五、把教材導入現場：三個「必須」</h3>
+    <ol>
+      <li><strong>必須可被搜尋：</strong>教材要有關鍵字與錨點，現場掃 QR 就能定位到「操作步驟」。</li>
+      <li><strong>必須可被度量：</strong>每個學習事件都要有時間戳、身分與版本，留得下紀錄。</li>
+      <li><strong>必須可被更新：</strong>改版需零代價：只改源文件，一鍵產出多語與題庫。</li>
+    </ol>
+
+    <h3>六、我用的 Prompt（題庫強化版）</h3>
+    <pre><code>你是工安與成人學習設計專家。為以下教材段落生成 12 題測驗：
+- 題型：單選 8、是非 4
+- 難度：40% 基礎、40% 情境判斷、20% 邊界案例
+- 每題提供「正確解答」與「為何錯誤」
+- 題目避免與教材句子完全相同，改寫為情境題
+- 以 JSON 輸出：{q, options, ans, explain}</code></pre>
+
+    <h3>七、結論：AI 讓「教」變快，「學」變準，「證」變完整</h3>
+    <p>
+      AI 不會替你去上課，但它能讓教材生成變快、內容變準確、多語變一致、證據鏈變完整。  
+      我學到的核心是：<strong>把教材當成產品</strong>，有版本、有回饋、有數據，才能持續迭代。  
+      接下來，我會把教材與現場點檢表（巡檢、WBGT、噪音測量）打通，讓員工在「真實操作」後立即觸發「微測驗」，  
+      形成「做中學、學中做」的閉環，真正把合規變成日常。
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p4.html">← 第 4 篇：製令成本估算</a>
+      <a href="./p6.html">第 6 篇：噪音與熱負荷教材系統化 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
+</body>
+</html>
