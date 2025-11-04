@@ -1,9 +1,169 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Node-RED 入門到看板｜我的 AI 成長過程</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/><style>header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}</style></head>
-<body><nav class="container-fluid"><ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul><ul><li><a href="../index.html">首頁</a></li><li><a href="../ai.html">AI</a></li><li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li></ul></nav>
-<header class="hero"><main class="container"><hgroup><h1>Node-RED：把資料「流」起來的第一張看板</h1><p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p></hgroup></main></header>
-<main class="container">
-<p>我用 inject → function → dashboard 的最小流程，先把單一變數跑起來，接著再接設備訊號。AI 協助釐清每個節點用途並產生初始 dashboard 配置。</p>
-<h3>困難與修正</h3><ul><li>套件版本：選官方 dashboard 套件，避免社群分歧。</li><li>時間戳顯示：function node 格式化後再丟 template。</li><li>部署灰掉：檢查 flow 是否有未連線節點。</li></ul>
-<h3>結論</h3><p>先跑通「一條乾淨的資料流」，再擴展多訊號，學習曲線會平順很多。</p>
-</main><footer class="container"><small>© 2025 Bava</small></footer></body></html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Node-RED 入門到看板：把資料「流」起來｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+    ul.check{list-style:none; padding-left:0}
+    ul.check li{margin:.45rem 0; padding-left:1.2rem; position:relative}
+    ul.check li::before{content:'✔'; position:absolute; left:0; color:#38bdf8}
+  </style>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <main class="container">
+      <p class="eyebrow">Field Note • IoT • Dashboard</p>
+      <h1>Node-RED 入門到看板：把資料「流」起來</h1>
+      <p class="secondary">我第一次打開 Node-RED，只看到一片空白的畫布。現在，這片畫布成了工廠的資料中樞，能即時顯示壓力、溫度、回次、能源與稼動率。</p>
+    </main>
+  </header>
+
+  <main class="container">
+    <!-- Cover -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=1600&auto=format&fit=crop" alt="Node-RED 儀表板" />
+      <figcaption>Node-RED 讓你「畫」出邏輯。每一條線，都是一段思考的流程。</figcaption>
+    </figure>
+
+    <h3>一、源由：從「資料散亂」開始</h3>
+    <p>
+      在蘭陽工廠裡，資料散落在各地：Google Sheets、PLC、Excel、溫度記錄器、氣壓表、人工紀錄。  
+      我需要一個「流動」的系統，能接收、轉換、可視化。  
+      於是我開始研究 <strong>Node-RED</strong> —— 一個用流程圖方式連接資料的低程式化平台。
+    </p>
+
+    <div class="callout">
+      <strong>我最初的需求</strong><br/>
+      <span class="badge">資料接收</span> 從感測器與 API 收集資料；<br/>
+      <span class="badge">邏輯運算</span> 自動分類與異常警報；<br/>
+      <span class="badge">即時看板</span> 用瀏覽器可直接監看數據；<br/>
+      <span class="badge">擴充性</span> 未來能接 MQTT、Python、資料庫。
+    </div>
+
+    <h3>二、目的：讓資料自己跑起來</h3>
+    <p>
+      我設計的第一個 Flow 是「壓縮空氣系統看板」：  
+      <em>三台空壓機 + 一個儲氣槽 + 一張即時圖表。</em>  
+      從感測器讀取電流與壓力 → Node-RED 即時計算功率 → 自動上傳到 Google Sheets。  
+      這讓我們第一次能看到「能耗 vs 壓力」的即時關係，而不是事後推測。
+    </p>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1618354691370-3f354faa3f3a?q=80&w=1200&auto=format&fit=crop" alt="Node-RED 流程設計畫面">
+        <figcaption>每個節點代表一個功能：資料來源、計算邏輯、顯示輸出。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1200&auto=format&fit=crop" alt="IoT 儀表板">
+        <figcaption>Dashboard 節點可快速繪出儀表、折線、警報與開關控制。</figcaption>
+      </figure>
+    </div>
+
+    <h3>三、過程：從節點連接開始，到儀表板成形</h3>
+    <p class="keyline">Node-RED 的強大之處，不是「寫程式」，而是「可視化思考」。</p>
+
+    <h4>3.1 初始 Flow（JSON 範例）</h4>
+    <pre><code>[
+  {"id":"inject","type":"inject","topic":"","payload":"讀取壓力","once":true,"wires":[["sensor"]]},
+  {"id":"sensor","type":"function","name":"壓力感測轉換",
+   "func":"msg.payload = {pressure: 6.5, temp: 42, amp: 78}; return msg;",
+   "wires":[["calcPower"]]},
+  {"id":"calcPower","type":"function","name":"計算功率",
+   "func":"msg.payload.kW = msg.payload.amp * 220 * 1.732 / 1000; return msg;",
+   "wires":[["chart","sheet"]]},
+  {"id":"chart","type":"ui_chart","name":"功率與壓力圖","group":"空壓系統"},
+  {"id":"sheet","type":"google-sheets","name":"寫入表單"}
+]</code></pre>
+
+    <p>
+      Flow 設計完成後，我在 <code>Dashboard</code> 分頁建立圖表，連上 Google Sheet API。  
+      從那刻起，空壓機的每一次啟停、每一次壓力變化，都能即時顯示。
+    </p>
+
+    <figure>
+      <img src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1600&auto=format&fit=crop" alt="Node-RED 即時看板"/>
+      <figcaption>即時看板：壓力、電流、功率、啟停次數，全部可視化。</figcaption>
+    </figure>
+
+    <h3>四、我遇到的挑戰與修正</h3>
+    <ul class="check">
+      <li><strong>資料頻率太快：</strong>每秒更新導致圖表閃爍。→ 加入 <code>delay node</code> 限流。</li>
+      <li><strong>數據漂移：</strong>感測器初期誤差大。→ 使用 <code>smooth node</code> 平滑化。</li>
+      <li><strong>Google Sheets 寫入失敗：</strong>API timeout。→ 加入 <code>queue buffer</code> 重新發送。</li>
+      <li><strong>Dashboard 反應慢：</strong>瀏覽器負載高。→ 分區顯示、減少即時點數。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>上線後成效</strong><br/>
+      能耗監控即時化；異常波動可即刻警示；  
+      日報自動生成，報表誤差率下降至 <strong>3% 內</strong>；  
+      工程與管理部門開始共用同一看板語言。
+    </div>
+
+    <h3>五、我用的 Prompt</h3>
+    <pre><code>你是 Node-RED 專家，請幫我設計一個可視化 Flow：
+1) 感測器輸入：壓力 (kg/cm2)、溫度 (°C)、電流 (A)
+2) 計算：功率(kW)=A×220×1.732/1000
+3) 顯示：Dashboard 折線圖＋數值表＋警報指示燈
+4) 同步：將結果寫入 Google Sheets
+5) Flow 結果以 JSON 匯出</code></pre>
+
+    <h3>六、結論：資料「流」起來，工廠就會「動」起來</h3>
+    <p>
+      Node-RED 是我第一次感覺「資料真的在流動」。  
+      它讓原本靜態的數據變成互動式的資訊，  
+      也讓我能以視覺化方式設計流程，而非寫滿程式。  
+      這篇經驗讓我理解：AI 與 IoT 的結合不是取代人，而是讓人能「看見更多」。  
+      當你能看見能耗、壓力、時間、效能的關聯，  
+      決策就能更快、更準、更科學。  
+      下一步，我要讓這套看板連上生產排程與能源 KPI，  
+      讓數據真正變成「會呼吸的營運儀表板」。
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p6.html">← 第 6 篇：噪音與熱負荷教材系統化</a>
+      <a href="./p8.html">第 8 篇：智慧排程 × AI 生產決策 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
+</body>
+</html>
