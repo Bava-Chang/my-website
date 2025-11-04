@@ -1,66 +1,211 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>庫存查詢小工具｜我的 AI 成長過程</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-<style>
-header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}
-figure img{width:100%;height:auto;border-radius:.5rem}
-figure figcaption{color:#64748b;font-size:.9rem}
-code,kbd,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>庫存查詢小工具：doGet 路由 × 欄位校對｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+    .kbd{display:inline-block; border:1px solid var(--line); background:#0a1020; padding:.08rem .45rem; border-radius:6px; font-size:.88rem}
+  </style>
 </head>
 <body>
+  <!-- Top Nav -->
   <nav class="container-fluid">
     <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
     <ul>
       <li><a href="../index.html">首頁</a></li>
-      <li><a href="../ai.html">AI</a></li>
-      <li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
     </ul>
   </nav>
 
+  <!-- Hero -->
   <header class="hero">
     <main class="container">
-      <hgroup>
-        <h1>庫存查詢小工具：doGet 路由 × 前端查詢頁 × 欄位校對</h1>
-        <p class="secondary">避免「查得到、寫不進」的現場冏境</p>
-      </hgroup>
+      <p class="eyebrow">Field Note • Web App • Google Apps Script</p>
+      <h1>庫存查詢小工具：doGet 路由 × 欄位校對</h1>
+      <p class="secondary">查詢與扣帳分離，入口用 <span class="kbd">?page=inventory_search</span> 控制。大小寫、半全形、同義詞先正規化，讓現場「掃一下就知道」。</p>
     </main>
   </header>
 
   <main class="container">
+    <!-- Cover -->
     <figure>
-      <img src="https://picsum.photos/1200/520?random=203" alt="庫存查詢頁示意" />
-      <figcaption>以 <code>?page=inventory_search</code> 控制入口，減少維運複雜度。</figcaption>
+      <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1600&auto=format&fit=crop" alt="庫存查詢與倉儲作業"/>
+      <figcaption>「查詢」是一條快車道；「扣帳」是一條保守車道。拆開之後，速度與正確性同時達標。</figcaption>
     </figure>
 
-    <h3>源由與目的</h3>
-    <p>人員想快速查剩餘庫存，但「查詢」與「領料」常被寫成兩條資料管線，導致實際扣帳錯表。目標是把查詢與寫入都對準 <strong>同一張庫存表</strong>，前端只變門面，後端維持單一真相來源。</p>
+    <h3>一、源由：查庫存，不能拖住作業</h3>
+    <p>
+      倉庫現場最怕的是「只想看剩多少」卻被迫走完一套完整流程。於是我把需求拆成兩種：<strong>查詢（read）</strong> 與 <strong>扣帳（write）</strong>。
+      查詢應該是「秒開即得」；扣帳才需要完整驗證、權限與日誌。這一篇紀錄我如何用 Google Apps Script 做一個
+      <em>輕量級的庫存查詢 Web App</em>，路由清楚、欄位嚴謹、錯誤能自我修正。
+    </p>
 
-    <h3>過程與關鍵 Prompt</h3>
-    <p>用 Apps Script 的 <code>doGet(e)</code> 解析 <code>e.parameter.page</code>，動態回傳對應 HTML。欄位名稱與大小寫嚴格一致；查詢與扣帳都經由同一個庫存 Repo。</p>
-    <details>
-      <summary><strong>關鍵 Prompt（精簡版）</strong></summary>
-      <pre><code>請以 Apps Script 實作：
-- doGet(e)：若 page=inventory_search 則回前端查詢 HTML
-- 後端讀寫都只對應「庫存」工作表；欄位名精確比對（大小寫一致）
-- 頁面載入顯示「查詢中」spinner；請在 2 秒內給出結果或提示重試</code></pre>
-    </details>
+    <div class="callout">
+      <strong>現場痛點（摘要）</strong><br/>
+      <span class="badge">慢</span> 只想查庫存，卻要經過登入、選單、頁面跳轉；<br/>
+      <span class="badge">亂</span> 料號大小寫、全半形、別名混用，結果查不到；<br/>
+      <span class="badge">誤</span> 查詢表單被誤以為是領料，造成錯扣帳。
+    </div>
 
-    <h3>困難與修正</h3>
+    <h3>二、目的：入口簡單、路徑明確、資料規範</h3>
+    <p>
+      我設計了三個關鍵原則：<span class="badge">URL 即功能</span>（用 <code>?page=</code> 決定入口）、
+      <span class="badge">查詢無副作用</span>（只讀，不寫）、
+      <span class="badge">欄位先正規化</span>（大小寫、半全形、別名、前後空白先處理）。如此一來，現場掃描或輸入任何變體，系統都能回到主檔正規格式再比對。
+    </p>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop" alt="條碼與標籤">
+        <figcaption>條碼標識規範化：<code>R100-0001</code>、<code>T55-PACK</code> 一致格式，降低查不到的風險。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?q=80&w=1200&auto=format&fit=crop" alt="倉儲終端機與快速查詢">
+        <figcaption>倉儲終端機上綁定「查詢模式」：進入頁直接聚焦輸入匡，<kbd>Enter</kbd> 即查。</figcaption>
+      </figure>
+    </div>
+
+    <h3>三、過程：doGet 路由 × 欄位正規化 × 快速回應</h3>
+    <p class="keyline">
+      核心策略：<strong>doGet 路由</strong> 控制頁面用途、<strong>正規化函式</strong> 提前清洗輸入、<strong>主檔比對</strong> 確保唯一真相。
+    </p>
+
+    <h4>3.1 Web App 入口（路由雛形）</h4>
+    <pre><code>function doGet(e) {
+  const page = (e && e.parameter && e.parameter.page) ? e.parameter.page : 'home';
+  const tpl  = HtmlService.createTemplateFromFile(page);
+  // 可傳遞變數給前端
+  tpl.env = { build: '2025-11-04', app: 'inventory' };
+  return tpl.evaluate()
+            .setTitle('庫存系統')
+            .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+// 專案內建立多個 HTML（home.html / inventory_search.html / error.html）</code></pre>
+
+    <h4>3.2 欄位正規化（大小寫、全半形、別名）</h4>
+    <pre><code>// 轉半形、去空白、轉大寫、別名對應
+function normalizePart(input) {
+  if (!input) return '';
+  let s = toHalfWidth(input).trim().toUpperCase();
+  s = s.replace(/\s+/g, '');
+  const alias = {'T85-XX':'T85', 'T32-SET':'T32', 'Ｒ１００':'R100'}; // 範例
+  return alias[s] || s;
+}
+function toHalfWidth(str) {
+  return str.replace(/[\uFF01-\uFF5E]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+            .replace(/\u3000/g, ' ');
+}</code></pre>
+
+    <h4>3.3 查詢主檔（只讀、不扣帳）</h4>
+    <pre><code>function queryStock(partRaw) {
+  const part = normalizePart(partRaw);
+  const sh = SpreadsheetApp.getActive().getSheetByName('庫存');
+  const data = sh.getDataRange().getValues(); // [header,...]
+  const idx = headerIndex(data[0]);           // 料號、品名、儲位、數量...
+  // 允許主檔一對多（多儲位合併）
+  const rows = data.filter((r,i) => i>0 && normalizePart(r[idx.part]) === part);
+  const total = rows.reduce((s,r) => s + Number(r[idx.qty] || 0), 0);
+  return { part, total, items: rows.map(r => ({ loc:r[idx.loc], qty: Number(r[idx.qty]||0) })) };
+}
+function headerIndex(h){
+  return {
+    part: h.indexOf('料號'),
+    loc : h.indexOf('儲位'),
+    qty : h.indexOf('數量')
+  };
+}</code></pre>
+
+    <h4>3.4 前端最小頁（聚焦輸入、Enter 即查）</h4>
+    <pre><code>&lt;!-- inventory_search.html --&gt;
+&lt;main class="container"&gt;
+  &lt;h3&gt;庫存查詢&lt;/h3&gt;
+  &lt;input id="q" placeholder="請掃描或輸入料號" autofocus /&gt;
+  &lt;button onclick="go()"&gt;查詢&lt;/button&gt;
+  &lt;pre id="res"&gt;&lt;/pre&gt;
+&lt;/main&gt;
+&lt;script&gt;
+  const q = document.getElementById('q');
+  q.addEventListener('keydown', e =&gt; (e.key==='Enter') &amp;&amp; go());
+  async function go(){
+    const part = q.value.trim();
+    const r = await google.script.run.withSuccessHandler(show).queryStock(part);
+  }
+  function show(obj){
+    res.textContent = JSON.stringify(obj, null, 2);
+  }
+&lt;/script&gt;</code></pre>
+
+    <!-- Visual 3 -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="前後端資料流與試算表主檔"/>
+      <figcaption>主檔是唯一真相；前端只是讀者。要寫（扣帳），請換到另一條「保守車道」。</figcaption>
+    </figure>
+
+    <h3>四、困難與修正：把易錯點封印起來</h3>
     <ul>
-      <li>入口函式命名：新版 Web App 介面無「入口函式」欄位，直接以 <code>doGet</code> 為入口。</li>
-      <li>大小寫與半全形：建立欄位對照表，先 normalize 後再比對。</li>
-      <li>效能：先回骨架，再補資料（避免卡在空白頁）。</li>
+      <li><strong>查不到：</strong>因大小寫、全半形或別名。<em>解法：</em>所有輸入都走 <code>normalizePart</code>，對上主檔再查。</li>
+      <li><strong>誤扣帳：</strong>員工把查詢頁當成領料頁。<em>解法：</em>查詢 Web App 僅保留 <em>read</em> 端點，不提供任何寫入函式。</li>
+      <li><strong>欄位對不上：</strong>分店或歷史表頭不同。<em>解法：</em>以「表頭定位」取代固定欄位序號，降低維護成本。</li>
+      <li><strong>網路不穩：</strong>行動端偶發斷線。<em>解法：</em>查詢結果快取至 <code>localStorage</code>，並顯示上次同步時間。</li>
     </ul>
 
-    <h3>結論與建議</h3>
-    <p>把前端多樣化需求統一到一個後端資料源，是「穩」的核心。下一步可加：最常查料號快取、權限控管與操作審計。</p>
+    <div class="callout">
+      <strong>效益（上線後一週）</strong><br/>
+      查詢步驟由 5 點擊 → <strong>1 次 Enter</strong>；<br/>
+      因大小寫/全半形造成的「查不到」事件幾乎消失；<br/>
+      查詢與扣帳錯置案例下降，庫存差異改善。
+    </div>
+
+    <h3>五、我用的 Prompt 與操作策略</h3>
+    <pre><code>你是 Google Apps Script 與前端工程師，請幫我建立「只讀的庫存查詢 Web App」：
+1) 入口 doGet(e)：用 ?page=inventory_search 控制載入
+2) 查詢函式 queryStock(part)：以 normalizePart 清洗輸入，依「庫存」表頭定位欄位
+3) 不得有任何寫入（扣帳）函式
+4) 前端：聚焦輸入框、Enter 即查、JSON 格式回應（稍後我再美化）
+5) 額外：全半形轉換、大小寫轉換、別名映射範例</code></pre>
+
+    <h3>六、結論與建議：把「快」與「準」分開治理</h3>
+    <p>
+      庫存查詢最容易被流程拖慢。把查詢獨立為 Web App、路由清楚、欄位先正規化，能大幅降低誤用與查不到的機率。
+      我建議把「扣帳」維持在另一條保守車道（權限、日誌、重試、去重、延遲補寫），
+      讓查詢永遠保持輕盈、快速、可擴展。接下來的路線是：將查詢回應包裝成漂亮卡片（品名、圖片、儲位分佈、近期異動），
+      並加入條碼掃描自動聚焦與 <em>離線快取</em>，讓一線人員只需掃一下就知道答案。
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p2.html">← 第 2 篇：烘房進出一掃送出</a>
+      <a href="./p4.html">第 4 篇：製令成本估算 →</a>
+    </div>
   </main>
 
-  <footer class="container"><small>© 2025 Bava</small></footer>
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
 </body>
 </html>
