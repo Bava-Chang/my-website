@@ -1,452 +1,79 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <base target="_top">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>工廠打卡系統</title>
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Microsoft JhengHei', Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    
-    .container {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      padding: 40px;
-      max-width: 500px;
-      width: 100%;
-      animation: slideIn 0.5s ease-out;
-    }
-    
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-30px);
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>我的個人品牌網站｜健身 × 工作 × AI</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+    />
+    <style>
+      body {
+        background-color: #111;
+        color: #f5f5f5;
       }
-      to {
-        opacity: 1;
-        transform: translateY(0);
+      nav {
+        background-color: #1a1a1a;
+        padding: 0.8rem 1.2rem;
       }
-    }
-    
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    
-    .header h1 {
-      color: #667eea;
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-    
-    .station-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 10px 25px;
-      border-radius: 25px;
-      font-size: 20px;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    .form-group label {
-      display: block;
-      color: #333;
-      font-weight: bold;
-      margin-bottom: 8px;
-      font-size: 16px;
-    }
-    
-    .form-group input {
-      width: 100%;
-      padding: 15px;
-      border: 2px solid #e0e0e0;
-      border-radius: 10px;
-      font-size: 16px;
-      transition: all 0.3s;
-    }
-    
-    .form-group input:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-    
-    .btn {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 10px;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-    }
-    
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-    
-    .btn:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-    
-    .message {
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      font-size: 16px;
-      text-align: center;
-      animation: fadeIn 0.5s;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    .message.success {
-      background: #d4edda;
-      color: #155724;
-      border: 2px solid #c3e6cb;
-    }
-    
-    .message.error {
-      background: #f8d7da;
-      color: #721c24;
-      border: 2px solid #f5c6cb;
-    }
-    
-    .message.info {
-      background: #d1ecf1;
-      color: #0c5460;
-      border: 2px solid #bee5eb;
-    }
-    
-    .loading {
-      text-align: center;
-      padding: 20px;
-    }
-    
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #667eea;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto;
-    }
-    
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    .device-info {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      color: #666;
-    }
-    
-    .device-info strong {
-      color: #333;
-    }
-    
-    .success-icon {
-      font-size: 60px;
-      text-align: center;
-      margin: 20px 0;
-    }
-    
-    .hidden {
-      display: none;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>🏭 工廠打卡系統</h1>
-      <div class="station-badge" id="stationName">載入中...</div>
-    </div>
-    
-    <!-- 載入中 -->
-    <div id="loadingScreen" class="loading">
-      <div class="spinner"></div>
-      <p style="margin-top: 15px; color: #666;">正在識別裝置...</p>
-    </div>
-    
-    <!-- 綁定表單 -->
-    <div id="bindingForm" class="hidden">
-      <div class="message info">
-        <strong>🔐 首次使用</strong><br>
-        請輸入您的工號和姓名完成綁定
-      </div>
-      
-      <div class="form-group">
-        <label for="employeeId">工號</label>
-        <input type="text" id="employeeId" placeholder="請輸入工號" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="employeeName">姓名</label>
-        <input type="text" id="employeeName" placeholder="請輸入姓名" required>
-      </div>
-      
-      <button class="btn btn-primary" onclick="handleBind()">
-        綁定並打卡
-      </button>
-      
-      <div class="device-info">
-        <strong>裝置資訊：</strong><br>
-        裝置ID：<span id="deviceIdDisplay">-</span>
-      </div>
-    </div>
-    
-    <!-- 打卡成功 -->
-    <div id="checkinSuccess" class="hidden">
-      <div class="success-icon">✅</div>
-      <div class="message success">
-        <div id="successMessage"></div>
-      </div>
-      
-      <div class="device-info">
-        <strong>工號：</strong><span id="displayEmployeeId">-</span><br>
-        <strong>姓名：</strong><span id="displayEmployeeName">-</span><br>
-        <strong>站別：</strong><span id="displayStation">-</span><br>
-        <strong>時間：</strong><span id="displayTime">-</span>
-      </div>
-    </div>
-    
-    <!-- 錯誤訊息 -->
-    <div id="errorMessage" class="message error hidden"></div>
-  </div>
+      main {
+        text-align: center;
+        padding-top: 6rem;
+      }
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #fff;
+      }
+      p.subtitle {
+        color: #ccc;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+      a.button {
+        display: inline-block;
+        padding: 0.8rem 1.6rem;
+        background: #0077ff;
+        color: white;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition: 0.3s;
+      }
+      a.button:hover {
+        background: #3399ff;
+      }
+      footer {
+        margin-top: 5rem;
+        padding: 2rem;
+        color: #666;
+      }
+    </style>
+  </head>
 
-  <script>
-    // ============================================
-    // 全域變數
-    // ============================================
-    let deviceId = '';
-    let stationName = '<?= station ?>';
-    
-    // ============================================
-    // 頁面載入時執行
-    // ============================================
-    window.onload = function() {
-      // 顯示站別名稱
-      if (stationName) {
-        document.getElementById('stationName').textContent = stationName;
-      } else {
-        document.getElementById('stationName').textContent = '未指定站別';
-        showError('錯誤：未指定站別，請掃描正確的QR Code');
-        return;
-      }
-      
-      // 生成裝置ID
-      deviceId = generateDeviceId();
-      document.getElementById('deviceIdDisplay').textContent = deviceId.substring(0, 16) + '...';
-      
-      // 檢查裝置綁定狀態
-      checkDevice();
-    };
-    
-    // ============================================
-    // 生成裝置唯一識別碼
-    // ============================================
-    function generateDeviceId() {
-      // 嘗試從localStorage取得已儲存的ID
-      let storedId = localStorage.getItem('factoryDeviceId');
-      if (storedId) {
-        return storedId;
-      }
-      
-      // 收集裝置指紋資訊
-      let fingerprint = {
-        userAgent: navigator.userAgent,
-        language: navigator.language,
-        platform: navigator.platform,
-        screenResolution: screen.width + 'x' + screen.height,
-        colorDepth: screen.colorDepth,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        timestamp: Date.now(),
-        random: Math.random().toString(36)
-      };
-      
-      // 轉換為JSON字串並生成hash
-      let fingerprintString = JSON.stringify(fingerprint);
-      let hash = simpleHash(fingerprintString);
-      
-      // 儲存到localStorage
-      localStorage.setItem('factoryDeviceId', hash);
-      
-      return hash;
-    }
-    
-    // ============================================
-    // 簡易Hash函式
-    // ============================================
-    function simpleHash(str) {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        let char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-      }
-      return 'DEV_' + Math.abs(hash).toString(36) + '_' + Date.now().toString(36);
-    }
-    
-    // ============================================
-    // 檢查裝置綁定狀態
-    // ============================================
-    function checkDevice() {
-      fetch(window.location.href + '&action=checkDevice&deviceId=' + encodeURIComponent(deviceId))
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('loadingScreen').classList.add('hidden');
-          
-          if (data.success && data.isBound) {
-            // 已綁定，直接打卡
-            performCheckin(data.employeeId, data.employeeName);
-          } else if (data.success && !data.isBound) {
-            // 未綁定，顯示綁定表單
-            document.getElementById('bindingForm').classList.remove('hidden');
-          } else {
-            // 錯誤
-            showError(data.message || '系統錯誤');
-          }
-        })
-        .catch(error => {
-          document.getElementById('loadingScreen').classList.add('hidden');
-          showError('網路錯誤：' + error.message);
-        });
-    }
-    
-    // ============================================
-    // 處理綁定
-    // ============================================
-    function handleBind() {
-      let employeeId = document.getElementById('employeeId').value.trim();
-      let employeeName = document.getElementById('employeeName').value.trim();
-      
-      if (!employeeId) {
-        alert('請輸入工號');
-        return;
-      }
-      
-      if (!employeeName) {
-        alert('請輸入姓名');
-        return;
-      }
-      
-      // 禁用按鈕
-      let btn = event.target;
-      btn.disabled = true;
-      btn.textContent = '綁定中...';
-      
-      // 發送綁定請求
-      let url = window.location.href + 
-                '&action=bindDevice' +
-                '&deviceId=' + encodeURIComponent(deviceId) +
-                '&employeeId=' + encodeURIComponent(employeeId) +
-                '&employeeName=' + encodeURIComponent(employeeName);
-      
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            // 綁定成功，繼續打卡
-            performCheckin(data.employeeId, data.employeeName);
-          } else {
-            // 綁定失敗
-            btn.disabled = false;
-            btn.textContent = '綁定並打卡';
-            showError(data.message);
-          }
-        })
-        .catch(error => {
-          btn.disabled = false;
-          btn.textContent = '綁定並打卡';
-          showError('網路錯誤：' + error.message);
-        });
-    }
-    
-    // ============================================
-    // 執行打卡
-    // ============================================
-    function performCheckin(employeeId, employeeName) {
-      let url = window.location.href + 
-                '&action=checkin' +
-                '&deviceId=' + encodeURIComponent(deviceId) +
-                '&station=' + encodeURIComponent(stationName);
-      
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            // 打卡成功
-            document.getElementById('bindingForm').classList.add('hidden');
-            document.getElementById('successMessage').innerHTML = 
-              '<strong>✅ 打卡成功！</strong><br>' + data.message;
-            document.getElementById('displayEmployeeId').textContent = data.employeeId;
-            document.getElementById('displayEmployeeName').textContent = data.employeeName;
-            document.getElementById('displayStation').textContent = data.station;
-            document.getElementById('displayTime').textContent = data.time;
-            document.getElementById('checkinSuccess').classList.remove('hidden');
-          } else {
-            showError(data.message);
-          }
-        })
-        .catch(error => {
-          showError('網路錯誤：' + error.message);
-        });
-    }
-    
-    // ============================================
-    // 顯示錯誤訊息
-    // ============================================
-    function showError(message) {
-      let errorDiv = document.getElementById('errorMessage');
-      errorDiv.textContent = '❌ ' + message;
-      errorDiv.classList.remove('hidden');
-    }
-  </script>
-</body>
+  <body>
+    <!-- 導覽列 -->
+    <nav class="container-fluid">
+      <ul>
+        <li><strong>個人品牌｜健身 × 工作 × AI</strong></li>
+      </ul>
+      <ul>
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="fitness.html">健身</a></li>
+        <li><a href="work.html">工作</a></li>
+        <li><a href="ai-growth.html">AI 成長</a></li>
+      </ul>
+    </nav>
+
+    <!-- 主內容 -->
+    <main class="container">
+      <h1>歡迎來到我的個人網站</h1>
+      <p class="subtitle">結合健身、工作與 AI 成長的全新旅程</p>
+      <a href="ai-growth.html" class="button">進入 AI 成長紀錄</a>
+    </main>
+
+    <footer class="container">
+      <small>© 2025 Bava Chang | 使用 GitHub Pages 架設</small>
+    </footer>
+  </body>
 </html>
