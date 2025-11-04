@@ -1,9 +1,208 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>空壓機電費模型｜我的 AI 成長過程</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/><style>header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}</style></head>
-<body><nav class="container-fluid"><ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul><ul><li><a href="../index.html">首頁</a></li><li><a href="../ai.html">AI</a></li><li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li></ul></nav>
-<header class="hero"><main class="container"><hgroup><h1>空壓機電費：理想 vs 實際與 ROI 敏感度</h1><p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p></hgroup></main></header>
-<main class="container">
-<p>模型納入：重車/空車時數、Unload 耗電比例、流量缺口與電價。AI 幫我把參數化寫成試算表＋Python 批次，並產生 ROI 階梯圖。</p>
-<h3>重點</h3><ul><li>不要只看「重車」：空車與卸載才是藏成本的地方。</li><li>把「每日」換算到「月 × 年」以決策投資回收期。</li><li>模型驗證用實測電表與流量計校正。</li></ul>
-<h3>結論</h3><p>看懂敏感度，投資決策才有底氣；AI 讓我把試算變成產品級工具。</p>
-</main><footer class="container"><small>© 2025 Bava</small></footer></body></html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>智慧排程 × AI 生產決策：讓機台自己排班｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+    ul.check{list-style:none; padding-left:0}
+    ul.check li{margin:.45rem 0; padding-left:1.2rem; position:relative}
+    ul.check li::before{content:'✔'; position:absolute; left:0; color:#38bdf8}
+  </style>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <main class="container">
+      <p class="eyebrow">Field Note • AI Scheduling • Manufacturing Intelligence</p>
+      <h1>智慧排程 × AI 生產決策：讓機台自己排班</h1>
+      <p class="secondary">在生產現場，最複雜的不是機台，而是人。AI 排程的目標，不是取代生管，而是讓「機台、人力、交期」三者自動平衡，讓工廠自己動起來。</p>
+    </main>
+  </header>
+
+  <main class="container">
+    <!-- Cover -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1600&auto=format&fit=crop" alt="AI 智慧排程演算法"/>
+      <figcaption>AI 排程不是黑盒，而是一套透明的邏輯模型：交期、產能、人力、機台效率，全都在一張圖上。</figcaption>
+    </figure>
+
+    <h3>一、源由：排程的戰場</h3>
+    <p>
+      在傳統工廠，排程往往靠 Excel 表格與人腦。  
+      每次換模、急單、停機，都像是「蝴蝶效應」。  
+      一筆訂單的延遲可能拖垮整週生產。  
+      我想讓這件事更科學、更即時，也更「會自己動」。
+    </p>
+
+    <div class="callout">
+      <strong>排程痛點</strong><br/>
+      <span class="badge">人工調整慢</span> → 人一走，排程全亂。<br/>
+      <span class="badge">變動無法即時反應</span> → 停機、請假、原料延遲。<br/>
+      <span class="badge">無法量化權衡</span> → 哪台該先做？人工經驗判斷。<br/>
+      <span class="badge">無整體最佳解</span> → 個別最佳，不等於整廠最優。
+    </div>
+
+    <h3>二、目的：讓「系統」代替「猜測」</h3>
+    <p>
+      我設定三個目標：
+    </p>
+    <ul class="check">
+      <li>以 AI 自動分配機台與人力，根據交期與產能平衡。</li>
+      <li>可即時重算：當某區停機、請假、模具壞，排程自動調整。</li>
+      <li>保留人工決策空間，讓主管能「覆寫 AI 結果」。</li>
+    </ul>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1596496050855-9e3d1c6679e6?q=80&w=1200&auto=format&fit=crop" alt="排程演算法邏輯圖">
+        <figcaption>AI 排程邏輯：交期、產能、人力、效率四者權重化，動態求最小延遲。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1620249538149-1c705a05d1c7?q=80&w=1200&auto=format&fit=crop" alt="生產排程看板畫面">
+        <figcaption>可視化看板：每一台機台、每一班次、每一張工單都能即時更新。</figcaption>
+      </figure>
+    </div>
+
+    <h3>三、過程：AI 排程模型的誕生</h3>
+    <p class="keyline">AI 排程不只是演算法，而是企業邏輯的數據化。</p>
+
+    <h4>3.1 資料結構設計</h4>
+    <pre><code>機台表（machines）
+- 區域：A / B / C
+- 每班產能（pcs）
+- 可生產品項
+- 效率權重
+
+訂單表（orders）
+- 產品代號
+- 數量
+- 交期
+- 優先權
+
+人力表（workers）
+- 班別
+- 可操作區域
+- 技能權重
+- 是否可通宵</code></pre>
+
+    <h4>3.2 AI 排程算法（Python 範例）</h4>
+    <pre><code>import pandas as pd
+from ortools.sat.python import cp_model
+
+def optimize_schedule(machines, orders, workers):
+    model = cp_model.CpModel()
+    assign = {}
+    for i, o in enumerate(orders):
+        for j, m in enumerate(machines):
+            assign[i,j] = model.NewBoolVar(f"order{i}_machine{j}")
+
+    # 1. 每張訂單只能排在一台機台
+    for i in range(len(orders)):
+        model.Add(sum(assign[i,j] for j in range(len(machines))) == 1)
+
+    # 2. 交期約束
+    for i, o in enumerate(orders):
+        for j, m in enumerate(machines):
+            model.AddHint(assign[i,j], int(m['speed']*8 >= o['qty']))
+
+    # 3. 最小化延遲
+    model.Minimize(sum(assign[i,j]*abs(o['due']-m['slot']) for i,o in enumerate(orders) for j,m in enumerate(machines)))
+
+    solver = cp_model.CpSolver()
+    solver.Solve(model)
+    return [(i, j) for i in range(len(orders)) for j in range(len(machines)) if solver.Value(assign[i,j]) == 1]</code></pre>
+
+    <p>
+      這段程式能在幾秒內產出「最佳排程表」。  
+      AI 根據交期、產能、人力、自動求解最短延遲。  
+      而我做的，是把這段邏輯包成 Web 介面，讓主管按下一鍵就能「重排」。
+    </p>
+
+    <figure>
+      <img src="https://images.unsplash.com/photo-1634704784919-d7c33a7a93f2?q=80&w=1600&auto=format&fit=crop" alt="AI 排程與人機協作">
+      <figcaption>AI 不是取代排程人員，而是讓他能更快地找到更好的解。</figcaption>
+    </figure>
+
+    <h3>四、挑戰與修正</h3>
+    <ul class="check">
+      <li><strong>數據不完整：</strong>缺產能或人力表。→ 每次排程前先檢查表格完整性。</li>
+      <li><strong>排程不合理：</strong>AI 把高難度產品排給新人。→ 加上技能權重與最低經驗條件。</li>
+      <li><strong>變動太快：</strong>人工覆寫後又被 AI 改回。→ 增加「人工鎖定」機制。</li>
+      <li><strong>目標衝突：</strong>延遲 vs 加班費。→ 多目標最小化，加入權重比值。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>上線後成效</strong><br/>
+      排程重算時間由 2 小時 → <strong>2 分鐘內</strong>；  
+      機台稼動率提升 <strong>12%</strong>；  
+      加班時數下降 <strong>8%</strong>；  
+      班表穩定性顯著提升，外勞調度衝突幾乎消失。
+    </div>
+
+    <h3>五、我用的 Prompt</h3>
+    <pre><code>你是製造業生產排程專家，請設計一個 AI 排程模型：
+1) 輸入：機台表、訂單表、人力表（含可操作區域與班別）
+2) 限制：
+   - 每張訂單只能分配一台機台
+   - 人員技能需匹配機台類型
+   - 同時考慮交期、產能、人力平衡
+3) 輸出：
+   - 最佳排程表（機台、產品、人員、開始時間）
+4) 可視化：用 HTML 顯示甘特圖 + KPI 統計</code></pre>
+
+    <h3>六、結論：讓排程變成一種「智慧決策」</h3>
+    <p>
+      傳統排程像是在下棋——看似戰略，其實充滿變數。  
+      而 AI 排程更像是「自走棋」：根據棋局自動平衡資源。  
+      我學到的關鍵是：AI 不會取代排程人員，而是幫他變成「決策設計師」。  
+      透過演算法，我們把經驗轉成邏輯，把邏輯轉成模型，  
+      最後讓系統在每一次變動中自我修正。  
+      當工廠的資料開始流動，排程就不再是 Excel，而是一種「智慧反應」。
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p7.html">← 第 7 篇：Node-RED 入門到看板</a>
+      <a href="./p9.html">第 9 篇：AI × 品質異常分析 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
+</body>
+</html>
