@@ -1,9 +1,194 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>噪音與熱負荷教材系統化｜我的 AI 成長過程</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/><style>header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}figure img{width:100%;height:auto;border-radius:.5rem}</style></head>
-<body><nav class="container-fluid"><ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul><ul><li><a href="../index.html">首頁</a></li><li><a href="../ai.html">AI</a></li><li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li></ul></nav>
-<header class="hero"><main class="container"><hgroup><h1>噪音與熱負荷教材系統化：教材 × 測驗 × 簽到 × 成績一條龍</h1><p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p></hgroup></main></header>
-<main class="container">
-<p>我把噪音作業與熱負荷（WBGT）教材做成模組化：章節模板 + 題庫 + 表單。AI 協助生成不同語言版本，解決外籍同仁的學習落差。</p>
-<h3>關鍵作法</h3><ul><li>教材模版化：每章包含目的、風險、步驟、警示、點檢表。</li><li>測驗題庫：辨識性題幹、避免死背。</li><li>簽到與成績：Google Sheets 持續追蹤，逾期自動提醒。</li></ul>
-<h3>結論</h3><p>從「一次性講義」升級為「可維運、可擴充」的訓練系統，才是 ESG 與法遵的底座。</p>
-</main><footer class="container"><small>© 2025 Bava</small></footer></body></html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>噪音與熱負荷教材系統化：教材 × 測驗 × 簽到 × 成績一條龍｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+    ul.check{list-style:none; padding-left:0}
+    ul.check li{margin:.45rem 0; padding-left:1.2rem; position:relative}
+    ul.check li::before{content:'✔'; position:absolute; left:0; color:#38bdf8}
+  </style>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <main class="container">
+      <p class="eyebrow">Field Note • Training Automation • Occupational Safety</p>
+      <h1>噪音與熱負荷教材系統化：教材 × 測驗 × 簽到 × 成績一條龍</h1>
+      <p class="secondary">從兩份 Excel 表格開始，我把噪音與熱負荷的教育訓練流程整合為一個完整的自動化系統，讓教材、題庫、簽到、成績、成效報表全自動生成。</p>
+    </main>
+  </header>
+
+  <main class="container">
+    <!-- Cover -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop" alt="噪音與熱負荷訓練"/>
+      <figcaption>「合規不該只是完成文件，而是確保每位員工都真正理解並執行防護行為。」</figcaption>
+    </figure>
+
+    <h3>一、源由：兩份教材、五種表單、八個版本</h3>
+    <p>
+      在噪音與熱負荷防護訓練中，文件種類多、版本雜：教材、測驗、簽到、成績表、稽核紀錄、照片存證、問卷、報告。  
+      我想做的不是把它們「數位化」，而是<strong>自動串接</strong>。  
+      教材一改，題庫自動更新；簽到一送出，成績自動對應；報告一生成，成效自動匯入月報。  
+      這篇記錄我如何利用 AI + Apps Script 讓訓練變成一條數據管線。
+    </p>
+
+    <div class="callout">
+      <strong>目標藍圖</strong><br/>
+      <span class="badge">教材自動生成</span> AI 根據模板輸出教材 HTML；<br/>
+      <span class="badge">題庫自動生成</span> 教材改版時自動更新題庫；<br/>
+      <span class="badge">簽到與成績綁定</span> 以員工 ID 串接訓練記錄；<br/>
+      <span class="badge">報表自動化</span> 每月自動整合訓練完成率與平均分數。
+    </div>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop" alt="WBGT 熱負荷量測與教育訓練流程">
+        <figcaption>WBGT 教材重點在「測」「防」「記」三步驟：量測、配備、防護紀錄。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1596496050855-9e3d1c6679e6?q=80&w=1200&auto=format&fit=crop" alt="噪音作業耳塞教育訓練">
+        <figcaption>噪音作業訓練：重點在正確配戴、暴露時間控制與醫療監測。</figcaption>
+      </figure>
+    </div>
+
+    <h3>二、目的：教育訓練流程標準化 + 資料流動化</h3>
+    <p>
+      我希望每一次教育訓練都能自動產出以下成果：
+    </p>
+    <ul class="check">
+      <li>教材內容（HTML）與法規同步更新</li>
+      <li>題庫版本對應教材版號</li>
+      <li>簽到紀錄與成績自動綁定</li>
+      <li>成效報表可一鍵產生</li>
+      <li>多語版本同時發佈</li>
+    </ul>
+
+    <h3>三、過程：教材模板化 → 題庫 AI 化 → 簽到與成績自動化</h3>
+    <p class="keyline">我把訓練系統拆成三段：內容生成、紀錄串接、報表分析。</p>
+
+    <h4>3.1 教材模板（固定架構）</h4>
+    <pre><code>【課程名稱】噪音作業防護教育訓練
+【目的】了解噪音危害，正確使用防護具
+【適用對象】從事噪音作業之人員
+【教材內容】
+  1. 噪音單位與評估方式
+  2. 聽力保護具種類與使用
+  3. 暴露限值與監測制度
+  4. 噪音作業之改善與申報
+【測驗題庫】10 題（AI 自動生成）
+【簽到表】自動生成 Google Form</code></pre>
+
+    <h4>3.2 AI 生成題庫（Prompt 範例）</h4>
+    <pre><code>你是工安教育專家，請根據以下教材段落，產生「噪音作業防護教育訓練」題庫：
+- 題型：單選 8、是非 2
+- 難度：40% 基礎、40% 應用、20% 情境
+- 每題附「正確答案」與「解析」
+- 以 JSON 輸出：{q, options, ans, explain}
+- 另生成越南文版本（術語對照表參考 wbgt_terms.csv）</code></pre>
+
+    <h4>3.3 Apps Script 自動化整合</h4>
+    <pre><code>// 1. AI 題庫上傳至 Sheets
+function saveQuiz(items) { /* 寫入 "噪音題庫" */ }
+
+// 2. 自動生成簽到與測驗表單
+function genForm(courseName) {
+  const form = FormApp.create(courseName + '簽到測驗');
+  form.addTextItem().setTitle('姓名');
+  form.addTextItem().setTitle('員工編號');
+  form.addSectionHeaderItem().setTitle('測驗題');
+  // 題目載入
+}
+
+// 3. 成績自動匯總
+function onSubmit(e) {
+  const sh = SpreadsheetApp.getActive().getSheetByName('成績總表');
+  const score = calcScore(e.response);
+  sh.appendRow([new Date(), e.name, e.empId, e.course, score]);
+}</code></pre>
+
+    <figure>
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="教育訓練系統資料流設計圖"/>
+      <figcaption>資料流：AI 教材 → 題庫 → 簽到測驗 → 成績總表 → 自動報表。</figcaption>
+    </figure>
+
+    <h3>四、困難與修正</h3>
+    <ul class="check">
+      <li><strong>教材內容太學術：</strong>現場看不懂。→ 改用情境式問句：「如果耳塞沒塞緊會怎樣？」</li>
+      <li><strong>題庫更新不連動：</strong>教材改版後題庫仍舊。→ 加入版號欄 <code>V1.1 / V1.2</code> 自動比對。</li>
+      <li><strong>簽到表重複：</strong>同人多次作答。→ 以 <code>empId + 日期</code> 建唯一鍵。</li>
+      <li><strong>熱負荷公式難記：</strong>WBGT 定義繁瑣。→ 以圖表解釋：<em>WBGT = 0.7Tnwb + 0.2Tg + 0.1Tdb</em>。</li>
+      <li><strong>多語維護難：</strong>中文改後外語不同步。→ 建「術語主表」由 AI 參照更新。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>上線後成效（四週觀察）</strong><br/>
+      教材改版耗時由 2 天 → <strong>1 小時內</strong>；  
+      題庫更新自動化；簽到成績綁定率 <strong>100%</strong>；  
+      稽核應付時間下降 60%，多語訓練同步率 95%。  
+    </div>
+
+    <h3>五、AI 實際應用心得</h3>
+    <p>
+      我發現 AI 在教育訓練最有價值的地方，不是「生成內容」，而是「維持一致」。  
+      每個課程都有固定骨架，AI 幫我快速填充內容、人再去校對。  
+      與其要 AI「幫你寫」，不如讓它「幫你對」。  
+      當教材、測驗、簽到都走相同資料流時，訓練就能量化、合規就能自動驗證。
+    </p>
+
+    <h3>六、結論：教育自動化的關鍵不是 AI，是標準</h3>
+    <p>
+      AI 只是加速器，真正的底座是標準。  
+      一旦你建立了模板、流程與資料流，AI 才有發揮空間。  
+      對我而言，這個系統不只是省時，更讓教育訓練成為「可量測的績效項目」。  
+      下一步，我會把這個架構推廣到其他課程：消防自衛、性騷擾防治、母性保護，  
+      讓 AI 幫我維持版本一致、快速改版、即時發佈。
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p5.html">← 第 5 篇：AI 版教育訓練教材</a>
+      <a href="./p7.html">第 7 篇：Node-RED 入門到看板 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
+</body>
+</html>
