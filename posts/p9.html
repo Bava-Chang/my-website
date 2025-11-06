@@ -1,9 +1,183 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>8D 報告半自動化｜我的 AI 成長過程</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/><style>header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}</style></head>
-<body><nav class="container-fluid"><ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul><ul><li><a href="../index.html">首頁</a></li><li><a href="../ai.html">AI</a></li><li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li></ul></nav>
-<header class="hero"><main class="container"><hgroup><h1>8D 報告半自動化：模板 × 資料 × 生成</h1><p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p></hgroup></main></header>
-<main class="container">
-<p>客訴處理往往卡在「資料四散、版本不同」。我把 8D 的每一段落對應到 Google Sheet 欄位，AI 以模板引擎（如 HTMLService + word 下載）生成最終文件。</p>
-<h3>關鍵作法</h3><ul><li>前置條碼：全檢與補料紀錄自動帶入。</li><li>教育訓練：把改善行動直接生成教材與簽到。</li><li>版本控管：每次更新 8D 皆留版號、作者與時間戳。</li></ul>
-<h3>結論</h3><p>8D 不是寫報告，而是「把改進做完」。AI 把文書變流水線，讓人把時間花在真正的改善上。</p>
-</main><footer class="container"><small>© 2025 Bava</small></footer></body></html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI × 品質異常分析：8D 的自動生成｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+    ul.check{list-style:none; padding-left:0}
+    ul.check li{margin:.45rem 0; padding-left:1.2rem; position:relative}
+    ul.check li::before{content:'✔'; position:absolute; left:0; color:#38bdf8}
+  </style>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <main class="container">
+      <p class="eyebrow">Field Note • Quality • AI Analysis</p>
+      <h1>AI × 品質異常分析：8D 的自動生成</h1>
+      <p class="secondary">當客戶要求 8D Report 不再需要加班熬夜時，AI 不只是幫我寫報告，而是讓品保從「填表人」變成「問題設計師」。</p>
+    </main>
+  </header>
+
+  <main class="container">
+    <!-- Cover -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?q=80&w=1600&auto=format&fit=crop" alt="品質異常分析與8D報告" />
+      <figcaption>AI 幫助品保把重複的報告流程自動化，讓時間回到根本問題分析。</figcaption>
+    </figure>
+
+    <h3>一、源由：客訴的壓力與8D的煩惱</h3>
+    <p>
+      每當客戶發來「變形」「破損」「含水」等客訴時，  
+      品保部門必須在 24 小時內回報 8D。  
+      一份 8D 需要八個步驟：團隊組成、問題描述、圍堵措施、根本原因、永久改善、預防再發、驗證效果、關閉報告。  
+      這在 ISO 系統裡是基本功，但在現場卻是耗時工作。  
+      我想讓這件事變成自動化：<strong>AI 幫我生成初稿、人員只需修訂與上傳證據。</strong>
+    </p>
+
+    <div class="callout">
+      <strong>8D 痛點</strong><br/>
+      <span class="badge">耗時</span> 每次重寫內容雷同；<br/>
+      <span class="badge">缺證據</span> 照片、教育訓練、簽名漏傳；<br/>
+      <span class="badge">不一致</span> 不同工程師格式不同；<br/>
+      <span class="badge">追蹤難</span> 8D 改善後無法連動教育訓練紀錄。
+    </div>
+
+    <h3>二、目的：讓AI理解問題結構，而非生成文字</h3>
+    <p>
+      我並不希望 AI 幫我「編故事」，  
+      而是希望它理解品質事件的結構化資料：  
+      <strong>何時、哪個產品、哪個機台、異常現象、暫時處置、最終改善。</strong>  
+      只要把這些欄位輸入，AI 就能生成具 ISO 格式的 8D 初稿，  
+      並自動帶出相關教育訓練與追蹤項目。
+    </p>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=1200&auto=format&fit=crop" alt="8D 報告欄位設計">
+        <figcaption>結構化欄位設計：問題敘述、原因、矯正、預防、證據檔。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1200&auto=format&fit=crop" alt="AI 報告自動生成">
+        <figcaption>AI 生成的報告只是起點，人員再補上現場語言與圖片證據。</figcaption>
+      </figure>
+    </div>
+
+    <h3>三、過程：從異常輸入到8D輸出</h3>
+    <p class="keyline">核心概念：一筆異常資料，對應一份8D + 一份教育訓練 + 一份改善追蹤。</p>
+
+    <h4>3.1 結構化輸入表（Google Sheet）</h4>
+    <pre><code>日期 | 客戶 | 料號 | 異常描述 | 原因 | 暫時措施 | 永久改善 | 負責人 | 照片連結
+2025/07/29 | 友達 | 3MDL9NPK020 | 變形、破損 | 模溫過高 | 全檢＋降溫 | 模具更新＋教育訓練 | 品保課 | GDrive連結</code></pre>
+
+    <h4>3.2 AI 生成 8D Report（Prompt 範例）</h4>
+    <pre><code>你是品質系統工程師，請根據下列資料生成 8D 報告：
+1) 結構：D1~D8，符合 ISO9001 要求。
+2) 用詞正式、簡潔、可供客戶審查。
+3) 自動帶出對應教育訓練內容與追蹤措施。
+4) 以 HTML 輸出，段落分明，標題粗體。
+5) 輸入資料如下：
+客戶：友達
+異常：變形4pcs、破損1pcs
+原因：模溫過高
+暫時措施：降溫、全檢
+永久改善：模具更新、教育訓練</code></pre>
+
+    <h4>3.3 Apps Script 範例：自動產出與歸檔</h4>
+    <pre><code>function gen8D() {
+  const sh = SpreadsheetApp.getActive().getSheetByName('異常登錄');
+  const rows = sh.getDataRange().getValues().slice(1);
+  for (let r of rows) {
+    const [date, customer, part, desc, cause, action, fix, owner] = r;
+    const payload = {date, customer, part, desc, cause, action, fix, owner};
+    const aiText = callOpenAI(payload);  // 傳送給 ChatGPT API
+    const doc = DocumentApp.create(`${date}_${customer}_${part}_8D`);
+    doc.getBody().appendParagraph(aiText);
+    doc.saveAndClose();
+  }
+}</code></pre>
+
+    <figure>
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="AI 生成的 8D 文件預覽"/>
+      <figcaption>AI 自動生成的 8D 文件可立即匯出 Word 或 PDF，附圖與簽名欄。</figcaption>
+    </figure>
+
+    <h3>四、挑戰與修正</h3>
+    <ul class="check">
+      <li><strong>AI 過度簡化：</strong>生成內容太「教科書」。→ 增加實際資料欄位（溫度、壓力、時間）。</li>
+      <li><strong>責任歸屬模糊：</strong>AI 不懂部門分工。→ 加入責任人欄與流程控制。</li>
+      <li><strong>報告不一致：</strong>不同客戶格式不同。→ 建立 AI 模板（客戶別規格）。</li>
+      <li><strong>缺乏追蹤：</strong>8D 完成後未回饋訓練。→ 建立「關聯課程」欄位自動觸發教育訓練。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>上線後成果</strong><br/>
+      8D 撰寫時間由 2 小時 → <strong>10 分鐘</strong>；  
+      品保文件一致性提升至 <strong>95%</strong>；  
+      教育訓練與矯正追蹤自動連動；  
+      客戶審核通過率提高，回報速度加快一倍。
+    </div>
+
+    <h3>五、我用的第二階段 Prompt（AI 校稿模式）</h3>
+    <pre><code>你是 ISO 品質系統審查員，請幫我審查以下 8D：
+1) 語氣是否正式、專業
+2) 是否符合 ISO9001 條文 10.2 不合格處理
+3) 是否有 D4 根因與 D5 永久措施連貫性
+4) 若有缺漏，請以「修訂建議」方式列出</code></pre>
+
+    <h3>六、結論：AI 不只是生成，而是「系統化經驗」</h3>
+    <p>
+      品質管理的核心從來不是文件，而是思考。  
+      8D 的價值不在於報告，而在於團隊「如何找出根因」。  
+      AI 幫我們節省了格式與書寫時間，  
+      讓人可以專注於「為什麼會發生」與「怎麼防止再發」。  
+      真正的智慧品保，不是會自動寫報告的系統，  
+      而是能讓整個公司都懂得如何回答「為什麼」的文化。
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p8.html">← 第 8 篇：智慧排程 × AI 生產決策</a>
+      <a href="./p10.html">第 10 篇：AI × 工安事件預防 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
+</body>
+</html>
