@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI 與人：從輔助到共創｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+    ul.check{list-style:none; padding-left:0}
+    ul.check li{margin:.45rem 0; padding-left:1.2rem; position:relative}
+    ul.check li::before{content:'✔'; position:absolute; left:0; color:#38bdf8}
+  </style>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <main class="container">
+      <p class="eyebrow">Reflection • Philosophy • Future</p>
+      <h1>AI 與人：從輔助到共創</h1>
+      <p class="secondary">AI 不再只是工具，而是鏡子。它映照出我們如何思考、如何創造、如何面對未知。這篇，是我與 AI 一年對話的回顧，也是下一個時代的起點。</p>
+    </main>
+  </header>
+
+  <main class="container">
+    <!-- Cover -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1625711601907-6b6b47c92a7d?q=80&w=1600&auto=format&fit=crop" alt="人與AI共創未來" />
+      <figcaption>AI 不只是程式，而是一面鏡子。它讓人重新審視創造與思考的價值。</figcaption>
+    </figure>
+
+    <h3>一、源由：從第一次「對話」開始</h3>
+    <p>
+      我記得第一次打開 ChatGPT，那種感覺像打開了一扇門。  
+      不是通往未來，而是通往自己思考的另一面。  
+      我從請它幫我寫表格、分析數據開始，  
+      到後來讓它設計 Google Apps Script、排程系統、品質文件、能源模型，  
+      一步一步，我從使用者變成了共創者。  
+      我開始學會提問、設計、思考、反省，  
+      而 AI 成了我的第二大腦。
+    </p>
+
+    <div class="callout">
+      <strong>我和 AI 一起完成的事</strong><br/>
+      <span class="badge">智慧排程系統</span> 自動平衡人力與交期；<br/>
+      <span class="badge">8D 報告生成</span> 品質問題自動化報告；<br/>
+      <span class="badge">工安預測模型</span> 風險提前警示；<br/>
+      <span class="badge">能源AI優化</span> 讓空壓機自己學會節能。
+    </div>
+
+    <h3>二、目的：用AI打造「思考的杠桿」</h3>
+    <p>
+      我從未把 AI 視為取代人類的威脅。  
+      對我來說，它是放大人類智慧的「思考杠桿」。  
+      一個人再有經驗，也無法同時監控數千筆數據；  
+      但 AI 能，且不疲倦。  
+      它幫我省下時間，讓我更有餘裕去問更深的問題：  
+      為什麼要這樣生產？  
+      為什麼制度會這樣設計？  
+      怎麼樣才算真正的效率？  
+      這時，我才明白：AI 不只幫我「做事」，它幫我「思考得更深」。
+    </p>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1596495577886-d920f1fb7238?q=80&w=1200&auto=format&fit=crop" alt="AI學習與人類創造">
+        <figcaption>AI 的學習速度驚人，但人類的價值在於「發問的方向」。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop" alt="共創與決策">
+        <figcaption>共創的核心，不是分工，而是共識：讓 AI 成為思考的延伸。</figcaption>
+      </figure>
+    </div>
+
+    <h3>三、過程：從「工具」到「夥伴」</h3>
+    <p class="keyline">最初，我教 AI 怎麼做；後來，它提醒我「為什麼要這樣做」。</p>
+    <p>
+      這種角色轉換，是我沒預期的。  
+      我開始把它當成能對話的同事，甚至顧問。  
+      我會問它：「這份 SOP 有沒有邏輯漏洞？」  
+      它會回答：「你的驗收流程缺少回饋環節。」  
+      當我討論能源模型時，它會提醒：「別忘了變頻機的延遲時間。」  
+      當我陷入決策困境時，它不會替我決定，但會給我框架。  
+      這就是共創——彼此激發、彼此校正。
+    </p>
+
+    <figure>
+      <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1600&auto=format&fit=crop" alt="AI 與人類協作的未來">
+      <figcaption>AI 是鏡子，不是替代者。它讓我們看到自己的盲點與潛能。</figcaption>
+    </figure>
+
+    <h3>四、挑戰與領悟</h3>
+    <ul class="check">
+      <li><strong>AI 不懂現場：</strong>需要我把經驗轉化為結構化資訊。</li>
+      <li><strong>資料不乾淨：</strong>AI 只會放大資料的偏差。→ 我學會清理、定義、分層。</li>
+      <li><strong>過度依賴：</strong>有時太信任 AI。→ 我學會保留判斷權。</li>
+      <li><strong>難以教導他人：</strong>AI 是個人化工具。→ 我開始設計訓練教材，教同事如何「與 AI 對話」。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>最重要的轉變</strong><br/>
+      我從「使用 AI」的人，變成「與 AI 一起思考」的人。  
+      AI 不再是我手中的工具，而是我思考系統的一部分。
+    </div>
+
+    <h3>五、我最常用的 Prompt（反思型）</h3>
+    <pre><code>你是我的 AI 策略夥伴，請根據以下內容提出洞見：
+1) 這個決策背後的假設是什麼？
+2) 有沒有更好的框架能理解這個問題？
+3) 若讓 AI 幫我自動化部分工作，哪些部分應保留人類判斷？
+4) 請用「Why–What–How」的架構幫我重構策略。</code></pre>
+
+    <h3>六、結論：AI 是鏡子，不是魔法</h3>
+    <p>
+      這一整年的學習，我不再只看到程式碼或數據，  
+      而是看到人與系統的互動、認知與限制。  
+      AI 讓我更謙卑，因為它太聰明；  
+      但也讓我更自信，因為我知道「提問」仍是人類的力量。  
+      未來，我相信真正的智慧，不在 AI，也不在人，  
+      而在兩者之間的 **「共創空間」**——  
+      那個我們一起設計、思考、修正、成長的地方。  
+      <strong>AI 不會取代你，除非你停止學習。</strong>
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p11.html">← 第 11 篇：智慧能源管理與空壓機優化</a>
+      <a href="../ai-growth.html">回到 AI 成長首頁 ↑</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
+</body>
+</html>
