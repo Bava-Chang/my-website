@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>庫存查詢小工具：doGet 路由 × 欄位校對｜我的 AI 成長過程</title>
+  <title>把 KPI 接到地面：從數據到可行動指標｜我的 AI 成長過程</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <style>
     :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
@@ -28,11 +28,12 @@
     .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
     .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
     .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
-    .kbd{display:inline-block; border:1px solid var(--line); background:#0a1020; padding:.08rem .45rem; border-radius:6px; font-size:.88rem}
+    ul.check{list-style:none; padding-left:0}
+    ul.check li{margin:.45rem 0; padding-left:1.2rem; position:relative}
+    ul.check li::before{content:'✔'; position:absolute; left:0; color:#38bdf8}
   </style>
 </head>
 <body>
-  <!-- Top Nav -->
   <nav class="container-fluid">
     <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
     <ul>
@@ -42,165 +43,125 @@
     </ul>
   </nav>
 
-  <!-- Hero -->
   <header class="hero">
     <main class="container">
-      <p class="eyebrow">Field Note • Web App • Google Apps Script</p>
-      <h1>庫存查詢小工具：doGet 路由 × 欄位校對</h1>
-      <p class="secondary">查詢與扣帳分離，入口用 <span class="kbd">?page=inventory_search</span> 控制。大小寫、半全形、同義詞先正規化，讓現場「掃一下就知道」。</p>
+      <p class="eyebrow">Field Note • KPI • Data Action</p>
+      <h1>把 KPI 接到地面：從數據到可行動指標</h1>
+      <p class="secondary">KPI 不是用來審查，而是用來行動。這篇記錄我如何讓 OEE、良率、回次數據不再只是報表，而成為每天的行動清單。</p>
     </main>
   </header>
 
   <main class="container">
-    <!-- Cover -->
     <figure>
-      <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1600&auto=format&fit=crop" alt="庫存查詢與倉儲作業"/>
-      <figcaption>「查詢」是一條快車道；「扣帳」是一條保守車道。拆開之後，速度與正確性同時達標。</figcaption>
+      <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1600&auto=format&fit=crop" alt="KPI 可視化看板">
+      <figcaption>讓 KPI 成為「下一步該做什麼」的指標，而非冷冰冰的數字。</figcaption>
     </figure>
 
-    <h3>一、源由：查庫存，不能拖住作業</h3>
+    <h3>一、源由：數字太多，人看不懂</h3>
     <p>
-      倉庫現場最怕的是「只想看剩多少」卻被迫走完一套完整流程。於是我把需求拆成兩種：<strong>查詢（read）</strong> 與 <strong>扣帳（write）</strong>。
-      查詢應該是「秒開即得」；扣帳才需要完整驗證、權限與日誌。這一篇紀錄我如何用 Google Apps Script 做一個
-      <em>輕量級的庫存查詢 Web App</em>，路由清楚、欄位嚴謹、錯誤能自我修正。
+      公司每月開會都有一張 KPI 表：OEE、良率、回次、交期達成率。  
+      但大家都在看數字，沒有人知道下一步該怎麼做。  
+      KPI 像天空的星星，看得見，卻抓不住。  
+      我決定讓 KPI 落地：用 AI 把它變成「今天要行動的任務清單」。
     </p>
 
     <div class="callout">
-      <strong>現場痛點（摘要）</strong><br/>
-      <span class="badge">慢</span> 只想查庫存，卻要經過登入、選單、頁面跳轉；<br/>
-      <span class="badge">亂</span> 料號大小寫、全半形、別名混用，結果查不到；<br/>
-      <span class="badge">誤</span> 查詢表單被誤以為是領料，造成錯扣帳。
+      <strong>痛點分析</strong><br/>
+      <span class="badge">數據碎片化</span> 不同單位指標定義不同；<br/>
+      <span class="badge">缺乏連動</span> 良率下降但排程不調整；<br/>
+      <span class="badge">時間落後</span> 報表滯後，改善太慢；<br/>
+      <span class="badge">行動無感</span> 員工只看到「紅燈」，不知道該怎麼變綠。
     </div>
 
-    <h3>二、目的：入口簡單、路徑明確、資料規範</h3>
-    <p>
-      我設計了三個關鍵原則：<span class="badge">URL 即功能</span>（用 <code>?page=</code> 決定入口）、
-      <span class="badge">查詢無副作用</span>（只讀，不寫）、
-      <span class="badge">欄位先正規化</span>（大小寫、半全形、別名、前後空白先處理）。如此一來，現場掃描或輸入任何變體，系統都能回到主檔正規格式再比對。
-    </p>
+    <h3>二、目的：把「紅燈」變成「任務」</h3>
+    <ul class="check">
+      <li>讓每一個 KPI 對應一個「行動邏輯」。</li>
+      <li>當數據異常時，自動推送具體任務到負責人。</li>
+      <li>用 AI 幫助解釋「為什麼這項指標會下降」。</li>
+    </ul>
 
     <div class="grid-2">
       <figure>
-        <img src="https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?q=80&w=1200&auto=format&fit=crop" alt="條碼與標籤">
-        <figcaption>條碼標識規範化：<code>R100-0001</code>、<code>T55-PACK</code> 一致格式，降低查不到的風險。</figcaption>
+        <img src="https://images.unsplash.com/photo-1620249538149-1c705a05d1c7?q=80&w=1200&auto=format&fit=crop" alt="KPI結構設計">
+        <figcaption>KPI 結構設計：定義、目標、警戒值、對應行動。</figcaption>
       </figure>
       <figure>
-        <img src="https://images.unsplash.com/photo-1578574577315-3fbeb0cecdc2?q=80&w=1200&auto=format&fit=crop" alt="倉儲終端機與快速查詢">
-        <figcaption>倉儲終端機上綁定「查詢模式」：進入頁直接聚焦輸入匡，<kbd>Enter</kbd> 即查。</figcaption>
+        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop" alt="行動看板">
+        <figcaption>行動看板：每個紅燈背後都有一個具體改善任務。</figcaption>
       </figure>
     </div>
 
-    <h3>三、過程：doGet 路由 × 欄位正規化 × 快速回應</h3>
-    <p class="keyline">
-      核心策略：<strong>doGet 路由</strong> 控制頁面用途、<strong>正規化函式</strong> 提前清洗輸入、<strong>主檔比對</strong> 確保唯一真相。
+    <h3>三、過程：用 AI 幫我「解釋 KPI」</h3>
+    <p class="keyline">AI 不只是分析，而是理解。它幫我連結數據與人。</p>
+
+    <h4>3.1 資料表結構（Google Sheets）</h4>
+    <pre><code>指標, 目標, 實際, 警戒值, 負責人, 狀態
+OEE, 85%, 78%, 80%, 維修課, 🔴
+良率, 98%, 96%, 97%, 品保課, 🟠
+交期, 95%, 97%, 95%, 生管課, 🟢</code></pre>
+
+    <h4>3.2 Apps Script（每日自動檢查）</h4>
+    <pre><code>function checkKPI(){
+  const sh = SpreadsheetApp.getActive().getSheetByName('KPI');
+  const data = sh.getDataRange().getValues().slice(1);
+  const alerts = [];
+  data.forEach(([kpi,target,actual,limit,owner])=>{
+    const targetNum = parseFloat(target)/100;
+    const actualNum = parseFloat(actual)/100;
+    const limitNum = parseFloat(limit)/100;
+    if(actualNum < limitNum){
+      alerts.push(`${kpi} 低於標準 (${actual}) → ${owner}`);
+    }
+  });
+  if(alerts.length){
+    MailApp.sendEmail("manager@company.com", "KPI Alert", alerts.join("\\n"));
+  }
+}</code></pre>
+
+    <p>AI 協助我設計了 KPI 邏輯與自動通報流程，  
+      並且在報表端生成「問題原因」與「建議行動」。  
+      比如：<em>OEE 下滑 → 推測停機時間過長 → 建議檢查維修記錄表。</em>
     </p>
 
-    <h4>3.1 Web App 入口（路由雛形）</h4>
-    <pre><code>function doGet(e) {
-  const page = (e && e.parameter && e.parameter.page) ? e.parameter.page : 'home';
-  const tpl  = HtmlService.createTemplateFromFile(page);
-  // 可傳遞變數給前端
-  tpl.env = { build: '2025-11-04', app: 'inventory' };
-  return tpl.evaluate()
-            .setTitle('庫存系統')
-            .addMetaTag('viewport', 'width=device-width, initial-scale=1');
-}
-// 專案內建立多個 HTML（home.html / inventory_search.html / error.html）</code></pre>
-
-    <h4>3.2 欄位正規化（大小寫、全半形、別名）</h4>
-    <pre><code>// 轉半形、去空白、轉大寫、別名對應
-function normalizePart(input) {
-  if (!input) return '';
-  let s = toHalfWidth(input).trim().toUpperCase();
-  s = s.replace(/\s+/g, '');
-  const alias = {'T85-XX':'T85', 'T32-SET':'T32', 'Ｒ１００':'R100'}; // 範例
-  return alias[s] || s;
-}
-function toHalfWidth(str) {
-  return str.replace(/[\uFF01-\uFF5E]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
-            .replace(/\u3000/g, ' ');
-}</code></pre>
-
-    <h4>3.3 查詢主檔（只讀、不扣帳）</h4>
-    <pre><code>function queryStock(partRaw) {
-  const part = normalizePart(partRaw);
-  const sh = SpreadsheetApp.getActive().getSheetByName('庫存');
-  const data = sh.getDataRange().getValues(); // [header,...]
-  const idx = headerIndex(data[0]);           // 料號、品名、儲位、數量...
-  // 允許主檔一對多（多儲位合併）
-  const rows = data.filter((r,i) => i>0 && normalizePart(r[idx.part]) === part);
-  const total = rows.reduce((s,r) => s + Number(r[idx.qty] || 0), 0);
-  return { part, total, items: rows.map(r => ({ loc:r[idx.loc], qty: Number(r[idx.qty]||0) })) };
-}
-function headerIndex(h){
-  return {
-    part: h.indexOf('料號'),
-    loc : h.indexOf('儲位'),
-    qty : h.indexOf('數量')
-  };
-}</code></pre>
-
-    <h4>3.4 前端最小頁（聚焦輸入、Enter 即查）</h4>
-    <pre><code>&lt;!-- inventory_search.html --&gt;
-&lt;main class="container"&gt;
-  &lt;h3&gt;庫存查詢&lt;/h3&gt;
-  &lt;input id="q" placeholder="請掃描或輸入料號" autofocus /&gt;
-  &lt;button onclick="go()"&gt;查詢&lt;/button&gt;
-  &lt;pre id="res"&gt;&lt;/pre&gt;
-&lt;/main&gt;
-&lt;script&gt;
-  const q = document.getElementById('q');
-  q.addEventListener('keydown', e =&gt; (e.key==='Enter') &amp;&amp; go());
-  async function go(){
-    const part = q.value.trim();
-    const r = await google.script.run.withSuccessHandler(show).queryStock(part);
-  }
-  function show(obj){
-    res.textContent = JSON.stringify(obj, null, 2);
-  }
-&lt;/script&gt;</code></pre>
-
-    <!-- Visual 3 -->
     <figure>
-      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop" alt="前後端資料流與試算表主檔"/>
-      <figcaption>主檔是唯一真相；前端只是讀者。要寫（扣帳），請換到另一條「保守車道」。</figcaption>
+      <img src="https://images.unsplash.com/photo-1634704784919-d7c33a7a93f2?q=80&w=1600&auto=format&fit=crop" alt="AI 分析結果視覺化">
+      <figcaption>AI 分析結果：每一個異常數據都對應具體行動建議。</figcaption>
     </figure>
 
-    <h3>四、困難與修正：把易錯點封印起來</h3>
-    <ul>
-      <li><strong>查不到：</strong>因大小寫、全半形或別名。<em>解法：</em>所有輸入都走 <code>normalizePart</code>，對上主檔再查。</li>
-      <li><strong>誤扣帳：</strong>員工把查詢頁當成領料頁。<em>解法：</em>查詢 Web App 僅保留 <em>read</em> 端點，不提供任何寫入函式。</li>
-      <li><strong>欄位對不上：</strong>分店或歷史表頭不同。<em>解法：</em>以「表頭定位」取代固定欄位序號，降低維護成本。</li>
-      <li><strong>網路不穩：</strong>行動端偶發斷線。<em>解法：</em>查詢結果快取至 <code>localStorage</code>，並顯示上次同步時間。</li>
+    <h3>四、挑戰與修正</h3>
+    <ul class="check">
+      <li><strong>指標太多：</strong> 初期超過 40 項 KPI，AI 幫我歸納成 8 大類。</li>
+      <li><strong>資料更新延遲：</strong> 用 Apps Script 定時觸發器每日更新。</li>
+      <li><strong>異常太頻繁：</strong> 加入「變化率」判斷，排除微幅波動。</li>
+      <li><strong>責任歸屬模糊：</strong> 用部門代碼自動指派負責人。</li>
     </ul>
 
     <div class="callout">
-      <strong>效益（上線後一週）</strong><br/>
-      查詢步驟由 5 點擊 → <strong>1 次 Enter</strong>；<br/>
-      因大小寫/全半形造成的「查不到」事件幾乎消失；<br/>
-      查詢與扣帳錯置案例下降，庫存差異改善。
+      <strong>成效指標</strong><br/>
+      異常通報準確率提升至 <strong>94%</strong>；  
+      部門回報時間縮短 <strong>40%</strong>；  
+      KPI 與日常作業的連動率達 <strong>90%</strong>。
     </div>
 
-    <h3>五、我用的 Prompt 與操作策略</h3>
-    <pre><code>你是 Google Apps Script 與前端工程師，請幫我建立「只讀的庫存查詢 Web App」：
-1) 入口 doGet(e)：用 ?page=inventory_search 控制載入
-2) 查詢函式 queryStock(part)：以 normalizePart 清洗輸入，依「庫存」表頭定位欄位
-3) 不得有任何寫入（扣帳）函式
-4) 前端：聚焦輸入框、Enter 即查、JSON 格式回應（稍後我再美化）
-5) 額外：全半形轉換、大小寫轉換、別名映射範例</code></pre>
+    <h3>五、我用的 Prompt（行動化 KPI）</h3>
+    <pre><code>你是 KPI 系統顧問，請根據以下條件：
+1) 定義每項指標的「異常條件」
+2) 建立自動判斷邏輯（Apps Script）
+3) 若異常，請 AI 給出「原因推論 + 建議行動」
+4) 最後生成一個可行動報表（HTML 或 Sheets）</code></pre>
 
-    <h3>六、結論與建議：把「快」與「準」分開治理</h3>
+    <h3>六、結論：KPI 的價值在於「驅動行動」</h3>
     <p>
-      庫存查詢最容易被流程拖慢。把查詢獨立為 Web App、路由清楚、欄位先正規化，能大幅降低誤用與查不到的機率。
-      我建議把「扣帳」維持在另一條保守車道（權限、日誌、重試、去重、延遲補寫），
-      讓查詢永遠保持輕盈、快速、可擴展。接下來的路線是：將查詢回應包裝成漂亮卡片（品名、圖片、儲位分佈、近期異動），
-      並加入條碼掃描自動聚焦與 <em>離線快取</em>，讓一線人員只需掃一下就知道答案。
+      KPI 不應該只存在月報裡，而應該存在每天的動作裡。  
+      當數字能自動轉化為任務、任務能追蹤成成果，  
+      KPI 才有意義。  
+      AI 幫我做的不是取代人，而是讓「行動」更有方向。  
+      <strong>數據只是起點，行動才是目的。</strong>
     </p>
 
-    <!-- Post navigation -->
     <div class="post-nav">
-      <a href="./p2.html">← 第 2 篇：烘房進出一掃送出</a>
-      <a href="./p4.html">第 4 篇：製令成本估算 →</a>
+      <a href="./p2.html">← 上一篇：表單到報表的一條龍</a>
+      <a href="./p4.html">下一篇：我的 Prompt 方法論 →</a>
     </div>
   </main>
 
