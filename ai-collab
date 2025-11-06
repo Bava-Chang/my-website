@@ -1,0 +1,156 @@
+<!-- =============================
+FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
+保留你原有內容，但統一導覽與色系；圖片與卡片樣式由共用 CSS 控制。
+============================= -->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>我的 AI 成長過程｜實戰專區</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container wrap">
+      <a class="site-brand" href="index.html"><strong>個人品牌</strong></a>
+      <nav class="site-links">
+        <a href="index.html">首頁</a>
+        <a href="fitness.html">健身</a>
+        <a href="ai-growth.html">AI 成長</a>
+        <a href="ai-collab.html">AI 作品集</a>
+        <a href="workplace.html">職場見聞</a>
+      </nav>
+    </div>
+  </header>
+
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">Field Notes • 工廠數位化 • 系統設計</p>
+      <h1>我的 AI 成長過程｜十篇實戰記錄</h1>
+      <p class="lead">以真實專案為例，從生產、管理到文化，展現 AI 如何解決傳統產業的困境。</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Group 1 -->
+    <div class="group-title"><span class="dot"></span><h2>AI × 自動化與資料流</h2></div>
+    <section class="grid">
+      <!-- 卡片 1 -->
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1400&auto=format&fit=crop" alt="智慧排班" />
+        <div class="pad">
+          <div class="meta">第 1 篇</div>
+          <h3>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案</h3>
+          <p class="sub">用 Google Sheet 與 Apps Script，把人員偏好、瓶頸權重、通宵配額轉為可運算的規則檔，生成有理由可追的班表。</p>
+          <a class="kicker" href="posts/p1.html">閱讀長文</a>
+        </div>
+      </article>
+      <!-- 卡片 2 -->
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1400&auto=format&fit=crop" alt="掃碼作業" />
+        <div class="pad">
+          <div class="meta">第 2 篇</div>
+          <h3>烘房進出一掃送出：行動端體驗 × 後端可靠度</h3>
+          <p class="sub">掃描 QR 即上傳、錯誤自動補傳。行動端速度 × 後端真實性的完美平衡，讓現場紀錄從手抄變成即時。</p>
+          <a class="kicker" href="posts/p2.html">閱讀長文</a>
+        </div>
+      </article>
+      <!-- 卡片 3 -->
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1400&auto=format&fit=crop" alt="庫存查詢" />
+        <div class="pad">
+          <div class="meta">第 3 篇</div>
+          <h3>庫存查詢小工具：doGet 路由 × 欄位校對</h3>
+          <p class="sub">設計輕量級查詢端點，用 URL 參數控制入口，並自動校對大小寫與全半形，簡化現場盤點流程。</p>
+          <a class="kicker" href="posts/p3.html">閱讀長文</a>
+        </div>
+      </article>
+      <!-- 卡片 4 -->
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1660641083884-3a01b601f1f0?q=80&w=1400&auto=format&fit=crop" alt="製令成本" />
+        <div class="pad">
+          <div class="meta">第 4 篇</div>
+          <h3>製令成本估算：把 Excel 規則抽象化，再交給 Python 批次</h3>
+          <p class="sub">以數據驅動取代直覺判斷，計算不同電價、工時、重車空車比例的真實成本，找出 ROI 最佳化解法。</p>
+          <a class="kicker" href="posts/p4.html">閱讀長文</a>
+        </div>
+      </article>
+    </section>
+
+    <div class="section-head"><h2>AI × 教育訓練與合規</h2></div>
+    <section class="grid">
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1400&auto=format&fit=crop" alt="教育教材" />
+        <div class="pad">
+          <div class="meta">第 5 篇</div>
+          <h3>AI 版教育訓練教材：把法規寫成人話，還要教得會</h3>
+          <p class="sub">自動生成教材、題庫與簽到表，AI 協助轉換艱澀法規成易懂教案，並支援多語版本同步。</p>
+          <a class="kicker" href="posts/p5.html">閱讀長文</a>
+        </div>
+      </article>
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="熱負荷防護" />
+        <div class="pad">
+          <div class="meta">第 6 篇</div>
+          <h3>噪音與熱負荷教材系統化：教材 × 測驗 × 簽到 × 成績一條龍</h3>
+          <p class="sub">建立完整的教育訓練閉環：教材內容、線上測驗與成績自動紀錄，合規又省工。</p>
+          <a class="kicker" href="posts/p6.html">閱讀長文</a>
+        </div>
+      </article>
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1400&auto=format&fit=crop" alt="Node-RED" />
+        <div class="pad">
+          <div class="meta">第 7 篇</div>
+          <h3>Node-RED 入門到看板：把資料「流」起來</h3>
+          <p class="sub">透過視覺化流程構建 IoT 資料流，實現從感測到即時看板的全自動化。</p>
+          <a class="kicker" href="posts/p7.html">閱讀長文</a>
+        </div>
+      </article>
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1400&auto=format&fit=crop" alt="空壓系統" />
+        <div class="pad">
+          <div class="meta">第 8 篇</div>
+          <h3>空壓機電費模型：理想 vs 實際與 ROI 敏感度</h3>
+          <p class="sub">利用實測電流與運轉比例重建能源模型，讓節能改造決策有憑有據。</p>
+          <a class="kicker" href="posts/p8.html">閱讀長文</a>
+        </div>
+      </article>
+    </section>
+
+    <div class="section-head"><h2>AI × 管理與文化</h2></div>
+    <section class="grid">
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1400&auto=format&fit=crop" alt="8D報告" />
+        <div class="pad">
+          <div class="meta">第 9 篇</div>
+          <h3>8D 報告半自動化：模板 × 資料 × 生成</h3>
+          <p class="sub">以資料驅動的品質改善流程，從客訴到教育訓練全自動產生 8D 報告與追蹤紀錄。</p>
+          <a class="kicker" href="posts/p9.html">閱讀長文</a>
+        </div>
+      </article>
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1400&auto=format&fit=crop" alt="組織文化" />
+        <div class="pad">
+          <div class="meta">第 10 篇</div>
+          <h3>組織文化變形：當 AI 真的在保護人與績效</h3>
+          <p class="sub">公開 KPI、共創需求、兩週迭代，讓 AI 從工具變成團隊的一員。</p>
+          <a class="kicker" href="posts/p10.html">閱讀長文</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center">
+      <div>
+        <p style="margin:.2rem 0">© 2025 Bava · 深色主題 · 兩欄大卡摘要設計</p>
+      </div>
+      <div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang" alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid var(--line)" />
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
