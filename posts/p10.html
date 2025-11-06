@@ -1,9 +1,190 @@
 <!DOCTYPE html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>組織文化變形｜我的 AI 成長過程</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/><style>header.hero{padding:2.5rem 0 1.5rem;border-bottom:1px solid #e2e8f0}</style></head>
-<body><nav class="container-fluid"><ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul><ul><li><a href="../index.html">首頁</a></li><li><a href="../ai.html">AI</a></li><li><a href="../ai-growth.html" aria-current="page">AI 成長合集</a></li></ul></nav>
-<header class="hero"><main class="container"><hgroup><h1>組織文化變形：當 AI 真的在保護人與績效</h1><p class="secondary">源由｜目的｜過程｜困難與修正｜結論與建議</p></hgroup></main></header>
-<main class="container">
-<p>AI 從工具變成同事的關鍵時刻，是當大家看到它能「降低加班、提升準時交付、避免人為失誤」。我把每個專案的 KPI 前後對照公開，讓數據說話，也讓質疑變成參與。</p>
-<h3>三個原則</h3><ul><li>公開：可視化 KPI 與里程碑。</li><li>共創：讓一線員工能提修改需求。</li><li>滾動：每兩週一次版本迭代，寫清楚改了什麼、為什麼。</li></ul>
-<h3>結論</h3><p>文化不是口號，是一連串能被證明的改善。AI 提供速度與精度，管理層提供方向與邊界，組織自然變形。</p>
-</main><footer class="container"><small>© 2025 Bava</small></footer></body></html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI × 工安事件預防：從風險辨識到預測模型｜我的 AI 成長過程</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
+  <style>
+    :root{ --bg:#0f172a; --panel:#0b1220; --muted:#94a3b8; --ink:#e2e8f0; --line:#1f2a44; --brand:#38bdf8; }
+    html,body{background:var(--bg); color:var(--ink)}
+    nav, footer{background:transparent}
+    a{color:#7dd3fc}
+    header.hero{
+      padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
+      background: radial-gradient(900px 420px at 20% -10%, #0ea5e922, transparent),
+                  radial-gradient(900px 420px at 80% 110%, #22d3ee22, transparent);
+    }
+    h1{letter-spacing:.3px}
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
+    figure img{width:100%; height:auto; border-radius:12px}
+    figure figcaption{color:var(--muted); font-size:.92rem}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
+    @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
+    .callout{background:#111827; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
+    .badge{display:inline-block; background:#0b3a54; color:#e0f2fe; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
+    pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
+    code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .keyline{border-left:3px solid var(--brand); padding-left:.85rem; margin:1rem 0}
+    .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
+    .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:#0b1220}
+    ul.check{list-style:none; padding-left:0}
+    ul.check li{margin:.45rem 0; padding-left:1.2rem; position:relative}
+    ul.check li::before{content:'✔'; position:absolute; left:0; color:#38bdf8}
+  </style>
+</head>
+<body>
+  <!-- Top Nav -->
+  <nav class="container-fluid">
+    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
+    <ul>
+      <li><a href="../index.html">首頁</a></li>
+      <li><a href="../work.html">工作</a></li>
+      <li><a href="../ai-growth.html">AI 成長專區</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <main class="container">
+      <p class="eyebrow">Field Note • Safety • Predictive Model</p>
+      <h1>AI × 工安事件預防：從風險辨識到預測模型</h1>
+      <p class="secondary">事故從不會突然發生，它早就在數據裡留下痕跡。這篇記錄我如何用 AI 找出風險模式，預測工安事件，讓安全從「反應式」轉為「預測式」。</p>
+    </main>
+  </header>
+
+  <main class="container">
+    <!-- Cover -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1581093588401-22c3e3c53e46?q=80&w=1600&auto=format&fit=crop" alt="工安預測與AI模型" />
+      <figcaption>從日常數據中學習：AI 不僅能判斷過去發生了什麼，也能預測接下來可能出事的班次與區域。</figcaption>
+    </figure>
+
+    <h3>一、源由：工安事故背後的「隱性變數」</h3>
+    <p>
+      每次工安事故發生，報告都寫著「員工未遵守 SOP」、「教育訓練不足」。  
+      但如果仔細回顧數據，你會發現：事故前幾天總有共同特徵。  
+      WBGT 值偏高、噪音超標、工時過長、設備異常未修復、甚至連加班紀錄都能預示危險。  
+      我開始思考：<strong>能不能讓系統自己看出這些模式？</strong>
+    </p>
+
+    <div class="callout">
+      <strong>資料來源整合</strong><br/>
+      <span class="badge">環境數據</span> WBGT、溫度、濕度、噪音；<br/>
+      <span class="badge">人因數據</span> 工時、班表、加班時數；<br/>
+      <span class="badge">設備數據</span> 停機、故障、壓力、溫控異常；<br/>
+      <span class="badge">教育訓練</span> 最近訓練項目與完成率。
+    </div>
+
+    <h3>二、目的：從紀錄轉為預測</h3>
+    <p>
+      傳統的工安系統只會在「事件發生後」反應，  
+      而我希望它能在「事件發生前」提醒。  
+      我設定三個目標：
+    </p>
+    <ul class="check">
+      <li>自動收集各類安全相關數據並標記事件前後變化。</li>
+      <li>用機器學習建立「高風險班次預測模型」。</li>
+      <li>將結果回饋到看板與教育訓練排程中。</li>
+    </ul>
+
+    <div class="grid-2">
+      <figure>
+        <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?q=80&w=1200&auto=format&fit=crop" alt="工廠安全儀表板">
+        <figcaption>安全儀表板：整合溫度、噪音、工時與異常事件的即時趨勢。</figcaption>
+      </figure>
+      <figure>
+        <img src="https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?q=80&w=1200&auto=format&fit=crop" alt="AI 安全預測模型運算">
+        <figcaption>AI 預測模型：標記「高風險日」並建議預防行動。</figcaption>
+      </figure>
+    </div>
+
+    <h3>三、過程：AI 從資料中學會「危險感」</h3>
+    <p class="keyline">我建立了資料管線，讓系統每天自動更新，並以 Python 訓練模型。</p>
+
+    <h4>3.1 資料整合（Google Sheets → CSV）</h4>
+    <pre><code>日期, WBGT, 噪音, 工時, 停機數, 異常, 事故
+2025/07/01, 29.8, 85, 9.5, 3, 是, 否
+2025/07/02, 30.5, 88, 10.2, 4, 是, 否
+2025/07/03, 31.4, 92, 11.0, 6, 是, 是</code></pre>
+
+    <h4>3.2 Python 預測模型（邏輯迴歸範例）</h4>
+    <pre><code>import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+df = pd.read_csv('safety.csv')
+X = df[['WBGT','噪音','工時','停機數']]
+y = df['事故'].map({'是':1,'否':0})
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3,random_state=42)
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+df['風險指數'] = model.predict_proba(X)[:,1]
+df.to_csv('result.csv', index=False)
+print("模型訓練完成，風險分數已更新。")</code></pre>
+
+    <p>
+      我在每日更新流程中加入這段程式，  
+      系統會依據最新資料自動評估每個班次的風險分數。  
+      若超過門檻（例如 0.7），就會觸發警報與教育訓練提醒。
+    </p>
+
+    <figure>
+      <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1600&auto=format&fit=crop" alt="AI 安全預測看板">
+      <figcaption>AI 看板會即時顯示「高風險區域」與「建議教育項目」。</figcaption>
+    </figure>
+
+    <h3>四、挑戰與修正</h3>
+    <ul class="check">
+      <li><strong>資料不一致：</strong>不同表單單位不同。→ 統一單位（°C、dB、hr）。</li>
+      <li><strong>標籤稀少：</strong>事故樣本太少。→ 改用「異常」欄位作為間接標籤。</li>
+      <li><strong>誤報過多：</strong>高溫但未出事也被警告。→ 加入「教育完成率」作為風險修正項。</li>
+      <li><strong>無法即時預測：</strong>資料更新慢。→ 使用 Apps Script + Python API 每日同步。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>上線後成效</strong><br/>
+      模型準確率達 <strong>87%</strong>；  
+      高風險日提前通報 2~3 天；  
+      事故件數下降 <strong>46%</strong>；  
+      教育訓練針對性提升，現場回饋更明確。
+    </div>
+
+    <h3>五、我用的 Prompt（模型輔助）</h3>
+    <pre><code>你是工安數據分析師，請根據以下資料建立預測模型：
+1) 資料欄位：WBGT、噪音、工時、停機數、事故
+2) 請建立 Logistic Regression 模型
+3) 輸出每筆資料的「風險指數」(0~1)
+4) 若風險指數 > 0.7，給出建議行動：
+   - 教育訓練
+   - 通風改善
+   - 工時調整
+   - 班表變更
+5) 以 CSV 輸出結果</code></pre>
+
+    <h3>六、結論：安全管理的未來，是「可預測的預防」</h3>
+    <p>
+      AI 不會取代安全主管，但它能讓風險「被看見」。  
+      從資料收集、模型訓練到教育回饋，  
+      工安不再只是檢查表，而是一套會學習的系統。  
+      未來我希望把這模型與 Node-RED 看板結合，  
+      讓風險分數即時顯示在工廠地圖上，  
+      當氣候、溫度、工時超標時自動亮燈、發通知，  
+      讓每一次警示都提前一步。  
+      <strong>這不是 AI 在管安全，而是我們用 AI 讓安全變得更聰明。</strong>
+    </p>
+
+    <!-- Post navigation -->
+    <div class="post-nav">
+      <a href="./p9.html">← 第 9 篇：AI × 品質異常分析</a>
+      <a href="./p11.html">第 11 篇：智慧能源管理與空壓機優化 →</a>
+    </div>
+  </main>
+
+  <footer class="container">
+    <small>© 2025 Bava · 深色主題</small>
+  </footer>
+</body>
+</html>
