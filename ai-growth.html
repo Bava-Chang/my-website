@@ -1,3 +1,7 @@
+<!-- =============================
+FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
+保留你原有內容，但統一導覽與色系；圖片與卡片樣式由共用 CSS 控制。
+============================= -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -5,181 +9,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>我的 AI 成長過程｜實戰專區</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-  <style>
-    :root {
-      --bg: #0f172a;
-      --panel: #0b1220;
-      --muted: #94a3b8;
-      --ink: #e2e8f0;
-      --line: #1f2a44;
-      --brand: #38bdf8;
-    }
-
-    html, body {
-      background: var(--bg);
-      color: var(--ink);
-    }
-
-    nav, footer {
-      background: transparent;
-    }
-
-    a { color: #7dd3fc; }
-
-    header.hero {
-      padding: 3rem 0 1.5rem;
-      border-bottom: 1px solid var(--line);
-      background: radial-gradient(900px 420px at 15% -10%, #0ea5e922, transparent),
-                  radial-gradient(900px 420px at 85% 110%, #22d3ee22, transparent);
-    }
-
-    .eyebrow {
-      font-size: .85rem;
-      color: var(--muted);
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
-
-    .group-title {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-      margin: 2.5rem 0 1rem;
-    }
-
-    .group-title .dot {
-      width: .55rem;
-      height: .55rem;
-      background: var(--brand);
-      border-radius: 999px;
-      display: inline-block;
-    }
-
-    .group-title h2 { margin: 0; color: #e2e8f0; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-
-    @media (max-width: 960px) {
-      .grid { grid-template-columns: 1fr; }
-    }
-
-    .card {
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #0b1220, #0a1222);
-      box-shadow: 0 14px 28px rgba(2, 8, 23, .45);
-      transition: transform .25s ease, box-shadow .25s ease;
-      min-height: 540px;
-    }
-
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 22px 40px rgba(2, 8, 23, .6);
-    }
-
-    .thumb {
-      width: 100%;
-      height: 270px;
-      object-fit: cover;
-      filter: brightness(90%);
-      transition: filter .3s ease;
-    }
-
-    .card:hover .thumb {
-      filter: brightness(100%);
-    }
-
-    .pad {
-      padding: 1.4rem 1.5rem 1.6rem;
-    }
-
-    .pad h3 {
-      margin: .2rem 0 .8rem;
-      font-size: 1.55rem;
-      color: #e2e8f0;
-    }
-
-    .sub {
-      color: var(--muted);
-      line-height: 1.6;
-      display: -webkit-box;
-      -webkit-line-clamp: 4;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 5.8em;
-      font-size: 1rem;
-    }
-
-    .meta {
-      color: #a5b4fc;
-      font-weight: 600;
-      margin-bottom: .4rem;
-    }
-
-    .kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      color: #38bdf8;
-      font-weight: 600;
-      margin-top: .8rem;
-    }
-
-    .kicker::after {
-      content: '→';
-      transition: transform .2s ease;
-    }
-
-    .card:hover .kicker::after {
-      transform: translateX(3px);
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--line);
-      margin: 3rem 0 2rem;
-    }
-
-    footer.container {
-      text-align: center;
-      margin-top: 3rem;
-      color: var(--muted);
-    }
-  </style>
+  <link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
-  <nav class="container-fluid">
-    <ul><li><strong>個人品牌｜健身 × 工作 × AI</strong></li></ul>
-    <ul>
-      <li><a href="index.html">首頁</a></li>
-      <li><a href="fitness.html">健身</a></li>
-      <li><a href="work.html">工作</a></li>
-      <li><a href="ai.html">AI</a></li>
-      <li><a href="ai-growth.html" aria-current="page">AI 成長專區</a></li>
-    </ul>
-  </nav>
+  <header class="site-nav">
+    <div class="container wrap">
+      <a class="site-brand" href="index.html"><strong>個人品牌</strong></a>
+      <nav class="site-links">
+        <a href="index.html">首頁</a>
+        <a href="fitness.html">健身</a>
+        <a href="ai-growth.html">AI 成長</a>
+        <a href="ai-collab.html">AI 作品集</a>
+        <a href="workplace.html">職場見聞</a>
+      </nav>
+    </div>
+  </header>
 
   <header class="hero">
-    <main class="container">
+    <div class="container">
       <p class="eyebrow">Field Notes • 工廠數位化 • 系統設計</p>
       <h1>我的 AI 成長過程｜十篇實戰記錄</h1>
-      <p class="secondary">以真實專案為例，從生產、管理到文化，展現 AI 如何解決傳統產業的困境。</p>
-    </main>
+      <p class="lead">以真實專案為例，從生產、管理到文化，展現 AI 如何解決傳統產業的困境。</p>
+    </div>
   </header>
 
   <main class="container">
     <!-- Group 1 -->
     <div class="group-title"><span class="dot"></span><h2>AI × 自動化與資料流</h2></div>
     <section class="grid">
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1400&auto=format&fit=crop" alt="智慧排班">
+      <!-- 卡片 1 -->
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1400&auto=format&fit=crop" alt="智慧排班" />
         <div class="pad">
           <div class="meta">第 1 篇</div>
           <h3>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案</h3>
@@ -187,9 +47,9 @@
           <a class="kicker" href="posts/p1.html">閱讀長文</a>
         </div>
       </article>
-
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1400&auto=format&fit=crop" alt="掃碼作業">
+      <!-- 卡片 2 -->
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1400&auto=format&fit=crop" alt="掃碼作業" />
         <div class="pad">
           <div class="meta">第 2 篇</div>
           <h3>烘房進出一掃送出：行動端體驗 × 後端可靠度</h3>
@@ -197,9 +57,9 @@
           <a class="kicker" href="posts/p2.html">閱讀長文</a>
         </div>
       </article>
-
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1400&auto=format&fit=crop" alt="庫存查詢">
+      <!-- 卡片 3 -->
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1400&auto=format&fit=crop" alt="庫存查詢" />
         <div class="pad">
           <div class="meta">第 3 篇</div>
           <h3>庫存查詢小工具：doGet 路由 × 欄位校對</h3>
@@ -207,9 +67,9 @@
           <a class="kicker" href="posts/p3.html">閱讀長文</a>
         </div>
       </article>
-
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1660641083884-3a01b601f1f0?q=80&w=1400&auto=format&fit=crop" alt="製令成本">
+      <!-- 卡片 4 -->
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1660641083884-3a01b601f1f0?q=80&w=1400&auto=format&fit=crop" alt="製令成本" />
         <div class="pad">
           <div class="meta">第 4 篇</div>
           <h3>製令成本估算：把 Excel 規則抽象化，再交給 Python 批次</h3>
@@ -219,13 +79,10 @@
       </article>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- Group 2 -->
-    <div class="group-title"><span class="dot"></span><h2>AI × 教育訓練與合規</h2></div>
+    <div class="section-head"><h2>AI × 教育訓練與合規</h2></div>
     <section class="grid">
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1400&auto=format&fit=crop" alt="教育教材">
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1400&auto=format&fit=crop" alt="教育教材" />
         <div class="pad">
           <div class="meta">第 5 篇</div>
           <h3>AI 版教育訓練教材：把法規寫成人話，還要教得會</h3>
@@ -233,9 +90,8 @@
           <a class="kicker" href="posts/p5.html">閱讀長文</a>
         </div>
       </article>
-
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="熱負荷防護">
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="熱負荷防護" />
         <div class="pad">
           <div class="meta">第 6 篇</div>
           <h3>噪音與熱負荷教材系統化：教材 × 測驗 × 簽到 × 成績一條龍</h3>
@@ -243,9 +99,8 @@
           <a class="kicker" href="posts/p6.html">閱讀長文</a>
         </div>
       </article>
-
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1400&auto=format&fit=crop" alt="Node-RED">
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1400&auto=format&fit=crop" alt="Node-RED" />
         <div class="pad">
           <div class="meta">第 7 篇</div>
           <h3>Node-RED 入門到看板：把資料「流」起來</h3>
@@ -253,9 +108,8 @@
           <a class="kicker" href="posts/p7.html">閱讀長文</a>
         </div>
       </article>
-
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1400&auto=format&fit=crop" alt="空壓系統">
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1400&auto=format&fit=crop" alt="空壓系統" />
         <div class="pad">
           <div class="meta">第 8 篇</div>
           <h3>空壓機電費模型：理想 vs 實際與 ROI 敏感度</h3>
@@ -265,13 +119,10 @@
       </article>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- Group 3 -->
-    <div class="group-title"><span class="dot"></span><h2>AI × 管理與文化</h2></div>
+    <div class="section-head"><h2>AI × 管理與文化</h2></div>
     <section class="grid">
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1400&auto=format&fit=crop" alt="8D報告">
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1400&auto=format&fit=crop" alt="8D報告" />
         <div class="pad">
           <div class="meta">第 9 篇</div>
           <h3>8D 報告半自動化：模板 × 資料 × 生成</h3>
@@ -279,9 +130,8 @@
           <a class="kicker" href="posts/p9.html">閱讀長文</a>
         </div>
       </article>
-
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1400&auto=format&fit=crop" alt="組織文化">
+      <article class="card post col-6">
+        <img class="thumb" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1400&auto=format&fit=crop" alt="組織文化" />
         <div class="pad">
           <div class="meta">第 10 篇</div>
           <h3>組織文化變形：當 AI 真的在保護人與績效</h3>
@@ -292,8 +142,15 @@
     </section>
   </main>
 
-  <footer class="container">
-    <small>© 2025 Bava · 深色主題 · 兩欄大卡摘要設計</small>
+  <footer class="site">
+    <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center">
+      <div>
+        <p style="margin:.2rem 0">© 2025 Bava · 深色主題 · 兩欄大卡摘要設計</p>
+      </div>
+      <div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang" alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid var(--line)" />
+      </div>
+    </div>
   </footer>
 </body>
 </html>
