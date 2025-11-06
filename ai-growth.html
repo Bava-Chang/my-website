@@ -1,6 +1,6 @@
 <!-- =============================
-FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
-保留你原有內容，但統一導覽與色系；圖片與卡片樣式由共用 CSS 控制。
+FILE: ai-growth.html  （AI 成長十篇實戰紀錄匯總）
+版型：兩欄卡片（大圖＋大摘要）
 ============================= -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -10,6 +10,113 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
   <title>我的 AI 成長過程｜實戰專區</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <link rel="stylesheet" href="assets/site.css" />
+  <style>
+    /* ==== 僅本頁覆寫：大圖＋大摘要 ==== */
+    :root {
+      --card-bg: #121212;
+      --card-border: #1f1f1f;
+      --text-sub: #cfcfcf;
+      --text-meta: #a6a6a6;
+      --accent: #f9d342;
+      --line: #2a2a2a;
+    }
+
+    .hero {
+      padding: 56px 0 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0));
+    }
+    .hero .eyebrow { color: var(--text-meta); letter-spacing: .08em; font-size: .9rem; }
+    .hero .lead { color: var(--text-sub); max-width: 920px; }
+
+    /* 區塊標題 */
+    .group-title,
+    .section-head {
+      display:flex; align-items:center; gap:10px; margin:28px 0 12px;
+    }
+    .group-title .dot { width:10px; height:10px; border-radius:50%; background:var(--accent); display:inline-block; }
+    .group-title h2, .section-head h2 { margin:0; font-size:1.2rem; color:#fff; }
+
+    /* 兩欄網格 */
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 28px;
+    }
+    @media (max-width: 920px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    /* 卡片樣式：大圖在上、下方大摘要 */
+    .card.post {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,.28);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .card.post:hover {
+      transform: translateY(-4px);
+      border-color: #2d2d2d;
+      box-shadow: 0 14px 36px rgba(0,0,0,.34);
+    }
+
+    .card.post .thumb {
+      width: 100%;
+      height: 360px;           /* 大圖高度 */
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 920px) {
+      .card.post .thumb { height: 280px; }
+    }
+
+    .card.post .pad {
+      padding: 18px 22px 22px;
+    }
+    .card.post .meta {
+      color: var(--text-meta);
+      font-size: .92rem;
+      margin-bottom: 6px;
+    }
+    .card.post h3 {
+      margin: 0 0 10px;
+      line-height: 1.3;
+      font-size: 1.35rem;
+      color: #fff;
+    }
+    .card.post .sub {
+      color: var(--text-sub);
+      font-size: 1.06rem;      /* 摘要加大 */
+      line-height: 1.7;
+      margin: 0 0 12px;
+      display: -webkit-box;    /* 多行截斷保留乾淨版面 */
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card.post .kicker {
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .card.post .kicker:hover { text-decoration: underline; }
+
+    /* 導覽列（與全站一致） */
+    .site-nav {
+      border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; backdrop-filter: blur(6px);
+      background: rgba(12,12,12,.72);
+      z-index: 10;
+    }
+    .site-nav .wrap {
+      display:flex; align-items:center; justify-content:space-between; padding: 12px 0;
+    }
+    .site-links a { margin-left: 14px; }
+
+    /* 頁尾 */
+    footer.site { border-top:1px solid var(--line); padding: 18px 0; margin-top: 36px; }
+  </style>
 </head>
 <body>
   <header class="site-nav">
@@ -18,7 +125,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
       <nav class="site-links">
         <a href="index.html">首頁</a>
         <a href="fitness.html">健身</a>
-        <a href="ai-growth.html">AI 成長</a>
+        <a href="ai-growth.html" aria-current="page">AI 成長</a>
         <a href="ai-collab.html">AI 作品集</a>
         <a href="workplace.html">職場見聞</a>
       </nav>
@@ -38,7 +145,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
     <div class="group-title"><span class="dot"></span><h2>AI × 自動化與資料流</h2></div>
     <section class="grid">
       <!-- 卡片 1 -->
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1400&auto=format&fit=crop" alt="智慧排班" />
         <div class="pad">
           <div class="meta">第 1 篇</div>
@@ -48,7 +155,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
         </div>
       </article>
       <!-- 卡片 2 -->
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1400&auto=format&fit=crop" alt="掃碼作業" />
         <div class="pad">
           <div class="meta">第 2 篇</div>
@@ -58,7 +165,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
         </div>
       </article>
       <!-- 卡片 3 -->
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1400&auto=format&fit=crop" alt="庫存查詢" />
         <div class="pad">
           <div class="meta">第 3 篇</div>
@@ -68,7 +175,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
         </div>
       </article>
       <!-- 卡片 4 -->
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1660641083884-3a01b601f1f0?q=80&w=1400&auto=format&fit=crop" alt="製令成本" />
         <div class="pad">
           <div class="meta">第 4 篇</div>
@@ -81,7 +188,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
 
     <div class="section-head"><h2>AI × 教育訓練與合規</h2></div>
     <section class="grid">
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1400&auto=format&fit=crop" alt="教育教材" />
         <div class="pad">
           <div class="meta">第 5 篇</div>
@@ -90,7 +197,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
           <a class="kicker" href="posts/p5.html">閱讀長文</a>
         </div>
       </article>
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="熱負荷防護" />
         <div class="pad">
           <div class="meta">第 6 篇</div>
@@ -99,7 +206,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
           <a class="kicker" href="posts/p6.html">閱讀長文</a>
         </div>
       </article>
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1400&auto=format&fit=crop" alt="Node-RED" />
         <div class="pad">
           <div class="meta">第 7 篇</div>
@@ -108,7 +215,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
           <a class="kicker" href="posts/p7.html">閱讀長文</a>
         </div>
       </article>
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1400&auto=format&fit=crop" alt="空壓系統" />
         <div class="pad">
           <div class="meta">第 8 篇</div>
@@ -121,7 +228,7 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
 
     <div class="section-head"><h2>AI × 管理與文化</h2></div>
     <section class="grid">
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1400&auto=format&fit=crop" alt="8D報告" />
         <div class="pad">
           <div class="meta">第 9 篇</div>
@@ -130,11 +237,11 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
           <a class="kicker" href="posts/p9.html">閱讀長文</a>
         </div>
       </article>
-      <article class="card post col-6">
+      <article class="card post">
         <img class="thumb" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1400&auto=format&fit=crop" alt="組織文化" />
         <div class="pad">
           <div class="meta">第 10 篇</div>
-          <h3>組織文化變形：當 AI 真的在保護人與績效</h3>
+        <h3>組織文化變形：當 AI 真的在保護人與績效</h3>
           <p class="sub">公開 KPI、共創需求、兩週迭代，讓 AI 從工具變成團隊的一員。</p>
           <a class="kicker" href="posts/p10.html">閱讀長文</a>
         </div>
