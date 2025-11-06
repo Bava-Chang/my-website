@@ -1,13 +1,14 @@
 <!-- =============================
-FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
-保留你原有內容，但統一導覽與色系；圖片與卡片樣式由共用 CSS 控制。
+FILE: ai-collab.html  （AI 協作作品集：系統／ISO／自動化）
+採用與首頁一致的導覽與色系；內容為你畫布上的作品集版本，已整合為同一套 CSS。
 ============================= -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>我的 AI 成長過程｜實戰專區</title>
+  <title>AI 協作專案成果｜作品集展示頁</title>
+  <meta name="description" content="展示與 AI（ChatGPT）協作的專案成果、構想與最終完成品，含 Excel 巨集、雲端共用、系統開發與內容創作。" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <link rel="stylesheet" href="assets/site.css" />
 </head>
@@ -17,139 +18,78 @@ FILE: ai-growth.html  （AI 成長十篇實戰記錄匯總）
       <a class="site-brand" href="index.html"><strong>個人品牌</strong></a>
       <nav class="site-links">
         <a href="index.html">首頁</a>
-        <a href="fitness.html">健身</a>
         <a href="ai-growth.html">AI 成長</a>
-        <a href="ai-collab.html">AI 作品集</a>
-        <a href="workplace.html">職場見聞</a>
+        <a href="ai-collab.html" aria-current="page">AI 作品集</a>
       </nav>
     </div>
   </header>
 
-  <header class="hero">
-    <div class="container">
-      <p class="eyebrow">Field Notes • 工廠數位化 • 系統設計</p>
-      <h1>我的 AI 成長過程｜十篇實戰記錄</h1>
-      <p class="lead">以真實專案為例，從生產、管理到文化，展現 AI 如何解決傳統產業的困境。</p>
+  <!-- Hero -->
+  <section id="top" class="hero">
+    <div class="container inner">
+      <div>
+        <h1 style="margin:.2rem 0 1rem">AI 協作作品集｜智慧製造 × 數據驅動</h1>
+        <p class="lead">以工廠現場實戰需求為核心，將構想轉化為可交付的系統與文件：生產自動化、品質制度、能源分析與個人品牌。</p>
+        <div class="cta"><a class="btn" href="#systems">查看系統作品</a><a class="btn secondary" href="#quality">ISO / 品質</a><a class="btn secondary" href="#automation">自動化應用</a></div>
+      </div>
+      <div class="card" aria-label="作品集重點">
+        <h3 style="margin-top:0">關鍵指標</h3>
+        <p class="chip"><strong>11 個月</strong>｜端到端落地執行</p>
+        <p class="chip"><strong>10+ 套</strong> Apps Script / Sheets 系統</p>
+        <p class="chip"><strong>70%↑</strong> 文件標準化覆蓋率</p>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main class="container">
-    <!-- Group 1 -->
-    <div class="group-title"><span class="dot"></span><h2>AI × 自動化與資料流</h2></div>
-    <section class="grid">
-      <!-- 卡片 1 -->
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1400&auto=format&fit=crop" alt="智慧排班" />
-        <div class="pad">
-          <div class="meta">第 1 篇</div>
-          <h3>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案</h3>
-          <p class="sub">用 Google Sheet 與 Apps Script，把人員偏好、瓶頸權重、通宵配額轉為可運算的規則檔，生成有理由可追的班表。</p>
-          <a class="kicker" href="posts/p1.html">閱讀長文</a>
-        </div>
-      </article>
-      <!-- 卡片 2 -->
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?q=80&w=1400&auto=format&fit=crop" alt="掃碼作業" />
-        <div class="pad">
-          <div class="meta">第 2 篇</div>
-          <h3>烘房進出一掃送出：行動端體驗 × 後端可靠度</h3>
-          <p class="sub">掃描 QR 即上傳、錯誤自動補傳。行動端速度 × 後端真實性的完美平衡，讓現場紀錄從手抄變成即時。</p>
-          <a class="kicker" href="posts/p2.html">閱讀長文</a>
-        </div>
-      </article>
-      <!-- 卡片 3 -->
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1400&auto=format&fit=crop" alt="庫存查詢" />
-        <div class="pad">
-          <div class="meta">第 3 篇</div>
-          <h3>庫存查詢小工具：doGet 路由 × 欄位校對</h3>
-          <p class="sub">設計輕量級查詢端點，用 URL 參數控制入口，並自動校對大小寫與全半形，簡化現場盤點流程。</p>
-          <a class="kicker" href="posts/p3.html">閱讀長文</a>
-        </div>
-      </article>
-      <!-- 卡片 4 -->
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1660641083884-3a01b601f1f0?q=80&w=1400&auto=format&fit=crop" alt="製令成本" />
-        <div class="pad">
-          <div class="meta">第 4 篇</div>
-          <h3>製令成本估算：把 Excel 規則抽象化，再交給 Python 批次</h3>
-          <p class="sub">以數據驅動取代直覺判斷，計算不同電價、工時、重車空車比例的真實成本，找出 ROI 最佳化解法。</p>
-          <a class="kicker" href="posts/p4.html">閱讀長文</a>
-        </div>
-      </article>
-    </section>
+  <!-- 自動化應用（擷取畫布既有內容） -->
+  <section id="automation">
+    <div class="container">
+      <div class="section-head"><h2>跨平台協作與自動化應用</h2><p>Excel VBA 巨集 × Google Sheets × 雲端共用文件整合</p></div>
+      <div class="grid">
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5" alt="Excel Macro" /><div class="eyebrow">📈 Excel 巨集開發</div><h3>VBA 自動化報表 × 公式生成 × 錯誤防呆</h3><p>由構想到完成，開發多項自動化報表與巨集工具。具備動態欄位偵測、公式生成、自動更新與錯誤防呆，讓原本需 3 小時的報表生成縮短至 15 分鐘內。</p><p class="chip"><strong>耗時</strong>：約 3 週</p><p class="chip">可做：一鍵生成報表、自動格式化、圖表更新、即時警示</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1581091215367-59ab6b85b9f8" alt="Cloud Integration" /><div class="eyebrow">☁️ 雲端共用與跨電腦傳輸</div><h3>Google Drive / Apps Script API 整合</h3><p>完成雲端文件自動傳輸與版本控管方案。跨電腦間資料自動同步，支援共編與權限管控，實現「隨時隨地皆可作業」。</p><p class="chip"><strong>耗時</strong>：約 2 週</p><p class="chip">可做：多端同步、雲端備份、版本回溯、自動通知更新</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7" alt="AI Hub" /><div class="eyebrow">💡 進行中構想：跨平台 AI 協作中樞</div><h3>整合 ChatGPT + Sheets + VBA 雙向同步</h3><p>AI 可直接存取表格資料並自動生成報表。已完成 API 雛形，實現雙向資料交換，預計拓展至 Node-RED + IoT 應用層。</p><p class="chip"><strong>狀態</strong>：已完成原型開發</p><p class="chip">可做：AI 指令即時寫入表格、分析報表、生成統計摘要</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" alt="Automation" /><div class="eyebrow">🧠 從構想到落地：自動化流程最佳化</div><h3>由 AI 構想的流程全數轉化為實際成果</h3><p>討論中的構想（跨表單資料合併、自動比對與人員分派）已完成實作並部署至雲端供多台電腦共用，成為完整解決方案。</p><p class="chip"><strong>狀態</strong>：已全面完成</p><p class="chip">可做：資料同步、智慧比對、動態分派、自動紀錄</p></div>
+      </div>
+      <div style="text-align:center"><a href="#top" class="btn-top">↑ 返回頂部</a></div>
+    </div>
+  </section>
 
-    <div class="section-head"><h2>AI × 教育訓練與合規</h2></div>
-    <section class="grid">
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1400&auto=format&fit=crop" alt="教育教材" />
-        <div class="pad">
-          <div class="meta">第 5 篇</div>
-          <h3>AI 版教育訓練教材：把法規寫成人話，還要教得會</h3>
-          <p class="sub">自動生成教材、題庫與簽到表，AI 協助轉換艱澀法規成易懂教案，並支援多語版本同步。</p>
-          <a class="kicker" href="posts/p5.html">閱讀長文</a>
-        </div>
-      </article>
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="熱負荷防護" />
-        <div class="pad">
-          <div class="meta">第 6 篇</div>
-          <h3>噪音與熱負荷教材系統化：教材 × 測驗 × 簽到 × 成績一條龍</h3>
-          <p class="sub">建立完整的教育訓練閉環：教材內容、線上測驗與成績自動紀錄，合規又省工。</p>
-          <a class="kicker" href="posts/p6.html">閱讀長文</a>
-        </div>
-      </article>
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1400&auto=format&fit=crop" alt="Node-RED" />
-        <div class="pad">
-          <div class="meta">第 7 篇</div>
-          <h3>Node-RED 入門到看板：把資料「流」起來</h3>
-          <p class="sub">透過視覺化流程構建 IoT 資料流，實現從感測到即時看板的全自動化。</p>
-          <a class="kicker" href="posts/p7.html">閱讀長文</a>
-        </div>
-      </article>
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1400&auto=format&fit=crop" alt="空壓系統" />
-        <div class="pad">
-          <div class="meta">第 8 篇</div>
-          <h3>空壓機電費模型：理想 vs 實際與 ROI 敏感度</h3>
-          <p class="sub">利用實測電流與運轉比例重建能源模型，讓節能改造決策有憑有據。</p>
-          <a class="kicker" href="posts/p8.html">閱讀長文</a>
-        </div>
-      </article>
-    </section>
+  <!-- 系統開發（擷取畫布既有內容） -->
+  <section id="systems">
+    <div class="container">
+      <div class="section-head"><h2>系統開發</h2><p>Google Sheets + Apps Script + 行動條碼流程整合</p></div>
+      <div class="grid">
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a" alt="Production Planning" /><div class="eyebrow">📊 智慧生管系統</div><h3>自動排程 × 負載均衡 × 交期分析</h3><p>依交期、人力、機台效率自動生成生產計畫；支援臨時調度與跨站工時回寫，確保績效計算精準。</p><p class="chip"><strong>耗時</strong>：約 3 個月</p><p class="chip">可做：自動排程、交期判斷、產能視覺化</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1581092335305-211c006a4a05" alt="Inventory" /><div class="eyebrow">🧾 智慧盤點系統</div><h3>QR 條碼掃描 × 離線暫存 × 庫存快照</h3><p>手機掃碼即時更新庫存；支援錯誤回補（debug log）與彙總快照，避免資料遺失。</p><p class="chip"><strong>耗時</strong>：約 2 週</p><p class="chip">可做：即時盤點、庫存查詢、API 故障暫存</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0" alt="Time Tracking" /><div class="eyebrow">🕓 打卡與支援工時</div><h3>跨日邏輯 × 自動報表 × 稽核友善</h3><p>員工 QR 打卡；自動計算支援時數（跨日、休息扣除規則）並輸出績效報表。</p><p class="chip"><strong>耗時</strong>：約 1 個月</p><p class="chip">可做：工時總表、臨時調動回寫、稽核追溯</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b" alt="Feasibility" /><div class="eyebrow">🔄 交期精靈</div><h3>可接單分析 × 能力邊界提示</h3><p>基於即時庫存與產能，AI 回答「能否承接新訂單」、所需資源、關鍵瓶頸。</p><p class="chip"><strong>耗時</strong>：約 2 週</p><p class="chip">可做：可行性評估、瓶頸找出、建議方案</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1516117172878-fd2c41f4a759" alt="Energy" /><div class="eyebrow">💨 能源監控與效能分析</div><h3>空壓機比功率 × 電費比較 × ROI</h3><p>建置重車/空車時數模型，提供年節電金額估算與投資回收期分析。</p><p class="chip"><strong>耗時</strong>：約 3 週</p><p class="chip">可做：節能評估、替換方案比較、決策報告</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1551434678-e076c223a692" alt="Support Work" /><div class="eyebrow">🧮 雜事支援統計</div><h3>跨班工時 × 自動加總 × 例外規則</h3><p>嚴謹處理中午/晚間休息、晚間不扣與 20:00 後再扣的例外規則，對齊績效制度。</p><p class="chip"><strong>耗時</strong>：約 1 週</p><p class="chip">可做：日/週/月統計、績效聯動、稽核備查</p></div>
+      </div>
+      <div style="text-align:center"><a href="#top" class="btn-top">↑ 返回頂部</a></div>
+    </div>
+  </section>
 
-    <div class="section-head"><h2>AI × 管理與文化</h2></div>
-    <section class="grid">
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1400&auto=format&fit=crop" alt="8D報告" />
-        <div class="pad">
-          <div class="meta">第 9 篇</div>
-          <h3>8D 報告半自動化：模板 × 資料 × 生成</h3>
-          <p class="sub">以資料驅動的品質改善流程，從客訴到教育訓練全自動產生 8D 報告與追蹤紀錄。</p>
-          <a class="kicker" href="posts/p9.html">閱讀長文</a>
-        </div>
-      </article>
-      <article class="card post col-6">
-        <img class="thumb" src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1400&auto=format&fit=crop" alt="組織文化" />
-        <div class="pad">
-          <div class="meta">第 10 篇</div>
-          <h3>組織文化變形：當 AI 真的在保護人與績效</h3>
-          <p class="sub">公開 KPI、共創需求、兩週迭代，讓 AI 從工具變成團隊的一員。</p>
-          <a class="kicker" href="posts/p10.html">閱讀長文</a>
-        </div>
-      </article>
-    </section>
-  </main>
+  <!-- ISO / 品質（擷取畫布既有內容） -->
+  <section id="quality">
+    <div class="container">
+      <div class="section-head"><h2>ISO 品質</h2><p>AI 輔助撰寫標準化範本，提升查核效率與一致性</p></div>
+      <div class="grid">
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a" alt="ISO Docs" /><div class="eyebrow">📘 ISO 文件庫</div><h3>ISO9001 / ISO14001 全套制度與表單</h3><p>程序書、管理制度、表單、流程圖一體化；內外稽核可直接引用。</p><p class="chip"><strong>耗時</strong>：約 2 個月</p><p class="chip">可做：快速查核、訓練教材、版本控管</p></div>
+        <div class="card col-6"><img src="https://images.unsplash.com/photo-1488229297570-58520851e868" alt="8D" /><div class="eyebrow">🧾 8D 報告自動化</div><h3>依客訴模板快速生成改善報告</h3><p>整合因果、堵塞點、矯正措施與追蹤機制，一鍵輸出；可作為教育訓練與稽核備查依據。</p><p class="chip"><strong>耗時</strong>：約 1 週</p><p class="chip">可做：客訴應對、教材產出、稽核備查</p></div>
+      </div>
+      <div style="text-align:center"><a href="#top" class="btn-top">↑ 返回頂部</a></div>
+    </div>
+  </section>
 
   <footer class="site">
     <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center">
       <div>
-        <p style="margin:.2rem 0">© 2025 Bava · 深色主題 · 兩欄大卡摘要設計</p>
+        <p style="margin:.2rem 0">© 2025 AI 協作作品集｜以專業、創新、實用為原則</p>
+        <p style="margin:.2rem 0">Contact：<a href="mailto:bava@example.com" style="color:var(--brand)">Email</a> · <a href="https://github.com/bava-chang" target="_blank" rel="noopener" style="color:var(--brand)">GitHub</a></p>
       </div>
-      <div>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang" alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid var(--line)" />
-      </div>
+      <div><img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang" alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid var(--line)" /></div>
     </div>
   </footer>
 </body>
