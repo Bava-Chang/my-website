@@ -1,7 +1,3 @@
-<!-- =============================
-FILE: ai-collab.html  （AI 協作作品集：系統／ISO／自動化）
-採用與首頁一致的導覽與色系；內容為你畫布上的作品集版本，已整合為同一套 CSS。
-============================= -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -9,30 +5,80 @@ FILE: ai-collab.html  （AI 協作作品集：系統／ISO／自動化）
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AI 協作專案成果｜作品集展示頁</title>
   <meta name="description" content="展示與 AI（ChatGPT）協作的專案成果、構想與最終完成品，含 Excel 巨集、雲端共用、系統開發與內容創作。" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-  <link rel="stylesheet" href="assets/site.css" />
+  <style>
+    :root{
+      --bg:#0f1115;--panel:#141825;--muted:#8892a6;--text:#e6e9f5;--brand:#4cc9f0;--brand-2:#4361ee;--border:rgba(255,255,255,.07);--radius:16px;--shadow:0 10px 30px rgba(0,0,0,.35);--shadow-soft:0 8px 20px rgba(0,0,0,.25);--maxw:1180px;
+    }
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Helvetica,Arial,PingFang TC,Microsoft JhengHei,sans-serif;background:radial-gradient(1200px 800px at 80% -10%,#1a2035 0%,#0b0e18 50%,#080a12 100%);color:var(--text);line-height:1.6;}
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header.nav{position:sticky;top:0;z-index:100;backdrop-filter:saturate(140%) blur(8px);background:rgba(10,12,20,.6);border-bottom:1px solid var(--border);}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+    .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--text)}
+    .brand strong{font-weight:700;letter-spacing:.3px}
+    .nav-links{display:flex;gap:18px}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:500}
+    .nav-links a:hover{color:var(--text)}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+    .section-head h2{margin:0;font-size:24px}
+    .section-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .col-6{grid-column:span 6}
+    @media(max-width:980px){.col-6{grid-column:span 12}}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow-soft);position:relative;overflow:hidden}
+    .card img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:12px;}
+    .eyebrow{color:var(--brand);font-size:12px;letter-spacing:.4px;text-transform:uppercase}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.03)}
+    footer{text-align:center;color:var(--muted);padding:30px 0}
+    .btn-top{display:inline-block;margin-top:20px;color:var(--brand);text-decoration:none;border:1px solid var(--brand);padding:8px 14px;border-radius:999px;transition:all .3s}
+    .btn-top:hover{background:var(--brand);color:#fff}
+    .hero{padding:56px 0 40px;background:linear-gradient(180deg, rgba(67,97,238,.10), rgba(67,97,238,0));border-bottom:1px solid var(--border)}
+    .hero .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;display:grid;grid-template-columns:1.3fr .7fr;gap:24px}
+    .hero .lead{color:var(--muted)}
+    .hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+    .btn{appearance:none;border:none;cursor:pointer;color:#0b0e18;background:linear-gradient(135deg,var(--brand),var(--brand-2));padding:12px 16px;border-radius:12px;font-weight:700;box-shadow:var(--shadow);text-decoration:none}
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+
+    /* 互動質感：卡片 hover 與動畫 */
+    .card{transition:transform .25s ease, filter .25s ease}
+    .card:hover{transform:translateY(-4px);filter:brightness(1.04)}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    [data-anim]{animation:fadeInUp .5s ease both}
+
+    /* 行動端優化 */
+    html{scroll-behavior:smooth}
+    @media (max-width:980px){
+      .hero .wrap{grid-template-columns:1fr}
+      .card img{height:140px}
+      .nav-links{gap:12px}
+    }
+  </style>
 </head>
 <body>
-  <header class="site-nav">
-    <div class="container wrap">
-      <a class="site-brand" href="index.html"><strong>個人品牌</strong></a>
-      <nav class="site-links">
-        <a href="index.html">首頁</a>
-        <a href="ai-growth.html">AI 成長</a>
-        <a href="ai-collab.html" aria-current="page">AI 作品集</a>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top"><strong>AI 協作作品集</strong></a>
+      <nav class="nav-links">
+        <a href="#automation">自動化應用</a>
+        <a href="#systems">系統開發</a>
+        <a href="#quality">ISO 品質</a>
+        <a href="#content">個人品牌</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section id="top" class="hero">
-    <div class="container inner">
+  <!-- Hero Banner（不動既有色系風格） -->
+  <section id="top" class="hero" data-anim>
+    <div class="wrap">
       <div>
         <h1 style="margin:.2rem 0 1rem">AI 協作作品集｜智慧製造 × 數據驅動</h1>
-        <p class="lead">以工廠現場實戰需求為核心，將構想轉化為可交付的系統與文件：生產自動化、品質制度、能源分析與個人品牌。</p>
-        <div class="cta"><a class="btn" href="#systems">查看系統作品</a><a class="btn secondary" href="#quality">ISO / 品質</a><a class="btn secondary" href="#automation">自動化應用</a></div>
+        <p class="lead">以你在工廠現場的實戰需求為核心，將構想轉化為可交付的系統與文件：生產自動化、品質制度、能源分析與個人品牌。風格延續你現有站點的專業深色系設計。</p>
+        <div class="cta">
+          <a class="btn" href="#systems">查看系統作品</a>
+          <a class="btn secondary" href="#quality">ISO / 品質</a>
+          <a class="btn secondary" href="#automation">自動化應用</a>
+        </div>
       </div>
-      <div class="card" aria-label="作品集重點">
+      <div class="card" aria-label="作品集重點" data-anim>
         <h3 style="margin-top:0">關鍵指標</h3>
         <p class="chip"><strong>11 個月</strong>｜端到端落地執行</p>
         <p class="chip"><strong>10+ 套</strong> Apps Script / Sheets 系統</p>
@@ -41,55 +87,186 @@ FILE: ai-collab.html  （AI 協作作品集：系統／ISO／自動化）
     </div>
   </section>
 
-  <!-- 自動化應用（擷取畫布既有內容） -->
   <section id="automation">
     <div class="container">
-      <div class="section-head"><h2>跨平台協作與自動化應用</h2><p>Excel VBA 巨集 × Google Sheets × 雲端共用文件整合</p></div>
-      <div class="grid">
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5" alt="Excel Macro" /><div class="eyebrow">📈 Excel 巨集開發</div><h3>VBA 自動化報表 × 公式生成 × 錯誤防呆</h3><p>由構想到完成，開發多項自動化報表與巨集工具。具備動態欄位偵測、公式生成、自動更新與錯誤防呆，讓原本需 3 小時的報表生成縮短至 15 分鐘內。</p><p class="chip"><strong>耗時</strong>：約 3 週</p><p class="chip">可做：一鍵生成報表、自動格式化、圖表更新、即時警示</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1581091215367-59ab6b85b9f8" alt="Cloud Integration" /><div class="eyebrow">☁️ 雲端共用與跨電腦傳輸</div><h3>Google Drive / Apps Script API 整合</h3><p>完成雲端文件自動傳輸與版本控管方案。跨電腦間資料自動同步，支援共編與權限管控，實現「隨時隨地皆可作業」。</p><p class="chip"><strong>耗時</strong>：約 2 週</p><p class="chip">可做：多端同步、雲端備份、版本回溯、自動通知更新</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7" alt="AI Hub" /><div class="eyebrow">💡 進行中構想：跨平台 AI 協作中樞</div><h3>整合 ChatGPT + Sheets + VBA 雙向同步</h3><p>AI 可直接存取表格資料並自動生成報表。已完成 API 雛形，實現雙向資料交換，預計拓展至 Node-RED + IoT 應用層。</p><p class="chip"><strong>狀態</strong>：已完成原型開發</p><p class="chip">可做：AI 指令即時寫入表格、分析報表、生成統計摘要</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" alt="Automation" /><div class="eyebrow">🧠 從構想到落地：自動化流程最佳化</div><h3>由 AI 構想的流程全數轉化為實際成果</h3><p>討論中的構想（跨表單資料合併、自動比對與人員分派）已完成實作並部署至雲端供多台電腦共用，成為完整解決方案。</p><p class="chip"><strong>狀態</strong>：已全面完成</p><p class="chip">可做：資料同步、智慧比對、動態分派、自動紀錄</p></div>
+      <div class="section-head">
+        <h2>跨平台協作與自動化應用</h2>
+        <p>Excel VBA 巨集 × Google Sheets × 雲端共用文件整合</p>
       </div>
-      <div style="text-align:center"><a href="#top" class="btn-top">↑ 返回頂部</a></div>
-    </div>
-  </section>
+      <div class="grid">
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5" alt="Excel Macro" />
+          <div class="eyebrow">📈 Excel 巨集開發</div>
+          <h3>VBA 自動化報表 × 公式生成 × 錯誤防呆</h3>
+          <p>由構想到完成，開發多項自動化報表與巨集工具。具備動態欄位偵測、公式生成、自動更新與錯誤防呆，讓原本需 3 小時的報表生成縮短至 15 分鐘內。</p>
+          <p class="chip"><strong>耗時</strong>：約 3 週</p>
+          <p class="chip">可做：一鍵生成報表、自動格式化、圖表更新、即時警示</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1581091215367-59ab6b85b9f8" alt="Cloud Integration" />
+          <div class="eyebrow">☁️ 雲端共用與跨電腦傳輸</div>
+          <h3>Google Drive / Apps Script API 整合</h3>
+          <p>完成雲端文件自動傳輸與版本控管方案。跨電腦間資料自動同步，支援共編與權限管控，實現「隨時隨地皆可作業」。</p>
+          <p class="chip"><strong>耗時</strong>：約 2 週</p>
+          <p class="chip">可做：多端同步、雲端備份、版本回溯、自動通知更新</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7" alt="AI Hub" />
+          <div class="eyebrow">💡 進行中構想：跨平台 AI 協作中樞</div>
+          <h3>整合 ChatGPT + Sheets + VBA 雙向同步</h3>
+          <p>AI 可直接存取表格資料並自動生成報表。已完成 API 雛形，實現雙向資料交換，預計拓展至 Node-RED + IoT 應用層。</p>
+          <p class="chip"><strong>狀態</strong>：已完成原型開發</p>
+          <p class="chip">可做：AI 指令即時寫入表格、分析報表、生成統計摘要</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" alt="Automation" />
+          <div class="eyebrow">🧠 從構想到落地：自動化流程最佳化</div>
+          <h3>由 AI 構想的流程全數轉化為實際成果</h3>
+          <p>討論中的構想（跨表單資料合併、自動比對與人員分派）已完成實作並部署至雲端供多台電腦共用，成為完整解決方案。</p>
+          <p class="chip"><strong>狀態</strong>：已全面完成</p>
+          <p class="chip">可做：資料同步、智慧比對、動態分派、自動紀錄</p>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <a href="#top" class="btn-top">↑ 返回頂部</a>
+      </div>
+    </div>  </section>
 
-  <!-- 系統開發（擷取畫布既有內容） -->
+  <!-- 系統開發 -->
   <section id="systems">
     <div class="container">
-      <div class="section-head"><h2>系統開發</h2><p>Google Sheets + Apps Script + 行動條碼流程整合</p></div>
-      <div class="grid">
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a" alt="Production Planning" /><div class="eyebrow">📊 智慧生管系統</div><h3>自動排程 × 負載均衡 × 交期分析</h3><p>依交期、人力、機台效率自動生成生產計畫；支援臨時調度與跨站工時回寫，確保績效計算精準。</p><p class="chip"><strong>耗時</strong>：約 3 個月</p><p class="chip">可做：自動排程、交期判斷、產能視覺化</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1581092335305-211c006a4a05" alt="Inventory" /><div class="eyebrow">🧾 智慧盤點系統</div><h3>QR 條碼掃描 × 離線暫存 × 庫存快照</h3><p>手機掃碼即時更新庫存；支援錯誤回補（debug log）與彙總快照，避免資料遺失。</p><p class="chip"><strong>耗時</strong>：約 2 週</p><p class="chip">可做：即時盤點、庫存查詢、API 故障暫存</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0" alt="Time Tracking" /><div class="eyebrow">🕓 打卡與支援工時</div><h3>跨日邏輯 × 自動報表 × 稽核友善</h3><p>員工 QR 打卡；自動計算支援時數（跨日、休息扣除規則）並輸出績效報表。</p><p class="chip"><strong>耗時</strong>：約 1 個月</p><p class="chip">可做：工時總表、臨時調動回寫、稽核追溯</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b" alt="Feasibility" /><div class="eyebrow">🔄 交期精靈</div><h3>可接單分析 × 能力邊界提示</h3><p>基於即時庫存與產能，AI 回答「能否承接新訂單」、所需資源、關鍵瓶頸。</p><p class="chip"><strong>耗時</strong>：約 2 週</p><p class="chip">可做：可行性評估、瓶頸找出、建議方案</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1516117172878-fd2c41f4a759" alt="Energy" /><div class="eyebrow">💨 能源監控與效能分析</div><h3>空壓機比功率 × 電費比較 × ROI</h3><p>建置重車/空車時數模型，提供年節電金額估算與投資回收期分析。</p><p class="chip"><strong>耗時</strong>：約 3 週</p><p class="chip">可做：節能評估、替換方案比較、決策報告</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1551434678-e076c223a692" alt="Support Work" /><div class="eyebrow">🧮 雜事支援統計</div><h3>跨班工時 × 自動加總 × 例外規則</h3><p>嚴謹處理中午/晚間休息、晚間不扣與 20:00 後再扣的例外規則，對齊績效制度。</p><p class="chip"><strong>耗時</strong>：約 1 週</p><p class="chip">可做：日/週/月統計、績效聯動、稽核備查</p></div>
+      <div class="section-head">
+        <h2>系統開發</h2>
+        <p>Google Sheets + Apps Script + 行動條碼流程整合</p>
       </div>
-      <div style="text-align:center"><a href="#top" class="btn-top">↑ 返回頂部</a></div>
+      <div class="grid">
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a" alt="Production Planning" />
+          <div class="eyebrow">📊 智慧生管系統</div>
+          <h3>自動排程 × 負載均衡 × 交期分析</h3>
+          <p>依交期、人力、機台效率自動生成生產計畫；支援臨時調度與跨站工時回寫，確保績效計算精準。</p>
+          <p class="chip"><strong>耗時</strong>：約 3 個月</p>
+          <p class="chip">可做：自動排程、交期判斷、產能視覺化</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1581092335305-211c006a4a05" alt="Inventory" />
+          <div class="eyebrow">🧾 智慧盤點系統</div>
+          <h3>QR 條碼掃描 × 離線暫存 × 庫存快照</h3>
+          <p>手機掃碼即時更新庫存；支援錯誤回補（debug log）與彙總快照，避免資料遺失。</p>
+          <p class="chip"><strong>耗時</strong>：約 2 週</p>
+          <p class="chip">可做：即時盤點、庫存查詢、API 故障暫存</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0" alt="Time Tracking" />
+          <div class="eyebrow">🕓 打卡與支援工時</div>
+          <h3>跨日邏輯 × 自動報表 × 稽核友善</h3>
+          <p>員工 QR 打卡；自動計算支援時數（跨日、休息扣除規則）並輸出績效報表。</p>
+          <p class="chip"><strong>耗時</strong>：約 1 個月</p>
+          <p class="chip">可做：工時總表、臨時調動回寫、稽核追溯</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b" alt="Feasibility" />
+          <div class="eyebrow">🔄 交期精靈</div>
+          <h3>可接單分析 × 能力邊界提示</h3>
+          <p>基於即時庫存與產能，AI 回答「能否承接新訂單」、所需資源、關鍵瓶頸。</p>
+          <p class="chip"><strong>耗時</strong>：約 2 週</p>
+          <p class="chip">可做：可行性評估、瓶頸找出、建議方案</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1516117172878-fd2c41f4a759" alt="Energy" />
+          <div class="eyebrow">💨 能源監控與效能分析</div>
+          <h3>空壓機比功率 × 電費比較 × ROI</h3>
+          <p>建置重車/空車時數模型，提供年節電金額估算與投資回收期分析。</p>
+          <p class="chip"><strong>耗時</strong>：約 3 週</p>
+          <p class="chip">可做：節能評估、替換方案比較、決策報告</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1551434678-e076c223a692" alt="Support Work" />
+          <div class="eyebrow">🧮 雜事支援統計</div>
+          <h3>跨班工時 × 自動加總 × 例外規則</h3>
+          <p>嚴謹處理中午/晚間休息、晚間不扣與 20:00 後再扣的例外規則，對齊績效制度。</p>
+          <p class="chip"><strong>耗時</strong>：約 1 週</p>
+          <p class="chip">可做：日/週/月統計、績效聯動、稽核備查</p>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <a href="#top" class="btn-top">↑ 返回頂部</a>
+      </div>
     </div>
   </section>
 
-  <!-- ISO / 品質（擷取畫布既有內容） -->
+  <!-- 品質 / ISO 文件化 -->
   <section id="quality">
     <div class="container">
-      <div class="section-head"><h2>ISO 品質</h2><p>AI 輔助撰寫標準化範本，提升查核效率與一致性</p></div>
-      <div class="grid">
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a" alt="ISO Docs" /><div class="eyebrow">📘 ISO 文件庫</div><h3>ISO9001 / ISO14001 全套制度與表單</h3><p>程序書、管理制度、表單、流程圖一體化；內外稽核可直接引用。</p><p class="chip"><strong>耗時</strong>：約 2 個月</p><p class="chip">可做：快速查核、訓練教材、版本控管</p></div>
-        <div class="card col-6"><img src="https://images.unsplash.com/photo-1488229297570-58520851e868" alt="8D" /><div class="eyebrow">🧾 8D 報告自動化</div><h3>依客訴模板快速生成改善報告</h3><p>整合因果、堵塞點、矯正措施與追蹤機制，一鍵輸出；可作為教育訓練與稽核備查依據。</p><p class="chip"><strong>耗時</strong>：約 1 週</p><p class="chip">可做：客訴應對、教材產出、稽核備查</p></div>
+      <div class="section-head">
+        <h2>ISO 品質</h2>
+        <p>AI 輔助撰寫標準化範本，提升查核效率與一致性</p>
       </div>
-      <div style="text-align:center"><a href="#top" class="btn-top">↑ 返回頂部</a></div>
+      <div class="grid">
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a" alt="ISO Docs" />
+          <div class="eyebrow">📘 ISO 文件庫</div>
+          <h3>ISO9001 / ISO14001 全套制度與表單</h3>
+          <p>程序書、管理制度、表單、流程圖一體化；內外稽核可直接引用。</p>
+          <p class="chip"><strong>耗時</strong>：約 2 個月</p>
+          <p class="chip">可做：快速查核、訓練教材、版本控管</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1488229297570-58520851e868" alt="8D" />
+          <div class="eyebrow">🧾 8D 報告自動化</div>
+          <h3>依客訴模板快速生成改善報告</h3>
+          <p>整合因果、堵塞點、矯正措施與追蹤機制，一鍵輸出；可作為教育訓練與稽核備查依據。</p>
+          <p class="chip"><strong>耗時</strong>：約 1 週</p>
+          <p class="chip">可做：客訴應對、教材產出、稽核備查</p>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <a href="#top" class="btn-top">↑ 返回頂部</a>
+      </div>
     </div>
   </section>
 
-  <footer class="site">
+  <!-- 個人品牌 / 內容 -->
+  <section id="content">
+    <div class="container">
+      <div class="section-head">
+        <h2>個人品牌</h2>
+        <p>GitHub Pages 個人網站、專業文章與案例展示</p>
+      </div>
+      <div class="grid">
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085" alt="Portfolio Website" />
+          <div class="eyebrow">🌐 個人網站</div>
+          <h3>專業風格的履歷與案例頁面</h3>
+          <p>導覽列、Hero、系統卡片、表格與時間軸，一檔即可部署；可作為提案與對外展示中心。</p>
+          <p class="chip"><strong>耗時</strong>：約 2 天</p>
+          <p class="chip">可做：履歷展示、專案連結、對外提案</p>
+        </div>
+        <div class="card col-6">
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4" alt="AI Blog" />
+          <div class="eyebrow">✍️ AI 成長網誌</div>
+          <h3>10+ 篇實戰文章與教學</h3>
+          <p>涵蓋 Apps Script、排程治理、能源分析、品質制度與 UI/UX 設計；持續滾動更新。</p>
+          <p class="chip"><strong>耗時</strong>：滾動式</p>
+          <p class="chip">可做：對外分享、團隊培訓、知識沉澱</p>
+        </div>
+      </div>
+      <div style="text-align:center">
+        <a href="#top" class="btn-top">↑ 返回頂部</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
     <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center">
       <div>
-        <p style="margin:.2rem 0">© 2025 AI 協作作品集｜以專業、創新、實用為原則</p>
-        <p style="margin:.2rem 0">Contact：<a href="mailto:bava@example.com" style="color:var(--brand)">Email</a> · <a href="https://github.com/bava-chang" target="_blank" rel="noopener" style="color:var(--brand)">GitHub</a></p>
+        <p style="margin:.2rem 0;color:var(--muted)">© 2025 AI 協作作品集｜以專業、創新、實用為原則</p>
+        <p style="margin:.2rem 0;color:var(--muted)">Contact：<a href="mailto:bava@example.com" style="color:var(--brand)">Email</a> · <a href="https://github.com/bava-chang" target="_blank" rel="noopener" style="color:var(--brand)">GitHub</a> · <a href="https://www.linkedin.com/" target="_blank" rel="noopener" style="color:var(--brand)">LinkedIn</a></p>
       </div>
-      <div><img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang" alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid var(--line)" /></div>
+      <div>
+        <!-- QR：請將 src 換成你自己的 QR 圖檔位置（/assets/qr-contact.png）-->
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang" alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid var(--border)" />
+      </div>
     </div>
   </footer>
 </body>
