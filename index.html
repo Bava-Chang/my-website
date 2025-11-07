@@ -1,6 +1,3 @@
-<!-- =============================
-FILE: index.html  （首頁／個人品牌 Landing）
-============================= -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -8,215 +5,166 @@ FILE: index.html  （首頁／個人品牌 Landing）
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>我的個人品牌網站｜健身 × 工作 × AI</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
-  <link rel="stylesheet" href="assets/site.css" />
   <style>
-    /* --- Home-only tweaks (不動既有 site.css 設計語言) --- */
-    :root {
-      --hero-bg: radial-gradient(1200px 600px at 10% -10%, rgba(255,255,255,.06), transparent),
-                 radial-gradient(1200px 600px at 110% 10%, rgba(255,255,255,.04), transparent),
-                 linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%);
-    }
-    body { background: #0b0d10; }
-    header.site-nav {
-      border-bottom: 1px solid var(--line, #2a2f3a);
-      backdrop-filter: saturate(120%) blur(6px);
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(11,13,16,.7);
-    }
-    .site-nav .wrap {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 0;
-    }
-    .site-links a { margin-left: 12px; }
-    .site-links a[aria-current="page"] { color: var(--brand,#6aa7ff); font-weight: 600; }
+    body { background-color: #0c0c0c; color: #eee; margin: 0; }
+    header.site-nav { background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); border-bottom: 1px solid #222; position: fixed; top: 0; width: 100%; z-index: 1000; }
+    .site-nav .container { display: flex; justify-content: space-between; align-items: center; padding: .75rem 1rem; }
+    .site-nav a { color: #ccc; margin-left: 1rem; text-decoration: none; transition: color .3s; }
+    .site-nav a:hover, .site-nav a[aria-current="page"] { color: #fff; }
 
     .hero {
-      background: var(--hero-bg);
-      padding: 64px 0 48px;
-      border-bottom: 1px solid var(--line,#212734);
+      text-align: center;
+      padding: 10rem 1rem 8rem;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
     }
-    .hero .inner {
-      display: grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items: center;
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+      opacity: 0.15;
+      z-index: 0;
     }
-    .badge {
-      display: inline-flex; gap: 8px; align-items: center;
-      font-size: .9rem; color: #c9d4e0;
-      background: #11161d; border: 1px solid var(--line,#213043);
-      padding: 6px 10px; border-radius: 999px;
+    .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; animation: fadeIn 1.8s ease-out; }
+    .hero h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 1.2rem;
     }
-    .hero h1 { margin: .6rem 0 .8rem; line-height: 1.15; letter-spacing: .2px; }
-    .lead { color: #c2cadd; }
-    .hero .panel {
-      background: #0e1319; border: 1px solid var(--line,#213043);
-      border-radius: 16px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    .hero p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      margin: 0 auto 1rem;
+      line-height: 1.9;
     }
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-    .chip {
-      padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line,#233243);
-      background:#0b1218; color:#c8d2e0; font-size:.88rem;
-    }
-    .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
-    .btn { background: var(--brand,#4d8dff); color:#0b0d10; border:none; }
-    .btn.secondary { background: transparent; border:1px solid var(--brand,#4d8dff); color: #dbe7ff; }
-    .btn:where(:hover,:focus) { opacity: .95; transform: translateY(-1px); }
-
-    .grid-tiles {
-      display: grid; gap: 16px; margin: 28px 0 8px;
-      grid-template-columns: repeat(4, 1fr);
-    }
-    .tile {
-      display: flex; flex-direction: column; justify-content: space-between;
-      background: #0e1319; border: 1px solid var(--line,#213043);
-      border-radius: 16px; padding: 18px; min-height: 160px;
-      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
-    }
-    .tile:hover { transform: translateY(-3px); border-color: var(--brand,#4d8dff); box-shadow: 0 12px 30px rgba(0,0,0,.35); }
-    .tile h3 { margin: 0 0 6px; }
-    .tile p { color: #9fb0c7; margin: 0 0 12px; }
-    .tile a { align-self: flex-start; }
-
-    .section-sub { color: #a8b6c9; text-align:center; margin: 0 auto; max-width: 860px; }
-    .kpis {
-      display: grid; gap: 12px; grid-template-columns: repeat(4,1fr);
-      margin-top: 18px;
-    }
-    .kpi {
-      background:#0e1319; border:1px solid var(--line,#213043); border-radius:12px; padding:14px; text-align:center;
-    }
-    .kpi .num { font-size: 1.6rem; font-weight: 700; color: #e7edf7; }
-    .kpi .lbl { color:#9fb0c7; font-size:.9rem; }
-
-    footer.site {
-      border-top: 1px solid var(--line,#212734); padding: 18px 0;
-      background: #0b0f14;
+    .hero .tagline {
+      margin-top: 2rem;
+      font-size: 1.1rem;
+      opacity: 0.8;
+      letter-spacing: 0.5px;
+      font-style: italic;
     }
 
-    @media (max-width: 980px) {
-      .hero .inner { grid-template-columns: 1fr; }
-      .grid-tiles { grid-template-columns: 1fr 1fr; }
-      .kpis { grid-template-columns: 1fr 1fr; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    @media (max-width: 560px) {
-      .grid-tiles { grid-template-columns: 1fr; }
-      .kpis { grid-template-columns: 1fr 1fr; }
+
+    .scroll-down {
+      margin-top: 2rem;
+      animation: bounce 2s infinite;
+      color: #9ddaff;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-8px); }
+      60% { transform: translateY(-4px); }
+    }
+
+    .topics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 6rem 2rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .topic {
+      background: #141414;
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+      transition: transform .4s ease, box-shadow .4s ease;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideUp 1s forwards;
+    }
+    .topic:nth-child(1){animation-delay:0.2s;}
+    .topic:nth-child(2){animation-delay:0.4s;}
+    .topic:nth-child(3){animation-delay:0.6s;}
+    .topic:nth-child(4){animation-delay:0.8s;}
+
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .topic img { width: 100%; height: 180px; object-fit: cover; }
+    .topic-content { padding: 1.5rem; }
+    .topic-content h3 { color: #fff; margin-bottom: 0.5rem; }
+    .topic-content p { color: #ccc; font-size: 0.95rem; }
+    .topic a { text-decoration: none; color: #9ddaff; }
+    .topic:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+
+    footer { text-align: center; padding: 2.5rem 0; color: #777; font-size: 0.85rem; border-top: 1px solid #222; margin-top: 5rem; }
   </style>
 </head>
 <body>
-  <!-- 導覽 -->
   <header class="site-nav">
     <div class="container wrap">
       <a class="site-brand" href="index.html"><strong>個人品牌</strong></a>
       <nav class="site-links">
-        <a href="ai-collab.html">作品集</a>
+        <a href="index.html" aria-current="page">首頁</a>
         <a href="ai-growth.html">AI 成長</a>
-        <a href="work.html">工作</a>
+        <a href="ai-collab.html">AI 作品集</a>
         <a href="fitness.html">健身</a>
-        <a href="index.html" aria-current="page" style="margin-left:16px;opacity:.65">首頁</a>
+        <a href="work.html">職場見聞</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero 區 -->
   <section class="hero">
-    <div class="container inner">
-      <div>
-        <span class="badge">專注：生產系統 × Apps Script × ISO 文件化</span>
-        <h1>把工廠現場，變成可視化與可交付的系統成果</h1>
-        <p class="lead">
-          從排程、交期判斷、庫存盤點，到教育訓練與 8D 自動化報告。以 <strong>Google Sheets / Apps Script</strong> 為核心，
-          串接資料與流程，讓每一次改善都能「看得見、測得到、交得出」。
-        </p>
-        <div class="cta">
-          <a class="btn" href="ai-collab.html">查看作品集</a>
-          <a class="btn secondary" href="ai-growth.html">閱讀 AI 成長紀錄</a>
-        </div>
-      </div>
-      <aside class="panel">
-        <h3 style="margin:0 0 4px;">近期關注主題</h3>
-        <div class="chips">
-          <span class="chip">交期評估助手</span>
-          <span class="chip">績效看板</span>
-          <span class="chip">智慧盤點</span>
-          <span class="chip">MES/ERP 串接</span>
-          <span class="chip">ISO9001/14001</span>
-          <span class="chip">8D 自動化</span>
-        </div>
-        <p style="margin:.8rem 0 0; color:#9fb0c7;">
-          目標：以最小可行系統（MVS）快速上線，持續迭代，建立可複製的「工廠數位化方法論」。
-        </p>
-      </aside>
+    <div class="hero-content">
+      <h1>讓 AI、程式與自律，重新定義專業的價值</h1>
+      <p>我相信，專業不該只是知識的堆疊，而是能被驗證、被複製、被放大的能力。<br>這裡結合了現場管理、AI 自動化與數據思維——用方法與紀律，把每一次經驗轉化成可進化的系統。</p>
+      <p class="tagline">專業 × 系統 × 創造力 — 成為新時代的整合者。</p>
+      <div class="scroll-down">探索更多 ↓</div>
     </div>
   </section>
 
-  <main class="container" style="padding:28px 0 8px">
-    <p class="section-sub">
-      四大入口快速到位：從成果展示、學習紀錄，到工作實戰與健身習慣，統一在同一個專業風格網站中。
-    </p>
-
-    <!-- 四大入口 -->
-    <div class="grid-tiles">
-      <!-- 作品集 -->
-      <article class="tile">
-        <div>
-          <h3>作品集</h3>
-          <p>完整專案存檔：排程、交期、庫存、教育訓練、8D 自動化等，含架構與程式碼。</p>
-        </div>
-        <a class="btn" href="ai-collab.html">進入</a>
-      </article>
-
-      <!-- AI 成長 -->
-      <article class="tile">
-        <div>
-          <h3>AI 成長</h3>
-          <p>長篇紀錄 × 大圖摘要：從學習到落地，每篇皆含案例、步驟、心法與指令。</p>
-        </div>
-        <a class="btn" href="ai-growth.html">進入</a>
-      </article>
-
-      <!-- 工作 -->
-      <article class="tile">
-        <div>
-          <h3>工作</h3>
-          <p>日常改善與 SOP、制度文件、實務操作手冊與教材，符合 ISO 觀點。</p>
-        </div>
-        <a class="btn" href="work.html">進入</a>
-      </article>
-
-      <!-- 健身 -->
-      <article class="tile">
-        <div>
-          <h3>健身</h3>
-          <p>FitTrack 與飲食／訓練規劃，數據化追蹤，養成穩定習慣的系統化做法。</p>
-        </div>
-        <a class="btn" href="fitness.html">進入</a>
-      </article>
-    </div>
-
-    <!-- 一行 KPI（可日後綁定實際數據） -->
-    <div class="kpis">
-      <div class="kpi"><div class="num">32</div><div class="lbl">已上線小工具</div></div>
-      <div class="kpi"><div class="num">14</div><div class="lbl">流程自動化節點</div></div>
-      <div class="kpi"><div class="num">8</div><div class="lbl">ISO 教材與表單</div></div>
-      <div class="kpi"><div class="num">120+</div><div class="lbl">學習／實戰文章</div></div>
-    </div>
-  </main>
-
-  <footer class="site">
-    <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center">
-      <div>
-        <p style="margin:.2rem 0">© 2025 Bava Chang · GitHub Pages</p>
-        <p style="margin:.2rem 0">
-          Contact：
-          <a href="mailto:bava@example.com" style="color:var(--brand)">Email</a> ·
-          <a href="https://github.com/bava-chang" target="_blank" rel="noopener" style="color:var(--brand)">GitHub</a>
-        </p>
+  <section class="topics">
+    <article class="topic">
+      <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80" alt="AI 成長">
+      <div class="topic-content">
+        <h3><a href="ai-growth.html">AI 成長</a></h3>
+        <p>實戰紀錄 × 策略思維：從學習到應用，打造個人與企業的智慧化進程。</p>
       </div>
-      <div>
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang"
-             alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid var(--line)" />
+    </article>
+
+    <article class="topic">
+      <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437d7?auto=format&fit=crop&w=900&q=80" alt="AI 作品集">
+      <div class="topic-content">
+        <h3><a href="ai-collab.html">AI 作品集</a></h3>
+        <p>整合程式與設計思維，展示真實落地的 AI 專案與工具。</p>
       </div>
-    </div>
+    </article>
+
+    <article class="topic">
+      <img src="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?auto=format&fit=crop&w=900&q=80" alt="職場見聞">
+      <div class="topic-content">
+        <h3><a href="work.html">職場見聞</a></h3>
+        <p>以第一線經驗談專業、制度與法規。讓現場思維轉化為可執行的策略。</p>
+      </div>
+    </article>
+
+    <article class="topic">
+      <img src="https://images.unsplash.com/photo-1594737625785-cbdb6b85e3a6?auto=format&fit=crop&w=900&q=80" alt="健身">
+      <div class="topic-content">
+        <h3><a href="fitness.html">健身</a></h3>
+        <p>自律、恢復與成長。用數據與紀律建立可持續的體能系統。</p>
+      </div>
+    </article>
+  </section>
+
+  <footer>
+    © 2025 我的個人品牌網站 | Design by Bava Chang
   </footer>
 </body>
 </html>
