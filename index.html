@@ -68,41 +68,6 @@
       60% { transform: translateY(-4px); }
     }
 
-    .topics {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      padding: 6rem 2rem 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .topic {
-      background: #141414;
-      border-radius: 14px;
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-      transition: transform .4s ease, box-shadow .4s ease;
-      opacity: 0;
-      transform: translateY(40px);
-      animation: slideUp 1s forwards;
-    }
-    .topic:nth-child(1){animation-delay:0.2s;}
-    .topic:nth-child(2){animation-delay:0.4s;}
-    .topic:nth-child(3){animation-delay:0.6s;}
-    .topic:nth-child(4){animation-delay:0.8s;}
-
-    @keyframes slideUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .topic img { width: 100%; height: 180px; object-fit: cover; }
-    .topic-content { padding: 1.5rem; }
-    .topic-content h3 { color: #fff; margin-bottom: 0.5rem; }
-    .topic-content p { color: #ccc; font-size: 0.95rem; }
-    .topic a { text-decoration: none; color: #9ddaff; }
-    .topic:hover { transform: translateY(-6px); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-
     footer { text-align: center; padding: 2.5rem 0; color: #777; font-size: 0.85rem; border-top: 1px solid #222; margin-top: 5rem; }
   </style>
 </head>
@@ -127,40 +92,6 @@
       <p class="tagline">專業 × 系統 × 創造力 — 成為新時代的整合者。</p>
       <div class="scroll-down">探索更多 ↓</div>
     </div>
-  </section>
-
-  <section class="topics">
-    <article class="topic">
-      <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80" alt="AI 成長">
-      <div class="topic-content">
-        <h3><a href="ai-growth.html">AI 成長</a></h3>
-        <p>實戰紀錄 × 策略思維：從學習到應用，打造個人與企業的智慧化進程。</p>
-      </div>
-    </article>
-
-    <article class="topic">
-      <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437d7?auto=format&fit=crop&w=900&q=80" alt="AI 作品集">
-      <div class="topic-content">
-        <h3><a href="ai-collab.html">AI 作品集</a></h3>
-        <p>整合程式與設計思維，展示真實落地的 AI 專案與工具。</p>
-      </div>
-    </article>
-
-    <article class="topic">
-      <img src="https://images.unsplash.com/photo-1558611848-73f7eb4001a1?auto=format&fit=crop&w=900&q=80" alt="職場見聞">
-      <div class="topic-content">
-        <h3><a href="work.html">職場見聞</a></h3>
-        <p>以第一線經驗談專業、制度與法規。讓現場思維轉化為可執行的策略。</p>
-      </div>
-    </article>
-
-    <article class="topic">
-      <img src="https://images.unsplash.com/photo-1594737625785-cbdb6b85e3a6?auto=format&fit=crop&w=900&q=80" alt="健身">
-      <div class="topic-content">
-        <h3><a href="fitness.html">健身</a></h3>
-        <p>自律、恢復與成長。用數據與紀律建立可持續的體能系統。</p>
-      </div>
-    </article>
   </section>
 
   <footer>
