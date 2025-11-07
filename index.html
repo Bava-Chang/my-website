@@ -1,6 +1,5 @@
 <!-- =============================
 FILE: index.html  （首頁／個人品牌 Landing）
-風格一致：深色、頂部單一導覽、Hero + 精選卡片（大圖＋摘要）
 ============================= -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -11,105 +10,109 @@ FILE: index.html  （首頁／個人品牌 Landing）
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <link rel="stylesheet" href="assets/site.css" />
   <style>
-    /* 本頁極簡覆寫（不更動 site.css 的設計語言） */
+    /* --- Home-only tweaks (不動既有 site.css 設計語言) --- */
     :root {
-      --line: #22272e;
-      --card-bg: #121212;
-      --card-border: #1e1e1e;
-      --text-sub: #cfcfcf;
-      --text-meta: #a6a6a6;
-      --accent: #f9d342;
+      --hero-bg: radial-gradient(1200px 600px at 10% -10%, rgba(255,255,255,.06), transparent),
+                 radial-gradient(1200px 600px at 110% 10%, rgba(255,255,255,.04), transparent),
+                 linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%);
     }
-    body { background:#0b0d10; }
-
-    /* 導覽：與各內頁一致（僅頂部保留，移除頁面下方重複入口） */
-    .site-nav {
-      border-bottom:1px solid var(--line);
+    body { background: #0b0d10; }
+    header.site-nav {
+      border-bottom: 1px solid var(--line, #2a2f3a);
+      backdrop-filter: saturate(120%) blur(6px);
       position: sticky; top: 0; z-index: 50;
-      background: rgba(12,12,12,.72); backdrop-filter: blur(6px);
+      background: rgba(11,13,16,.7);
     }
     .site-nav .wrap {
-      display:flex; align-items:center; justify-content:space-between; padding: 12px 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0;
     }
-    .site-links a { margin-left: 14px; }
+    .site-links a { margin-left: 12px; }
+    .site-links a[aria-current="page"] { color: var(--brand,#6aa7ff); font-weight: 600; }
 
-    /* Hero */
     .hero {
-      background:
-        radial-gradient(1200px 600px at 10% -10%, rgba(255,255,255,.06), transparent),
-        radial-gradient(1200px 600px at 110% 10%, rgba(255,255,255,.04), transparent),
-        linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%);
-      padding: 64px 0 36px;
-      border-bottom: 1px solid var(--line);
+      background: var(--hero-bg);
+      padding: 64px 0 48px;
+      border-bottom: 1px solid var(--line,#212734);
     }
-    .hero .inner { display:grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items:center; }
-    @media (max-width: 980px){ .hero .inner { grid-template-columns: 1fr; } }
+    .hero .inner {
+      display: grid; grid-template-columns: 1.2fr .8fr; gap: 28px; align-items: center;
+    }
     .badge {
-      display:inline-flex; gap:8px; align-items:center; font-size:.9rem;
-      color:#c9d4e0; background:#0f141a; border:1px solid var(--line);
-      padding:6px 10px; border-radius:999px;
+      display: inline-flex; gap: 8px; align-items: center;
+      font-size: .9rem; color: #c9d4e0;
+      background: #11161d; border: 1px solid var(--line,#213043);
+      padding: 6px 10px; border-radius: 999px;
     }
-    .lead { color:#c2cadd; }
-    .panel {
-      background:#0e1319; border:1px solid var(--line);
-      border-radius:16px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,.25);
+    .hero h1 { margin: .6rem 0 .8rem; line-height: 1.15; letter-spacing: .2px; }
+    .lead { color: #c2cadd; }
+    .hero .panel {
+      background: #0e1319; border: 1px solid var(--line,#213043);
+      border-radius: 16px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.25);
     }
-    .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
     .chip {
-      padding:6px 10px; border-radius:999px; border:1px solid var(--line);
+      padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line,#233243);
       background:#0b1218; color:#c8d2e0; font-size:.88rem;
     }
-    .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; }
-    .btn { background: var(--accent); color:#0b0d10; border:none; }
-    .btn.secondary { background: transparent; border:1px solid var(--accent); color:#e9e9e9; }
-    .btn:where(:hover,:focus){ opacity:.95; transform:translateY(-1px); }
+    .cta { display:flex; gap:12px; flex-wrap:wrap; margin-top: 14px; }
+    .btn { background: var(--brand,#4d8dff); color:#0b0d10; border:none; }
+    .btn.secondary { background: transparent; border:1px solid var(--brand,#4d8dff); color: #dbe7ff; }
+    .btn:where(:hover,:focus) { opacity: .95; transform: translateY(-1px); }
 
-    /* 精選卡片：大圖＋摘要（與 ai-growth / ai-collab 一致） */
-    .section-head { margin: 28px 0 14px; }
-    .cards { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 22px; }
-    @media (max-width: 1080px){ .cards { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 680px){ .cards { grid-template-columns: 1fr; } }
-
-    .card {
-      background: var(--card-bg);
-      border:1px solid var(--card-border);
-      border-radius:16px; overflow:hidden;
-      box-shadow:0 10px 28px rgba(0,0,0,.28);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    .grid-tiles {
+      display: grid; gap: 16px; margin: 28px 0 8px;
+      grid-template-columns: repeat(4, 1fr);
     }
-    .card:hover { transform: translateY(-4px); border-color:#2d2d2d; box-shadow:0 14px 36px rgba(0,0,0,.34); }
-    .card .thumb { width:100%; height:240px; object-fit:cover; display:block; }
-    .card .pad { padding:16px 18px 18px; }
-    .card .meta { color:var(--text-meta); font-size:.92rem; margin-bottom:6px; }
-    .card h3 { margin:0 0 8px; color:#fff; line-height:1.3; font-size:1.2rem; }
-    .card .sub {
-      color:var(--text-sub); font-size:1rem; line-height:1.6; margin:0 0 10px;
-      display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+    .tile {
+      display: flex; flex-direction: column; justify-content: space-between;
+      background: #0e1319; border: 1px solid var(--line,#213043);
+      border-radius: 16px; padding: 18px; min-height: 160px;
+      transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
     }
-    .card .kicker { color: var(--accent); font-weight:600; text-decoration:none; }
-    .card .kicker:hover { text-decoration: underline; }
+    .tile:hover { transform: translateY(-3px); border-color: var(--brand,#4d8dff); box-shadow: 0 12px 30px rgba(0,0,0,.35); }
+    .tile h3 { margin: 0 0 6px; }
+    .tile p { color: #9fb0c7; margin: 0 0 12px; }
+    .tile a { align-self: flex-start; }
 
-    /* KPI（保留一行，簡潔） */
-    .kpis { display:grid; gap:12px; grid-template-columns: repeat(4,1fr); margin-top: 12px; }
-    .kpi { background:#0e1319; border:1px solid var(--line); border-radius:12px; padding:14px; text-align:center; }
-    .kpi .num { font-size:1.4rem; font-weight:700; color:#e7edf7; }
+    .section-sub { color: #a8b6c9; text-align:center; margin: 0 auto; max-width: 860px; }
+    .kpis {
+      display: grid; gap: 12px; grid-template-columns: repeat(4,1fr);
+      margin-top: 18px;
+    }
+    .kpi {
+      background:#0e1319; border:1px solid var(--line,#213043); border-radius:12px; padding:14px; text-align:center;
+    }
+    .kpi .num { font-size: 1.6rem; font-weight: 700; color: #e7edf7; }
     .kpi .lbl { color:#9fb0c7; font-size:.9rem; }
 
-    footer.site { border-top: 1px solid var(--line); padding: 18px 0; background:#0b0f14; margin-top: 24px; }
+    footer.site {
+      border-top: 1px solid var(--line,#212734); padding: 18px 0;
+      background: #0b0f14;
+    }
+
+    @media (max-width: 980px) {
+      .hero .inner { grid-template-columns: 1fr; }
+      .grid-tiles { grid-template-columns: 1fr 1fr; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .grid-tiles { grid-template-columns: 1fr; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 <body>
-  <!-- 頂部導覽（僅此一處） -->
+  <!-- 導覽 -->
   <header class="site-nav">
     <div class="container wrap">
       <a class="site-brand" href="index.html"><strong>個人品牌</strong></a>
       <nav class="site-links">
-        <a href="index.html" aria-current="page">首頁</a>
-        <a href="ai-collab.html">AI 作品集</a>
+        <a href="ai-collab.html">作品集</a>
         <a href="ai-growth.html">AI 成長</a>
         <a href="work.html">工作</a>
         <a href="fitness.html">健身</a>
-        <a href="workplace.html">職場見聞</a>
+        <a href="index.html" aria-current="page" style="margin-left:16px;opacity:.65">首頁</a>
       </nav>
     </div>
   </header>
@@ -119,7 +122,7 @@ FILE: index.html  （首頁／個人品牌 Landing）
     <div class="container inner">
       <div>
         <span class="badge">專注：生產系統 × Apps Script × ISO 文件化</span>
-        <h1 style="margin:.6rem 0 .8rem; line-height:1.15;">把工廠現場，變成可視化與可交付的系統成果</h1>
+        <h1>把工廠現場，變成可視化與可交付的系統成果</h1>
         <p class="lead">
           從排程、交期判斷、庫存盤點，到教育訓練與 8D 自動化報告。以 <strong>Google Sheets / Apps Script</strong> 為核心，
           串接資料與流程，讓每一次改善都能「看得見、測得到、交得出」。
@@ -146,51 +149,57 @@ FILE: index.html  （首頁／個人品牌 Landing）
     </div>
   </section>
 
-  <main class="container" style="padding:22px 0 8px">
-    <!-- 精選卡片：三則（大圖＋摘要），風格與內頁一致 -->
-    <div class="section-head"><h2>精選專案與文章</h2></div>
-    <section class="cards">
-      <!-- 卡片 1 -->
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1600&auto=format&fit=crop" alt="智慧排程" />
-        <div class="pad">
-          <div class="meta">AI × 自動化</div>
-          <h3>智慧排班雛形：把限制寫成規則，讓 AI 給出可執行答案</h3>
-          <p class="sub">用人員偏好、瓶頸權重、通宵配額等參數化規則，產出可追溯、可交付的班表。</p>
-          <a class="kicker" href="posts/p1.html">閱讀長文</a>
+  <main class="container" style="padding:28px 0 8px">
+    <p class="section-sub">
+      四大入口快速到位：從成果展示、學習紀錄，到工作實戰與健身習慣，統一在同一個專業風格網站中。
+    </p>
+
+    <!-- 四大入口 -->
+    <div class="grid-tiles">
+      <!-- 作品集 -->
+      <article class="tile">
+        <div>
+          <h3>作品集</h3>
+          <p>完整專案存檔：排程、交期、庫存、教育訓練、8D 自動化等，含架構與程式碼。</p>
         </div>
+        <a class="btn" href="ai-collab.html">進入</a>
       </article>
 
-      <!-- 卡片 2 -->
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1600&auto=format&fit=crop" alt="空壓機能源模型" />
-        <div class="pad">
-          <div class="meta">AI × 能源</div>
-          <h3>空壓機電費模型：理想 vs 實際與 ROI 敏感度</h3>
-          <p class="sub">用實測電流與運轉比例重建能源模型，讓節能改造決策更精準。</p>
-          <a class="kicker" href="posts/p8.html">閱讀長文</a>
+      <!-- AI 成長 -->
+      <article class="tile">
+        <div>
+          <h3>AI 成長</h3>
+          <p>長篇紀錄 × 大圖摘要：從學習到落地，每篇皆含案例、步驟、心法與指令。</p>
         </div>
+        <a class="btn" href="ai-growth.html">進入</a>
       </article>
 
-      <!-- 卡片 3 -->
-      <article class="card">
-        <img class="thumb" src="https://images.unsplash.com/photo-1473187983305-f615310e7daa?q=80&w=1600&auto=format&fit=crop" alt="8D 報告自動化" />
-        <div class="pad">
-          <div class="meta">AI × 品質</div>
-          <h3>8D 報告半自動化：模板 × 資料 × 生成</h3>
-          <p class="sub">從客訴到對策追蹤，8D 全流程資料驅動，並可輸出教育訓練教材。</p>
-          <a class="kicker" href="posts/p9.html">閱讀長文</a>
+      <!-- 工作 -->
+      <article class="tile">
+        <div>
+          <h3>工作</h3>
+          <p>日常改善與 SOP、制度文件、實務操作手冊與教材，符合 ISO 觀點。</p>
         </div>
+        <a class="btn" href="work.html">進入</a>
       </article>
-    </section>
 
-    <!-- KPI 簡潔一行（可綁定實數據），不再重複入口 -->
-    <section class="kpis">
+      <!-- 健身 -->
+      <article class="tile">
+        <div>
+          <h3>健身</h3>
+          <p>FitTrack 與飲食／訓練規劃，數據化追蹤，養成穩定習慣的系統化做法。</p>
+        </div>
+        <a class="btn" href="fitness.html">進入</a>
+      </article>
+    </div>
+
+    <!-- 一行 KPI（可日後綁定實際數據） -->
+    <div class="kpis">
       <div class="kpi"><div class="num">32</div><div class="lbl">已上線小工具</div></div>
       <div class="kpi"><div class="num">14</div><div class="lbl">流程自動化節點</div></div>
       <div class="kpi"><div class="num">8</div><div class="lbl">ISO 教材與表單</div></div>
       <div class="kpi"><div class="num">120+</div><div class="lbl">學習／實戰文章</div></div>
-    </section>
+    </div>
   </main>
 
   <footer class="site">
@@ -199,8 +208,8 @@ FILE: index.html  （首頁／個人品牌 Landing）
         <p style="margin:.2rem 0">© 2025 Bava Chang · GitHub Pages</p>
         <p style="margin:.2rem 0">
           Contact：
-          <a href="mailto:bava@example.com" style="color:var(--accent)">Email</a> ·
-          <a href="https://github.com/bava-chang" target="_blank" rel="noopener" style="color:var(--accent)">GitHub</a>
+          <a href="mailto:bava@example.com" style="color:var(--brand)">Email</a> ·
+          <a href="https://github.com/bava-chang" target="_blank" rel="noopener" style="color:var(--brand)">GitHub</a>
         </p>
       </div>
       <div>
