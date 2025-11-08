@@ -6,16 +6,27 @@
   <title>AI 成長｜我的個人品牌網站</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <style>
-    /* —— 全站風格：與 index.html 一致 —— */
+    /* 與 index.html 一致，並修正 Hero 被固定導覽列覆蓋問題 */
+    :root { --navH: 64px; }
+    @media (max-width: 600px){ :root { --navH: 56px; } }
+
     body { background-color: #0c0c0c; color: #eee; margin: 0; }
-    header.site-nav { background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); border-bottom: 1px solid #222; position: fixed; top: 0; width: 100%; z-index: 1000; }
-    .site-nav .container { display: flex; justify-content: space-between; align-items: center; padding: .75rem 1rem; }
+    header.site-nav {
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid #222;
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+    }
+    .site-nav .container {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .75rem 1rem; min-height: var(--navH);
+    }
     .site-nav a { color: #ccc; margin-left: 1rem; text-decoration: none; transition: color .3s; }
     .site-nav a:hover, .site-nav a[aria-current="page"] { color: #fff; }
 
     .hero {
       text-align: center;
-      padding: 9rem 1rem 7rem;
+      padding: calc(9rem + var(--navH)) 1rem 7rem; /* 讓位給固定導覽列 */
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #fff;
       position: relative;
@@ -25,24 +36,27 @@
       content: "";
       position: absolute; inset: 0;
       background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
-      opacity: .15;
-      z-index: 0;
+      opacity: .15; z-index: 0;
     }
     .hero-content { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; animation: fadeIn 1.2s ease-out; }
     .hero h1 { font-size: 2.6rem; letter-spacing: .5px; margin-bottom: .8rem; }
-    .hero p { font-size: 1.1rem; opacity: .92; line-height: 1.9; }
+    .hero p  { font-size: 1.1rem; opacity: .92; line-height: 1.9; }
 
-    @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn { from {opacity:0; transform:translateY(16px)} to {opacity:1; transform:translateY(0)} }
 
-    /* —— 內容區：大圖＋摘要（左右各一主題） —— */
+    /* 內容區：左右交錯（大圖＋摘要） */
     .features { max-width: 1100px; margin: 0 auto; padding: 3rem 1rem 4rem; display: grid; gap: 2.5rem; }
-    .feature { display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center; background: #141414; border: 1px solid #222; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+    .feature {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center;
+      background: #141414; border: 1px solid #222; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    }
     .feature.reverse { grid-template-columns: 1fr 1.1fr; }
     .media { position: relative; min-height: 260px; background: #0f1720; }
     .media img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .content { padding: 2rem 2rem; }
     .content h3 { margin: 0 0 .5rem; font-size: 1.4rem; color: #fff; }
-    .content p { margin: 0 0 1.25rem; color: #cfcfcf; line-height: 1.8; }
+    .content p  { margin: 0 0 1.25rem; color: #cfcfcf; line-height: 1.8; }
     .content .meta { font-size: .85rem; color: #9aa7b1; margin-bottom: .75rem; }
     .content .actions a { display: inline-block; padding: .6rem 1rem; border: 1px solid #2a2a2a; border-radius: 10px; text-decoration: none; color: #e6f1ff; }
     .content .actions a:hover { border-color: #9ddaff; color: #fff; }
