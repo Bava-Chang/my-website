@@ -6,87 +6,77 @@
   <title>AI 協作專案成果｜作品集展示頁</title>
   <meta name="description" content="展示與 AI（ChatGPT）協作的專案成果、構想與最終完成品，含 Excel 巨集、雲端共用、系統開發與內容創作。" />
   <style>
-    :root{
-      --bg:#0f1115;--panel:#141825;--muted:#8892a6;--text:#e6e9f5;--brand:#4cc9f0;--brand-2:#4361ee;--border:rgba(255,255,255,.07);--radius:16px;--shadow:0 10px 30px rgba(0,0,0,.35);--shadow-soft:0 8px 20px rgba(0,0,0,.25);--maxw:1180px;
-    }
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Helvetica,Arial,PingFang TC,Microsoft JhengHei,sans-serif;background:radial-gradient(1200px 800px at 80% -10%,#1a2035 0%,#0b0e18 50%,#080a12 100%);color:var(--text);line-height:1.6;}
-    .container{max-width:var(--maxw);margin:0 auto;padding:0 20px}
-    header.nav{position:sticky;top:0;z-index:100;backdrop-filter:saturate(140%) blur(8px);background:rgba(10,12,20,.6);border-bottom:1px solid var(--border);}
-    .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
-    .brand{display:flex;gap:10px;align-items:center;text-decoration:none;color:var(--text)}
-    .brand strong{font-weight:700;letter-spacing:.3px}
-    .nav-links{display:flex;gap:18px}
-    .nav-links a{color:var(--muted);text-decoration:none;font-weight:500}
-    .nav-links a:hover{color:var(--text)}
-    .section-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
-    .section-head h2{margin:0;font-size:24px}
-    .section-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-    .col-6{grid-column:span 6}
-    @media(max-width:980px){.col-6{grid-column:span 12}}
-    .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow-soft);position:relative;overflow:hidden}
-    .card img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:12px;}
-    .eyebrow{color:var(--brand);font-size:12px;letter-spacing:.4px;text-transform:uppercase}
-    .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.03)}
-    footer{text-align:center;color:var(--muted);padding:30px 0}
-    .btn-top{display:inline-block;margin-top:20px;color:var(--brand);text-decoration:none;border:1px solid var(--brand);padding:8px 14px;border-radius:999px;transition:all .3s}
-    .btn-top:hover{background:var(--brand);color:#fff}
-    .hero{padding:56px 0 40px;background:linear-gradient(180deg, rgba(67,97,238,.10), rgba(67,97,238,0));border-bottom:1px solid var(--border)}
-    .hero .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;display:grid;grid-template-columns:1.3fr .7fr;gap:24px}
-    .hero .lead{color:var(--muted)}
-    .hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
-    .btn{appearance:none;border:none;cursor:pointer;color:#0b0e18;background:linear-gradient(135deg,var(--brand),var(--brand-2));padding:12px 16px;border-radius:12px;font-weight:700;box-shadow:var(--shadow);text-decoration:none}
-    .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+    /* —— 與 index / ai-growth 一致的深色主題與置頂導覽 —— */
+    :root{ --navH:64px; }
+    @media (max-width:600px){ :root{ --navH:56px; } }
 
-    /* 互動質感：卡片 hover 與動畫 */
-    .card{transition:transform .25s ease, filter .25s ease}
-    .card:hover{transform:translateY(-4px);filter:brightness(1.04)}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    [data-anim]{animation:fadeInUp .5s ease both}
+    body{ margin:0; background:#0c0c0c; color:#eee; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Helvetica,Arial,PingFang TC,Microsoft JhengHei,sans-serif; line-height:1.6; }
 
-    /* 行動端優化 */
-    html{scroll-behavior:smooth}
-    @media (max-width:980px){
-      .hero .wrap{grid-template-columns:1fr}
-      .card img{height:140px}
-      .nav-links{gap:12px}
-    }
+    header.site-nav{ position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(0,0,0,.85); backdrop-filter:blur(6px); border-bottom:1px solid #222; }
+    .site-nav .container{ max-width:1180px; margin:0 auto; padding:.75rem 1rem; min-height:var(--navH); display:flex; align-items:center; justify-content:space-between; }
+    .site-nav a{ color:#ccc; text-decoration:none; margin-left:1rem; transition:color .3s; }
+    .site-nav a:hover, .site-nav a[aria-current="page"]{ color:#fff; }
+
+    /* —— Hero 區（同調首頁/成長頁）：漸層＋淡背景圖，並為固定導覽留白 —— */
+    .hero{ position:relative; overflow:hidden; text-align:center; color:#fff; padding:calc(10rem + var(--navH)) 1rem 8rem; background:linear-gradient(135deg,#0f2027,#203a43,#2c5364); }
+    .hero::before{ content:""; position:absolute; inset:0; background:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat; opacity:.15; z-index:0; }
+    .hero .wrap{ position:relative; z-index:1; max-width:1180px; margin:0 auto; }
+    .hero h1{ margin:.2rem 0 1rem; font-size:2.6rem; letter-spacing:.5px; }
+    .hero p.lead{ color:#cfd8e3; margin:0 auto; max-width:860px; font-size:1.1rem; opacity:.95; }
+    .hero .cta{ margin-top:20px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .btn{ appearance:none; border:none; cursor:pointer; color:#0b0e18; background:linear-gradient(135deg,#4cc9f0,#4361ee); padding:12px 16px; border-radius:12px; font-weight:700; box-shadow:0 10px 30px rgba(0,0,0,.35); text-decoration:none }
+    .btn.secondary{ background:transparent; color:#fff; border:1px solid #2a2a2a }
+
+    /* —— 版心、排版與卡片 —— */
+    .container{ max-width:1180px; margin:0 auto; padding:0 20px; }
+    .section-head{ display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:16px }
+    .section-head h2{ margin:0; font-size:24px }
+    .section-head p{ margin:4px 0 0; color:#9aa7b1; font-size:14px }
+
+    .grid{ display:grid; grid-template-columns:repeat(12,1fr); gap:18px }
+    .col-6{ grid-column:span 6 }
+    @media(max-width:980px){ .col-6{ grid-column:span 12 } }
+
+    .card{ background:#141414; border:1px solid #222; border-radius:16px; padding:18px; box-shadow:0 8px 20px rgba(0,0,0,.25); position:relative; overflow:hidden; transition:transform .25s ease, filter .25s ease }
+    .card:hover{ transform:translateY(-4px); filter:brightness(1.04) }
+    .card img{ width:100%; height:160px; object-fit:cover; border-radius:12px; margin-bottom:12px; }
+    .eyebrow{ color:#4cc9f0; font-size:12px; letter-spacing:.4px; text-transform:uppercase }
+    .chip{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border:1px solid #2a2a2a; border-radius:999px; background:rgba(255,255,255,.03) }
+
+    footer{ text-align:center; color:#8892a6; padding:30px 0; border-top:1px solid #222; margin-top:5rem }
+    .btn-top{ display:inline-block; margin-top:20px; color:#4cc9f0; text-decoration:none; border:1px solid #4cc9f0; padding:8px 14px; border-radius:999px; transition:all .3s }
+    .btn-top:hover{ background:#4cc9f0; color:#0b0e18 }
   </style>
 </head>
 <body>
-  <header class="nav">
-    <div class="container nav-inner">
-      <a class="brand" href="#top"><strong>AI 協作作品集</strong></a>
-      <nav class="nav-links">
-        <a href="#automation">自動化應用</a>
-        <a href="#systems">系統開發</a>
-        <a href="#quality">ISO 品質</a>
-        <a href="#content">個人品牌</a>
+  <!-- 置頂導覽（與首頁一致，不重複） -->
+  <header class="site-nav">
+    <div class="container">
+      <a class="site-brand" href="index.html" style="text-decoration:none; color:#fff"><strong>個人品牌</strong></a>
+      <nav class="site-links">
+        <a href="index.html">首頁</a>
+        <a href="ai-growth.html">AI 成長</a>
+        <a href="ai-collab.html" aria-current="page">AI 作品集</a>
+        <a href="fitness.html">健身</a>
+        <a href="work.html">職場見聞</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Banner（不動既有色系風格） -->
-  <section id="top" class="hero" data-anim>
+  <!-- Hero Banner：與首頁/成長頁同語氣與視覺基調 -->
+  <section id="top" class="hero">
     <div class="wrap">
-      <div>
-        <h1 style="margin:.2rem 0 1rem">AI 協作作品集｜智慧製造 × 數據驅動</h1>
-        <p class="lead">以你在工廠現場的實戰需求為核心，將構想轉化為可交付的系統與文件：生產自動化、品質制度、能源分析與個人品牌。風格延續你現有站點的專業深色系設計。</p>
-        <div class="cta">
-          <a class="btn" href="#systems">查看系統作品</a>
-          <a class="btn secondary" href="#quality">ISO / 品質</a>
-          <a class="btn secondary" href="#automation">自動化應用</a>
-        </div>
-      </div>
-      <div class="card" aria-label="作品集重點" data-anim>
-        <h3 style="margin-top:0">關鍵指標</h3>
-        <p class="chip"><strong>11 個月</strong>｜端到端落地執行</p>
-        <p class="chip"><strong>10+ 套</strong> Apps Script / Sheets 系統</p>
-        <p class="chip"><strong>70%↑</strong> 文件標準化覆蓋率</p>
+      <h1>AI 協作作品集｜智慧製造 × 數據驅動</h1>
+      <p class="lead">以現場實戰為核心，把構想變成可交付：生產自動化、品質制度、能源分析與個人品牌。延續你的專業深色系，重點是「能落地、能維護、能擴充」。</p>
+      <div class="cta">
+        <a class="btn" href="#systems">查看系統作品</a>
+        <a class="btn secondary" href="#quality">ISO / 品質</a>
+        <a class="btn secondary" href="#automation">自動化應用</a>
       </div>
     </div>
   </section>
 
+  <!-- 自動化應用 -->
   <section id="automation">
     <div class="container">
       <div class="section-head">
@@ -130,7 +120,8 @@
       <div style="text-align:center">
         <a href="#top" class="btn-top">↑ 返回頂部</a>
       </div>
-    </div>  </section>
+    </div>
+  </section>
 
   <!-- 系統開發 -->
   <section id="systems">
@@ -260,12 +251,11 @@
   <footer>
     <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center">
       <div>
-        <p style="margin:.2rem 0;color:var(--muted)">© 2025 AI 協作作品集｜以專業、創新、實用為原則</p>
-        <p style="margin:.2rem 0;color:var(--muted)">Contact：<a href="mailto:bava@example.com" style="color:var(--brand)">Email</a> · <a href="https://github.com/bava-chang" target="_blank" rel="noopener" style="color:var(--brand)">GitHub</a> · <a href="https://www.linkedin.com/" target="_blank" rel="noopener" style="color:var(--brand)">LinkedIn</a></p>
+        <p style="margin:.2rem 0;color:#8892a6">© 2025 AI 協作作品集｜以專業、創新、實用為原則</p>
+        <p style="margin:.2rem 0;color:#8892a6">Contact：<a href="mailto:bava@example.com" style="color:#4cc9f0">Email</a> · <a href="https://github.com/bava-chang" target="_blank" rel="noopener" style="color:#4cc9f0">GitHub</a> · <a href="https://www.linkedin.com/" target="_blank" rel="noopener" style="color:#4cc9f0">LinkedIn</a></p>
       </div>
       <div>
-        <!-- QR：請將 src 換成你自己的 QR 圖檔位置（/assets/qr-contact.png）-->
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang" alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid var(--border)" />
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=92x92&data=https://github.com/bava-chang" alt="聯絡方式 QR Code" style="width:92px;height:92px;border-radius:8px;border:1px solid #222" />
       </div>
     </div>
   </footer>
