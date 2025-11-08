@@ -6,28 +6,64 @@
   <title>烘房進出一掃送出：行動端體驗 × 後端可靠度｜我的 AI 成長過程</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <style>
+    /* ===== Design tokens (與首頁/AI 成長一致) ===== */
     :root{
-      --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#0ea5e9; --bg:#f8fafc;
+      --ink:#0f172a;           /* 文字主色 */
+      --ink-2:#111827;         /* 強調文字 */
+      --muted:#475569;         /* 次要文字 */
+      --line:#e2e8f0;          /* 邊框線 */
+      --brand:#0ea5e9;         /* 品牌藍 */
+      --brand-2:#22d3ee;       /* 輔助藍 */
+      --bg:#f8fafc;            /* 背景 */
+      --panel:#fffffffa;       /* 半透明白 */
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+      --radius:16px;
     }
-    body{color:var(--ink); background:var(--bg)}
-    /* Global layout */
-    header.hero{padding:2.8rem 0 1.2rem; border-bottom:1px solid var(--line);
-      background: radial-gradient(900px 420px at 20% -10%, #0ea5e91a, transparent),
-                  radial-gradient(900px 420px at 80% 110%, #22d3ee1a, transparent);}
-    h1{letter-spacing:.3px}
-    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase}
-    /* Figures */
+
+    /* ===== Base ===== */
+    body{color:var(--ink); background:var(--bg);}
+    h1,h2,h3,h4{color:var(--ink-2); letter-spacing:.2px}
+    p.secondary{color:var(--muted)}
+    .container{max-width: 1140px}
+
+    /* ===== Hero（強化對比：深色漸層 + 玻璃感面板） ===== */
+    header.hero{
+      padding: 3.2rem 0 1.6rem;
+      border-bottom:1px solid var(--line);
+      background:
+        radial-gradient(1200px 520px at 20% -20%, rgba(14,165,233,.18), transparent),
+        radial-gradient(1000px 520px at 85% 120%, rgba(34,211,238,.22), transparent),
+        linear-gradient(180deg, #eef6fb 0%, #f8fafc 55%);
+    }
+    .hero-panel{
+      background: var(--panel);
+      backdrop-filter: saturate(120%) blur(6px);
+      -webkit-backdrop-filter: saturate(120%) blur(6px);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.2rem 1.4rem;
+    }
+    .eyebrow{font-size:.9rem; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-bottom:.2rem}
+
+    /* ===== Figures ===== */
+    figure{margin:1.2rem 0}
     figure img{width:100%; height:auto; border-radius:12px}
     figure figcaption{color:var(--muted); font-size:.92rem}
+
+    /* ===== Grid ===== */
     .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:1.2rem}
     @media (max-width: 900px){ .grid-2{grid-template-columns:1fr} }
-    /* Callouts & badges */
+
+    /* ===== Callouts & badges ===== */
     .callout{background:#f1f5f9; border:1px solid var(--line); padding:1rem 1.1rem; border-radius:12px}
     .badge{display:inline-block; background:#e0f2fe; color:#0369a1; border-radius:999px; padding:.18rem .65rem; margin-right:.3rem; font-size:.85rem}
-    /* Code blocks */
+
+    /* ===== Code blocks（穩定深底高對比） ===== */
     pre{background:#0b1020; color:#e6edf3; border-radius:10px; padding:1rem; overflow:auto; border:1px solid #1f2a44}
     code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
-    /* Footer nav */
+
+    /* ===== Footer nav ===== */
     .post-nav{display:flex; justify-content:space-between; gap:1rem; margin-top:2rem}
     .post-nav a{border:1px solid var(--line); padding:.75rem 1rem; border-radius:10px; background:white}
   </style>
@@ -46,9 +82,11 @@
   <!-- Hero -->
   <header class="hero">
     <main class="container">
-      <p class="eyebrow">Field Note • Apps Script • 行動端掃碼</p>
-      <h1>烘房進出一掃送出：行動端體驗 × 後端可靠度</h1>
-      <p class="secondary">把「台車進烘房／出烘房」從手寫簽到本，升級為一掃就上傳的數據流：前端只做最快的事，後端負責最靠譜的事。</p>
+      <div class="hero-panel">
+        <p class="eyebrow">Field Note • Apps Script • 行動端掃碼</p>
+        <h1>烘房進出一掃送出：行動端體驗 × 後端可靠度</h1>
+        <p class="secondary">把「台車進烘房／出烘房」從手寫簽到本，升級為一掃就上傳的數據流：前端只做最快的事，後端負責最靠譜的事。</p>
+      </div>
     </main>
   </header>
 
