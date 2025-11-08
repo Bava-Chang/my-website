@@ -6,7 +6,6 @@
   <title>AI 成長｜我的個人品牌網站</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css" />
   <style>
-    /* 與 index.html 一致，並修正 Hero 被固定導覽列覆蓋問題 */
     :root { --navH: 64px; }
     @media (max-width: 600px){ :root { --navH: 56px; } }
 
@@ -26,25 +25,21 @@
 
     .hero {
       text-align: center;
-      padding: calc(9rem + var(--navH)) 1rem 7rem; /* 讓位給固定導覽列 */
+      padding: calc(9rem + var(--navH)) 1rem 7rem;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #fff;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .hero::before {
-      content: "";
-      position: absolute; inset: 0;
+      content: ""; position: absolute; inset: 0;
       background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
       opacity: .15; z-index: 0;
     }
     .hero-content { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; animation: fadeIn 1.2s ease-out; }
     .hero h1 { font-size: 2.6rem; letter-spacing: .5px; margin-bottom: .8rem; }
     .hero p  { font-size: 1.1rem; opacity: .92; line-height: 1.9; }
-
     @keyframes fadeIn { from {opacity:0; transform:translateY(16px)} to {opacity:1; transform:translateY(0)} }
 
-    /* 內容區：左右交錯（大圖＋摘要） */
     .features { max-width: 1100px; margin: 0 auto; padding: 3rem 1rem 4rem; display: grid; gap: 2.5rem; }
     .feature {
       display: grid; grid-template-columns: 1.1fr 1fr; gap: 2rem; align-items: center;
@@ -61,7 +56,6 @@
     .content .actions a { display: inline-block; padding: .6rem 1rem; border: 1px solid #2a2a2a; border-radius: 10px; text-decoration: none; color: #e6f1ff; }
     .content .actions a:hover { border-color: #9ddaff; color: #fff; }
 
-    /* RWD */
     @media (max-width: 960px){
       .feature, .feature.reverse { grid-template-columns: 1fr; }
       .media{ min-height: 220px; }
@@ -71,7 +65,7 @@
   </style>
 </head>
 <body>
-  <!-- 導覽列（僅置頂、不重複） -->
+  <!-- 導覽列 -->
   <header class="site-nav">
     <div class="container wrap">
       <a class="site-brand" href="index.html"><strong>個人品牌</strong></a>
@@ -85,7 +79,7 @@
     </div>
   </header>
 
-  <!-- Hero：品牌級文案，延續首頁語氣 -->
+  <!-- Hero -->
   <section class="hero">
     <div class="hero-content">
       <h1>AI 不是潮流，是方法</h1>
@@ -93,121 +87,192 @@
     </div>
   </section>
 
-  <!-- 大圖＋摘要：左右交錯排列（每卡點進去是內文） -->
-  <main class="features">
-    <!-- P1 -->
-    <article class="feature">
-      <div class="media"><img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1400&q=80" alt="RAG 與資料治理"></div>
+  <!-- 卡片：先放預設，載入後自動覆蓋為文章內文的標題/摘要/首圖 -->
+  <main class="features" id="postList">
+    <article class="feature" data-url="posts/p1.html">
+      <div class="media"><img alt=""></div>
       <div class="content">
-        <div class="meta">P1 · RAG / 資料治理</div>
-        <h3>從文件到答案：RAG 的正確打底方式</h3>
-        <p>不是丟進向量庫就結束。定義資料粒度、切塊策略、欄位正規化與更新流程，才是可靠問答的關鍵。</p>
+        <div class="meta">P1</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p1.html">閱讀內文</a></div>
       </div>
     </article>
 
-    <!-- P2 -->
-    <article class="feature reverse">
+    <article class="feature reverse" data-url="posts/p2.html">
       <div class="content">
-        <div class="meta">P2 · Apps Script / 自動化</div>
-        <h3>把日常變 API：Google Sheets 生產化套路</h3>
-        <p>從表單到流程中心：命名規範、狀態機、快照、SLA 與通知，讓試算表也能像服務一樣穩定。</p>
+        <div class="meta">P2</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p2.html">閱讀內文</a></div>
       </div>
-      <div class="media"><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1400&q=80" alt="Apps Script 生產化"></div>
+      <div class="media"><img alt=""></div>
     </article>
 
-    <!-- P3 -->
-    <article class="feature">
-      <div class="media"><img src="https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=1400&q=80" alt="智慧排班"></div>
+    <article class="feature" data-url="posts/p3.html">
+      <div class="media"><img alt=""></div>
       <div class="content">
-        <div class="meta">P3 · 最佳化 / 排班</div>
-        <h3>智慧排班：從約束到可解問題</h3>
-        <p>把「人員限制、工時規則、產能目標」翻成模型與懲罰函數，讓結果可被解釋、可維護、可微調。</p>
+        <div class="meta">P3</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p3.html">閱讀內文</a></div>
       </div>
     </article>
 
-    <!-- P4 -->
-    <article class="feature reverse">
+    <article class="feature reverse" data-url="posts/p4.html">
       <div class="content">
-        <div class="meta">P4 · MES/ERP / 整合</div>
-        <h3>交期評估助手：在承諾之前先算清楚</h3>
-        <p>把進度、產能、庫存整合到同一介面；把「能不能接單」變為一個可重複檢查的決策流程。</p>
+        <div class="meta">P4</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p4.html">閱讀內文</a></div>
       </div>
-      <div class="media"><img src="https://images.unsplash.com/photo-1534759846116-57968a6b4862?auto=format&fit=crop&w=1400&q=80" alt="交期評估"></div>
+      <div class="media"><img alt=""></div>
     </article>
 
-    <!-- P5 -->
-    <article class="feature">
-      <div class="media"><img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1400&q=80" alt="智慧盤點"></div>
+    <article class="feature" data-url="posts/p5.html">
+      <div class="media"><img alt=""></div>
       <div class="content">
-        <div class="meta">P5 · 前端 / 後端</div>
-        <h3>智慧盤點：離線、序列化與除錯日誌</h3>
-        <p>條碼、離線佇列、重送機制與 Debug Log，讓倉儲掃描在斷網環境也能準確落地。</p>
+        <div class="meta">P5</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p5.html">閱讀內文</a></div>
       </div>
     </article>
 
-    <!-- P6 -->
-    <article class="feature reverse">
+    <article class="feature reverse" data-url="posts/p6.html">
       <div class="content">
-        <div class="meta">P6 · LLM / Prompt</div>
-        <h3>把 Prompt 當規格寫：可重複、可維護的協作</h3>
-        <p>輸入即介面。建立命名、格式、驗收標準與錯誤回復範式，讓 AI 協作有章可循。</p>
+        <div class="meta">P6</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p6.html">閱讀內文</a></div>
       </div>
-      <div class="media"><img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1400&q=80" alt="Prompt 規格化"></div>
+      <div class="media"><img alt=""></div>
     </article>
 
-    <!-- P7 -->
-    <article class="feature">
-      <div class="media"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=80" alt="品質與 8D"></div>
+    <article class="feature" data-url="posts/p7.html">
+      <div class="media"><img alt=""></div>
       <div class="content">
-        <div class="meta">P7 · 品質 / 8D</div>
-        <h3>8D 到制度：從一次補救到長期免疫</h3>
-        <p>把 8D 報告內化為流程：分工、時程、表單、追蹤與知識回流，讓改善不再只停留在紙面。</p>
+        <div class="meta">P7</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p7.html">閱讀內文</a></div>
       </div>
     </article>
 
-    <!-- P8 -->
-    <article class="feature reverse">
+    <article class="feature reverse" data-url="posts/p8.html">
       <div class="content">
-        <div class="meta">P8 · 數據 / 儀表板</div>
-        <h3>績效看板：從數據到行動</h3>
-        <p>OEE/產能/異常告警的資訊架構：定義頻率、指標、與負責人，確保每個數字都有人處理。</p>
+        <div class="meta">P8</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p8.html">閱讀內文</a></div>
       </div>
-      <div class="media"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1400&q=80" alt="績效看板"></div>
+      <div class="media"><img alt=""></div>
     </article>
 
-    <!-- P9 -->
-    <article class="feature">
-      <div class="media"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80" alt="工程與維運"></div>
+    <article class="feature" data-url="posts/p9.html">
+      <div class="media"><img alt=""></div>
       <div class="content">
-        <div class="meta">P9 · 工程 / 維運</div>
-        <h3>從原型到長期維護：文件、測試與版本</h3>
-        <p>原型快，維運難。建立文件、測試與回滾策略，才是能活久的內部系統。</p>
+        <div class="meta">P9</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p9.html">閱讀內文</a></div>
       </div>
     </article>
 
-    <!-- P10 -->
-    <article class="feature reverse">
+    <article class="feature reverse" data-url="posts/p10.html">
       <div class="content">
-        <div class="meta">P10 · 策略 / 組織</div>
-        <h3>把 AI 放進日常：組織採用與教育訓練</h3>
-        <p>工具不是重點，採用才是。建立共通語言、任務模板與教戰手冊，讓全員能用、敢用、會用。</p>
+        <div class="meta">P10</div>
+        <h3>載入中…</h3>
+        <p>載入中…</p>
         <div class="actions"><a href="posts/p10.html">閱讀內文</a></div>
       </div>
-      <div class="media"><img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=1400&q=80" alt="AI 組織推動"></div>
+      <div class="media"><img alt=""></div>
     </article>
   </main>
 
   <footer>
     © 2025 我的個人品牌網站 | Design by Bava Chang
   </footer>
+
+  <script>
+    // 讓摘要、標題、首圖自動與內文一致
+    (async function syncPosts(){
+      const cards = Array.from(document.querySelectorAll('[data-url]'));
+      for (const card of cards) {
+        const url = card.getAttribute('data-url');
+        try {
+          const res = await fetch(url, {cache: 'no-store'});
+          if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+          const html = await res.text();
+          const doc = new DOMParser().parseFromString(html, 'text/html');
+
+          // 1) 標題
+          let title =
+            doc.querySelector('meta[name="article:title"]')?.content ||
+            doc.querySelector('meta[property="og:title"]')?.content ||
+            doc.querySelector('h1')?.textContent?.trim() ||
+            doc.title?.replace(/\s*\|\s*.*$/, '').trim() ||
+            '未命名文章';
+
+          // 2) 摘要（優先 meta，再退回第一段文字）
+          let summary =
+            doc.querySelector('meta[name="article:summary"]')?.content ||
+            doc.querySelector('meta[name="description"]')?.content ||
+            (function(){
+              const firstP = doc.querySelector('article p, main p, .content p, p');
+              if (!firstP) return '';
+              let t = firstP.textContent.replace(/\s+/g,' ').trim();
+              if (t.length > 160) t = t.slice(0, 156) + '…';
+              return t;
+            })();
+
+          // 3) 首圖（優先 og:image，再退回第一張 img）
+          let img =
+            doc.querySelector('meta[property="og:image"]')?.content ||
+            doc.querySelector('article img, main img, .content img, img')?.getAttribute('src') ||
+            '';
+
+          // 寫回卡片
+          const h3 = card.querySelector('.content h3');
+          const p  = card.querySelector('.content p');
+          const imgEl = card.querySelector('.media img');
+
+          if (h3) h3.textContent = title;
+          if (p)  p.textContent  = summary || '（本文無摘要）';
+          if (imgEl) {
+            if (img && !/^data:/.test(img)) {
+              // 若文章內是相對路徑，轉成相對於文章檔案的路徑
+              try {
+                imgEl.src = new URL(img, url).href;
+              } catch(e) {
+                imgEl.src = img;
+              }
+              imgEl.alt = title;
+            } else {
+              // 後備圖片：避免空白
+              imgEl.src = 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1400&q=80';
+              imgEl.alt = 'Article';
+            }
+          }
+
+          // 保險：同步「閱讀內文」連結（若你日後改路徑）
+          const link = card.querySelector('.actions a');
+          if (link) link.href = url;
+
+        } catch (err) {
+          // 若抓取失敗，保留預設內容但標示錯誤狀態
+          const h3 = card.querySelector('.content h3');
+          const p  = card.querySelector('.content p');
+          if (h3) h3.textContent = '載入失敗';
+          if (p)  p.textContent  = '請確認 ' + url + ' 是否存在，或檢查檔名大小寫。';
+          const imgEl = card.querySelector('.media img');
+          if (imgEl && !imgEl.src) {
+            imgEl.src = 'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1400&q=80';
+            imgEl.alt = 'Fallback';
+          }
+        }
+      }
+    })();
+  </script>
 </body>
 </html>
