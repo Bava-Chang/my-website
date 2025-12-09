@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>蘭陽柴爐 - 木顆粒 / 水量 / 參數看板 (React)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- React 18 UMD -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    .card {
+      background: #020617;
+      border-radius: 16px;
+      padding: 16px 20px;
+      border: 1px solid #1f2937;
+      box-shadow: 0 18px 40px rgba(0,0,0,.45);
+    }
+    .kpi-card {
+      flex: 1;
+      background: #020617;
+      border-radius: 16px;
+      padding: 14px 16px;
+      border: 1px solid #1f2937;
+    }
+    .kpi-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: #9ca3af;
+    }
+    .kpi-value {
+      margin-top: 4px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .kpi-sub {
+      margin-top: 2px;
+      font-size: 11px;
+      color: #6b7280;
+    }
+    .input {
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+    .input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 1px #3b82f6;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 12px;
+    }
+    th, td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #1f2937;
+    }
+    th {
+      text-align: left;
+      color: #9ca3af;
+      font-weight: 500;
+      background: #020617;
+    }
+    td {
+      color: #e5e7eb;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    /* 圓餅圖專用容器：縮小一點 */
+    .chart-donut {
+      max-width: 260px;
+      margin: 0 auto;
+    }
+    /* 下拉選單 */
+    .select {
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid #374151;
+      color: #e5e7eb;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+    .select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 1px #3b82f6;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // 換成你部署好的 Web App URL
+    const API_URL = "https://script.google.com/macros/s/AKfycbxluvjvQpmZF9gVsLzGx-Br5Fq3B8vEb46IdHRaQpRguuRPpGE7M0sUG2_WwzfagsX5hw/exec";
+
+    const asNumber = (v) => {
+      if (v === null || v === undefined || v === "") return 0;
+      const n = Number(v);
+      return isNaN(n) ? 0 : n;
+    };
+
+    function App() {
+      const [rows, setRows] = useState([]);
+      const [hourlyDay, setHourlyDay] = useState([]);
+      const [hourlyNight, setHourlyNight] = useState([]);
+      const [paramNames, setParamNames] = useState([]);
+      const [activeParam, setActiveParam] = useState("蒸氣壓力");
+
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+      const [startDate, setStartDate] = useState("");
+      const [endDate, setEndDate] = useState("");
+
+      // canvas refs
+      const dualLineRef   = useRef(null);
+      const ratioLineRef  = useRef(null);
+      const pelletPieRef  = useRef(null);
+      const waterPieRef   = useRef(null);
+      const paramLineRef  = useRef(null);
+      const hourlyDayRef  = useRef(null);
+      const hourlyNightRef= useRef(null);
+
+      // chart instances
+      const dualLineChartRef   = useRef(null);
+      const ratioLineChartRef  = useRef(null);
+      const pelletPieChartRef  = useRef(null);
+      const waterPieChartRef   = useRef(null);
+      const paramLineChartRef  = useRef(null);
+      const hourlyDayChartRef  = useRef(null);
+      const hourlyNightChartRef= useRef(null);
+
+      // 讀取 API
+      useEffect(() => {
+        async function fetchData() {
+          try {
+            setLoading(true);
+            const res = await fetch(API_URL);
+            if (!res.ok) throw new Error("API 回應失敗");
+            const data = await res.json();
+
+            let daily = [];
+            let hDay = [];
+            let hNight = [];
+            let pNames = [];
+
+            if (Array.isArray(data)) {
+              daily = data;
+            } else {
+              daily = Array.isArray(data.daily) ? data.daily : [];
+              hDay  = Array.isArray(data.hourlyDay) ? data.hourlyDay : [];
+              hNight= Array.isArray(data.hourlyNight) ? data.hourlyNight : [];
+              pNames= Array.isArray(data.paramNames) ? data.paramNames : [];
+            }
+
+            const normalized = daily.map(r => {
+              const date = String(r.date || "");
+              return {
+                date,
+                dateLabel: date ? date.slice(5) : "",
+                dayPellet: asNumber(r.dayPellet),
+                nightPellet: asNumber(r.nightPellet),
+                totalPellet: asNumber(r.totalPellet),
+                steamLeft: asNumber(r.steamLeft),
+                steamRight: asNumber(r.steamRight),
+                // dayParams / nightParams 裡放各參數日平均
+                dayParams: r.dayParams || {},
+                nightParams: r.nightParams || {}
+              };
+            }).sort((a, b) => (a.date > b.date ? 1 : -1));
+
+            setRows(normalized);
+            setHourlyDay(Array.isArray(hDay) ? hDay : []);
+            setHourlyNight(Array.isArray(hNight) ? hNight : []);
+            setParamNames(pNames);
+
+            // 預設參數：有蒸氣壓力就用它，否則用第一個
+            if (pNames.length > 0) {
+              if (pNames.includes("蒸氣壓力")) {
+                setActiveParam("蒸氣壓力");
+              } else {
+                setActiveParam(pNames[0]);
+              }
+            }
+
+            if (normalized.length > 0) {
+              setStartDate(normalized[0].date);
+              setEndDate(normalized[normalized.length - 1].date);
+            }
+          } catch (err) {
+            console.error(err);
+            setError(err.message || "讀取資料失敗");
+          } finally {
+            setLoading(false);
+          }
+        }
+        fetchData();
+      }, []);
+
+      // 日期篩選
+      const filtered = rows.filter(r => {
+        if (!r.date) return false;
+        if (startDate && r.date < startDate) return false;
+        if (endDate && r.date > endDate) return false;
+        return true;
+      });
+
+      // === KPI ===
+      const totalDayPellet = filtered.reduce((s, r) => s + r.dayPellet, 0);
+      const totalNightPellet = filtered.reduce((s, r) => s + r.nightPellet, 0);
+      const totalPellet = totalDayPellet + totalNightPellet;
+
+      const totalWaterLeft  = filtered.reduce((s, r) => s + r.steamLeft, 0);
+      const totalWaterRight = filtered.reduce((s, r) => s + r.steamRight, 0);
+      const totalWater      = totalWaterLeft + totalWaterRight;
+
+      let avgWaterCoalRatio = 0;
+      if (totalPellet > 0 && totalWater >= 0) {
+        avgWaterCoalRatio = totalWater / totalPellet;
+      }
+
+      // === 每日趨勢 ===
+      const labels      = filtered.map(r => r.dateLabel || r.date);
+      const pelletTrend = filtered.map(r => r.totalPellet > 0 ? r.totalPellet : null);
+      const waterTrendRaw  = filtered.map(r => r.steamLeft + r.steamRight);
+      const waterTrend = waterTrendRaw.map(v => v > 0 ? v : null);
+
+      const waterValid = waterTrend.filter(v => v !== null);
+      const waterMax = waterValid.length ? Math.max(...waterValid) : 0;
+      const waterYAxisMax = waterMax > 0 ? waterMax * 1.2 : 100;
+
+      const ratioRaw = filtered.map(r => {
+        const coal = r.totalPellet;
+        const water = r.steamLeft + r.steamRight;
+        if (coal <= 0 || water <= 0) return null;
+        return water / coal;
+      });
+      // 避免極端異常值
+      const ratioTrend = ratioRaw.map(v => (v !== null && v > 10 ? null : v));
+      const ratioValid = ratioTrend.filter(v => v !== null);
+      const ratioMax = ratioValid.length ? Math.max(...ratioValid) : 1;
+      const ratioYAxisMax = ratioMax > 0 ? ratioMax * 1.2 : 1;
+
+      // === 日 / 夜參數（依目前選取的參數） ===
+      const paramRows = filtered.filter(r =>
+        r.dayParams || r.nightParams
+      );
+      const hasParamData = paramRows.length > 0 && activeParam;
+
+      const paramLabels = hasParamData
+        ? paramRows.map(r => r.dateLabel || r.date)
+        : [];
+
+      const dayParamTrend = hasParamData
+        ? paramRows.map(r => {
+            const v = asNumber(r.dayParams[activeParam]);
+            return v === 0 ? null : v;
+          })
+        : [];
+
+      const nightParamTrend = hasParamData
+        ? paramRows.map(r => {
+            const v = asNumber(r.nightParams[activeParam]);
+            return v === 0 ? null : v;
+          })
+        : [];
+
+      const paramAll = [...dayParamTrend, ...nightParamTrend].filter(
+        v => v !== null && !isNaN(v)
+      );
+      const paramMin = hasParamData ? Math.min(...paramAll) : 0;
+      const paramMax = hasParamData ? Math.max(...paramAll) : 10;
+      const paramYAxisMin = hasParamData ? Math.floor(paramMin - 1) : 0;
+      const paramYAxisMax = hasParamData ? Math.ceil(paramMax + 1) : 10;
+
+      const avgDayParam = hasParamData && paramRows.length > 0
+        ? paramRows.reduce((s, r) => s + asNumber(r.dayParams[activeParam]), 0) / paramRows.length
+        : 0;
+      const avgNightParam = hasParamData && paramRows.length > 0
+        ? paramRows.reduce((s, r) => s + asNumber(r.nightParams[activeParam]), 0) / paramRows.length
+        : 0;
+
+      // === 每時蒸氣壓力（日 / 夜），把 0 去掉 ===
+      const hourlyDayFiltered = hourlyDay.filter(r => r.avgPressure && r.avgPressure !== 0);
+      const hourlyNightFiltered = hourlyNight.filter(r => r.avgPressure && r.avgPressure !== 0);
+
+      const hourlyDayLabels = hourlyDayFiltered.map(r => r.time);
+      const hourlyDayValues = hourlyDayFiltered.map(r => r.avgPressure);
+      const hourlyNightLabels = hourlyNightFiltered.map(r => r.time);
+      const hourlyNightValues = hourlyNightFiltered.map(r => r.avgPressure);
+
+      const hourlyDayMax = hourlyDayValues.length ? Math.max(...hourlyDayValues) : 10;
+      const hourlyNightMax = hourlyNightValues.length ? Math.max(...hourlyNightValues) : 10;
+
+      // === 建立 / 更新圖表 ===
+      useEffect(() => {
+        // 先把舊圖清掉，避免一再疊加導致畫面拉長
+        if (dualLineChartRef.current)   dualLineChartRef.current.destroy();
+        if (ratioLineChartRef.current)  ratioLineChartRef.current.destroy();
+        if (pelletPieChartRef.current)  pelletPieChartRef.current.destroy();
+        if (waterPieChartRef.current)   waterPieChartRef.current.destroy();
+        if (paramLineChartRef.current)  paramLineChartRef.current.destroy();
+        if (hourlyDayChartRef.current)  hourlyDayChartRef.current.destroy();
+        if (hourlyNightChartRef.current)hourlyNightChartRef.current.destroy();
+
+        if (filtered.length === 0) return;
+
+        // 1. 木顆粒 vs 水量
+        dualLineChartRef.current = new Chart(dualLineRef.current, {
+          type: "line",
+          data: {
+            labels,
+            datasets: [
+              {
+                label: "木顆粒 (kg)",
+                data: pelletTrend,
+                borderWidth: 2,
+                tension: 0.3,
+                spanGaps: false
+              },
+              {
+                label: "水量 (L)",
+                data: waterTrend,
+                borderWidth: 2,
+                borderDash: [4, 4],
+                tension: 0.3,
+                spanGaps: false,
+                yAxisID: "y2"
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            interaction: { mode: "index", intersect: false },
+            scales: {
+              x: {
+                ticks: { color: "#9ca3af" },
+                grid: { color: "#111827" }
+              },
+              y: {
+                type: "linear",
+                position: "left",
+                ticks: { color: "#10b981" },
+                grid: { color: "#1f2937" },
+                title: { display: true, text: "木顆粒 (kg)", color: "#10b981" }
+              },
+              y2: {
+                type: "linear",
+                position: "right",
+                ticks: { color: "#3b82f6" },
+                grid: { drawOnChartArea: false },
+                min: 0,
+                max: waterYAxisMax,
+                title: { display: true, text: "水量 (L)", color: "#3b82f6" }
+              }
+            },
+            plugins: {
+              legend: { labels: { color: "#e5e7eb" } },
+              title: {
+                display: true,
+                text: "每日木顆粒 vs 水量趨勢（0 值已排除）",
+                color: "#e5e7eb",
+                font: { size: 14 }
+              }
+            }
+          }
+        });
+
+        // 2. 水煤比
+        ratioLineChartRef.current = new Chart(ratioLineRef.current, {
+          type: "line",
+          data: {
+            labels,
+            datasets: [{
+              label: "水煤比 (水量 / 木顆粒)",
+              data: ratioTrend,
+              borderWidth: 2,
+              tension: 0.3,
+              spanGaps: false
+            }]
+          },
+          options: {
+            responsive: true,
+            interaction: { mode: "index", intersect: false },
+            scales: {
+              x: {
+                ticks: { color: "#9ca3af" },
+                grid: { color: "#111827" }
+              },
+              y: {
+                ticks: { color: "#9ca3af" },
+                grid: { color: "#1f2937" },
+                min: 0,
+                max: ratioYAxisMax,
+                title: {
+                  display: true,
+                  text: "水煤比（越低越好）",
+                  color: "#e5e7eb"
+                }
+              }
+            },
+            plugins: {
+              legend: { labels: { color: "#e5e7eb" } },
+              title: {
+                display: true,
+                text: "燃燒效率（水煤比）趨勢（0 值已排除）",
+                color: "#e5e7eb",
+                font: { size: 14 }
+              }
+            }
+          }
+        });
+
+        // 3. 木顆粒圓餅（日 / 夜）
+        pelletPieChartRef.current = new Chart(pelletPieRef.current, {
+          type: "doughnut",
+          data: {
+            labels: ["日班木顆粒", "夜班木顆粒"],
+            datasets: [{
+              data: [totalDayPellet, totalNightPellet]
+            }]
+          },
+          options: {
+            plugins: {
+              legend: { labels: { color: "#e5e7eb" } },
+              title: {
+                display: true,
+                text: "木顆粒分佈（日班 vs 夜班）",
+                color: "#e5e7eb",
+                font: { size: 14 }
+              }
+            }
+          }
+        });
+
+        // 4. 水量圓餅（左 / 右流量計）
+        waterPieChartRef.current = new Chart(waterPieRef.current, {
+          type: "doughnut",
+          data: {
+            labels: ["左水量 (L)", "右水量 (L)"],
+            datasets: [{
+              data: [totalWaterLeft, totalWaterRight]
+            }]
+          },
+          options: {
+            plugins: {
+              legend: { labels: { color: "#e5e7eb" } },
+              title: {
+                display: true,
+                text: "水量分佈（左 vs 右流量計）",
+                color: "#e5e7eb",
+                font: { size: 14 }
+              }
+            }
+          }
+        });
+
+        // 5. 日 / 夜參數（依選取參數）
+        if (hasParamData) {
+          paramLineChartRef.current = new Chart(paramLineRef.current, {
+            type: "line",
+            data: {
+              labels: paramLabels,
+              datasets: [
+                {
+                  label: `日參數（${activeParam}）`,
+                  data: dayParamTrend,
+                  borderWidth: 2,
+                  tension: 0.3,
+                  spanGaps: false
+                },
+                {
+                  label: `夜參數（${activeParam}）`,
+                  data: nightParamTrend,
+                  borderWidth: 2,
+                  borderDash: [4, 4],
+                  tension: 0.3,
+                  spanGaps: false
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              interaction: { mode: "index", intersect: false },
+              scales: {
+                x: {
+                  ticks: { color: "#9ca3af" },
+                  grid: { color: "#111827" }
+                },
+                y: {
+                  ticks: { color: "#9ca3af" },
+                  grid: { color: "#1f2937" },
+                  min: paramYAxisMin,
+                  max: paramYAxisMax,
+                  title: {
+                    display: true,
+                    text: `日 / 夜參數（${activeParam}）`,
+                    color: "#e5e7eb"
+                  }
+                }
+              },
+              plugins: {
+                legend: { labels: { color: "#e5e7eb" } },
+                title: {
+                  display: true,
+                  text: `日 / 夜參數趨勢（0 值與空值已排除） - ${activeParam}`,
+                  color: "#e5e7eb",
+                  font: { size: 14 }
+                }
+              }
+            }
+          });
+        }
+
+        // 6. 日班每時蒸氣壓力
+        if (hourlyDayLabels.length > 0) {
+          hourlyDayChartRef.current = new Chart(hourlyDayRef.current, {
+            type: "line",
+            data: {
+              labels: hourlyDayLabels,
+              datasets: [{
+                label: "日班平均蒸氣壓力",
+                data: hourlyDayValues,
+                borderWidth: 2,
+                tension: 0.3,
+                spanGaps: false
+              }]
+            },
+            options: {
+              responsive: true,
+              interaction: { mode: "index", intersect: false },
+              scales: {
+                x: {
+                  ticks: { color: "#9ca3af" },
+                  grid: { color: "#111827" }
+                },
+                y: {
+                  ticks: { color: "#9ca3af" },
+                  grid: { color: "#1f2937" },
+                  min: 0,
+                  max: hourlyDayMax * 1.2,
+                  title: {
+                    display: true,
+                    text: "日班蒸氣壓力",
+                    color: "#e5e7eb"
+                  }
+                }
+              },
+              plugins: {
+                legend: { labels: { color: "#e5e7eb" } },
+                title: {
+                  display: true,
+                  text: "日班每時蒸氣壓力變化（0 值已排除）",
+                  color: "#e5e7eb",
+                  font: { size: 14 }
+                }
+              }
+            }
+          });
+        }
+
+        // 7. 夜班每時蒸氣壓力
+        if (hourlyNightLabels.length > 0) {
+          hourlyNightChartRef.current = new Chart(hourlyNightRef.current, {
+            type: "line",
+            data: {
+              labels: hourlyNightLabels,
+              datasets: [{
+                label: "夜班平均蒸氣壓力",
+                data: hourlyNightValues,
+                borderWidth: 2,
+                tension: 0.3,
+                spanGaps: false
+              }]
+            },
+            options: {
+              responsive: true,
+              interaction: { mode: "index", intersect: false },
+              scales: {
+                x: {
+                  ticks: { color: "#9ca3af" },
+                  grid: { color: "#111827" }
+                },
+                y: {
+                  ticks: { color: "#9ca3af" },
+                  grid: { color: "#1f2937" },
+                  min: 0,
+                  max: hourlyNightMax * 1.2,
+                  title: {
+                    display: true,
+                    text: "夜班蒸氣壓力",
+                    color: "#e5e7eb"
+                  }
+                }
+              },
+              plugins: {
+                legend: { labels: { color: "#e5e7eb" } },
+                title: {
+                  display: true,
+                  text: "夜班每時蒸氣壓力變化（0 值已排除）",
+                  color: "#e5e7eb",
+                  font: { size: 14 }
+                }
+              }
+            }
+          });
+        }
+
+        return () => {
+          if (dualLineChartRef.current)   dualLineChartRef.current.destroy();
+          if (ratioLineChartRef.current)  ratioLineChartRef.current.destroy();
+          if (pelletPieChartRef.current)  pelletPieChartRef.current.destroy();
+          if (waterPieChartRef.current)   waterPieChartRef.current.destroy();
+          if (paramLineChartRef.current)  paramLineChartRef.current.destroy();
+          if (hourlyDayChartRef.current)  hourlyDayChartRef.current.destroy();
+          if (hourlyNightChartRef.current)hourlyNightChartRef.current.destroy();
+        };
+      }, [
+        filtered.length,
+        labels.toString(),
+        pelletTrend.toString(),
+        waterTrend.toString(),
+        ratioTrend.toString(),
+        totalDayPellet,
+        totalNightPellet,
+        totalWaterLeft,
+        totalWaterRight,
+        waterYAxisMax,
+        ratioYAxisMax,
+        hasParamData,
+        paramLabels.toString(),
+        dayParamTrend.toString(),
+        nightParamTrend.toString(),
+        paramYAxisMin,
+        paramYAxisMax,
+        activeParam,
+        hourlyDayLabels.toString(),
+        hourlyDayValues.toString(),
+        hourlyNightLabels.toString(),
+        hourlyNightValues.toString()
+      ]);
+
+      return (
+        <div className="container">
+          {/* 標題 */}
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: "#6b7280" }}>
+              LANYANG BOILER DASHBOARD
+            </div>
+            <h1 style={{ margin: "4px 0 0", fontSize: 24, fontWeight: 700 }}>
+              木顆粒 / 水量 / 參數 / 每時蒸氣壓力看板（React）
+            </h1>
+            <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>
+              左右蒸氣用量 = 水量，搭配水煤比與日 / 夜蒸氣壓力，監控柴爐燃燒效率；每小時壓力用於看班別穩定度。
+            </div>
+          </div>
+
+          {/* 日期篩選 */}
+          <div className="card" style={{ marginBottom: 18 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+              <div>
+                <div style={{ fontSize: 13, marginBottom: 4 }}>日期區間</div>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                  <div>
+                    <div style={{ fontSize: 11, color: "#9ca3af", marginBottom: 2 }}>起</div>
+                    <input
+                      className="input"
+                      type="date"
+                      value={startDate}
+                      onChange={e => setStartDate(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 11, color: "#9ca3af", marginBottom: 2 }}>訖</div>
+                    <input
+                      className="input"
+                      type="date"
+                      value={endDate}
+                      onChange={e => setEndDate(e.target.value)}
+                    />
+                  </div>
+                  <span style={{ fontSize: 12, color: "#9ca3af" }}>
+                    篩選天數：<strong>{filtered.length}</strong> 天
+                  </span>
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                <span className="tag">木顆粒</span>
+                <span className="tag">水量</span>
+                <span className="tag">水煤比</span>
+                <span className="tag">日/夜參數</span>
+                <span className="tag">每時蒸氣壓力</span>
+              </div>
+            </div>
+          </div>
+
+          {/* KPI */}
+          <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
+            <div className="kpi-card">
+              <div className="kpi-label">期間總木顆粒</div>
+              <div className="kpi-value">{Math.round(totalPellet).toLocaleString()} kg</div>
+              <div className="kpi-sub">日班 + 夜班</div>
+            </div>
+            <div className="kpi-card">
+              <div className="kpi-label">期間總水量</div>
+              <div className="kpi-value">{Math.round(totalWater).toLocaleString()} L</div>
+              <div className="kpi-sub">左 + 右蒸氣用量</div>
+            </div>
+            <div className="kpi-card">
+              <div className="kpi-label">平均水煤比</div>
+              <div className="kpi-value">{avgWaterCoalRatio.toFixed(3)}</div>
+              <div className="kpi-sub">水量 / 木顆粒（越低越好）</div>
+            </div>
+          </div>
+
+          {/* 木顆粒 & 水量 / 水煤比 */}
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.5fr) minmax(0, 1.2fr)", gap: 16, marginBottom: 20 }}>
+            <div className="card">
+              {filtered.length === 0
+                ? <div style={{ fontSize: 12, color: "#9ca3af" }}>選擇的日期區間內沒有資料。</div>
+                : <canvas ref={dualLineRef} height="220"></canvas>}
+            </div>
+            <div className="card">
+              {filtered.length === 0
+                ? <div style={{ fontSize: 12, color: "#9ca3af" }}>選擇的日期區間內沒有資料。</div>
+                : <canvas ref={ratioLineRef} height="220"></canvas>}
+            </div>
+          </div>
+
+          {/* 圓餅：木顆粒 / 水量 */}
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 16, marginBottom: 20 }}>
+            <div className="card">
+              {filtered.length === 0
+                ? <div style={{ fontSize: 12, color: "#9ca3af" }}>無資料。</div>
+                : (
+                  <div className="chart-donut">
+                    <canvas ref={pelletPieRef} height="200"></canvas>
+                  </div>
+                )}
+            </div>
+            <div className="card">
+              {filtered.length === 0
+                ? <div style={{ fontSize: 12, color: "#9ca3af" }}>無資料。</div>
+                : (
+                  <div className="chart-donut">
+                    <canvas ref={waterPieRef} height="200"></canvas>
+                  </div>
+                )}
+            </div>
+          </div>
+
+          {/* 日 / 夜參數 */}
+          <div className="card" style={{ marginBottom: 20 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12, flexWrap: "wrap", gap: 12 }}>
+              <div>
+                <div style={{ fontSize: 13 }}>日 / 夜參數</div>
+                <div style={{ fontSize: 11, color: "#9ca3af", marginTop: 2 }}>
+                  每個參數以「日平均」計算，只顯示非 0 的資料點。
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                <div>
+                  <div className="kpi-label" style={{ fontSize: 11 }}>平均日參數</div>
+                  <div className="kpi-value" style={{ fontSize: 18 }}>{avgDayParam.toFixed(1)}</div>
+                </div>
+                <div>
+                  <div className="kpi-label" style={{ fontSize: 11 }}>平均夜參數</div>
+                  <div className="kpi-value" style={{ fontSize: 18 }}>{avgNightParam.toFixed(1)}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, color: "#9ca3af", marginBottom: 2 }}>選擇參數</div>
+                  <select
+                    className="select"
+                    value={activeParam}
+                    onChange={e => setActiveParam(e.target.value)}
+                  >
+                    {paramNames.length === 0 && (
+                      <option value="">無參數</option>
+                    )}
+                    {paramNames.map(name => (
+                      <option key={name} value={name}>{name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {filtered.length === 0
+              ? <div style={{ fontSize: 12, color: "#9ca3af" }}>選擇的日期區間內沒有資料。</div>
+              : hasParamData
+                ? <canvas ref={paramLineRef} height="220"></canvas>
+                : <div style={{ fontSize: 12, color: "#9ca3af" }}>
+                    目前日期區間內沒有任何「{activeParam || '參數'}」的資料。
+                  </div>}
+          </div>
+
+          {/* 每時蒸氣壓力：日班 / 夜班 */}
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 16, marginBottom: 20 }}>
+            <div className="card">
+              {hourlyDayFiltered.length === 0
+                ? <div style={{ fontSize: 12, color: "#9ca3af" }}>目前沒有日班每時蒸氣壓力紀錄（或全為 0）。</div>
+                : <canvas ref={hourlyDayRef} height="220"></canvas>}
+            </div>
+            <div className="card">
+              {hourlyNightFiltered.length === 0
+                ? <div style={{ fontSize: 12, color: "#9ca3af" }}>目前沒有夜班每時蒸氣壓力紀錄（或全為 0）。</div>
+                : <canvas ref={hourlyNightRef} height="220"></canvas>}
+            </div>
+          </div>
+
+          {/* 明細列表 */}
+          <div className="card">
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, flexWrap: "wrap", gap: 8 }}>
+              <div style={{ fontSize: 13 }}>明細列表（依日期篩選）</div>
+              <div style={{ fontSize: 11, color: "#9ca3af" }}>
+                每日木顆粒 / 水量 / 參數。
+              </div>
+            </div>
+            <div style={{ overflowX: "auto" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>日期</th>
+                    <th style={{ textAlign: "right" }}>日班木顆粒</th>
+                    <th style={{ textAlign: "right" }}>夜班木顆粒</th>
+                    <th style={{ textAlign: "right" }}>總木顆粒</th>
+                    <th style={{ textAlign: "right" }}>左水量(L)</th>
+                    <th style={{ textAlign: "right" }}>右水量(L)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((r, i) => (
+                    <tr key={i}>
+                      <td>{r.date}</td>
+                      <td style={{ textAlign: "right" }}>{r.dayPellet}</td>
+                      <td style={{ textAlign: "right" }}>{r.nightPellet}</td>
+                      <td style={{ textAlign: "right", fontWeight: 600 }}>{r.totalPellet}</td>
+                      <td style={{ textAlign: "right" }}>{r.steamLeft}</td>
+                      <td style={{ textAlign: "right" }}>{r.steamRight}</td>
+                    </tr>
+                  ))}
+                  {filtered.length === 0 && (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: "center", color: "#9ca3af", padding: "8px 0" }}>
+                        無資料
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {loading && (
+            <div style={{ marginTop: 10, fontSize: 12, color: "#9ca3af" }}>
+              讀取資料中…
+            </div>
+          )}
+          {error && (
+            <div style={{ marginTop: 10, fontSize: 12, color: "#f97316" }}>
+              發生錯誤：{error}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
