@@ -162,14 +162,69 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
 .tier-legend .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
 
 @media(max-width:720px){
-  .panel-left{width:160px;font-size:12px;}
-  .panel-right{width:140px;font-size:11px;}
-  .brand{font-size:14px;}
+  /* HUD slim */
+  .hud-top{padding:6px 10px;padding-top:max(6px, env(safe-area-inset-top, 0));}
+  .brand{font-size:13px;letter-spacing:1px;}
   .stat-pills{display:none;}
-  .lv-tag{font-size:11px;}
-  .lv-num{font-size:10px;}
-  .tool-btn{padding:7px 10px;font-size:12px;}
-  .combo-overlay{font-size:54px;}
+  .lv-bar-wrap{margin-top:4px;gap:6px;}
+  .lv-tag{font-size:10px;letter-spacing:1px;}
+  .lv-num{font-size:9px;}
+  .lv-bar{max-width:none;}
+  /* Right panel: hidden — info via 📊 modal */
+  .panel-right{display:none;}
+  /* Left panel → bottom sheet */
+  .panel-left{
+    top:auto;left:0;right:0;
+    bottom:0;
+    width:100%;max-width:100%;max-height:none;
+    height:calc(110px + env(safe-area-inset-bottom, 0));
+    padding-bottom:calc(8px + env(safe-area-inset-bottom, 0));
+    overflow:hidden;
+    border-radius:16px 16px 0 0;
+    border:1px solid rgba(255,255,255,0.08);
+    border-bottom:none;
+    transition:height 0.32s cubic-bezier(0.4,0,0.2,1);
+  }
+  .panel-left.mobile-open{
+    height:calc(70vh + env(safe-area-inset-bottom, 0));
+    overflow-y:auto;
+  }
+  .panel-left.collapsed{transform:none;}
+  .panel-toggle{
+    top:6px;left:50%;right:auto;
+    transform:translateX(-50%);
+    width:48px;height:5px;border-radius:3px;
+    color:transparent;background:rgba(255,255,255,0.28);
+    border:none;overflow:hidden;
+  }
+  .panel-title{
+    margin-top:16px;margin-bottom:6px;
+    text-align:center;cursor:pointer;
+    font-size:12px;
+  }
+  .tier-legend{font-size:10px;}
+  /* Toolbar: bigger tap, above sheet, hide when sheet open */
+  .toolbar{
+    bottom:calc(120px + env(safe-area-inset-bottom, 0));
+    gap:6px;flex-wrap:nowrap;overflow-x:auto;max-width:96vw;
+    transition:opacity 0.25s, transform 0.25s;
+  }
+  body.sheet-open .toolbar{opacity:0;transform:translateX(-50%) translateY(40px);pointer-events:none;}
+  .tool-btn{
+    padding:10px 12px;font-size:13px;
+    min-height:44px;flex-shrink:0;
+  }
+  .task-item{padding:10px 12px;font-size:13px;min-height:40px;}
+  /* Modals: bigger touch + iOS no-zoom inputs (16px) */
+  .modal{padding:18px;max-width:95vw;border-radius:16px;}
+  .modal h3{font-size:16px;}
+  .modal input,.modal select,.modal textarea{font-size:16px;padding:10px 12px;}
+  .modal-actions{gap:6px;}
+  .btn{padding:10px 16px;font-size:14px;min-height:44px;}
+  .combo-overlay{font-size:50px;}
+  .a2hs-prompt{bottom:calc(180px + env(safe-area-inset-bottom, 0));}
+  .toast{top:calc(70px + env(safe-area-inset-top, 0));}
+  .ctx-menu .ctx-item{padding:10px 14px;font-size:14px;min-height:40px;}
 }
 </style>
 </head>
@@ -820,7 +875,13 @@ function completeNode(id){
     }
     showCombo(activeCombo);
   }
-  showToast('+' + gain + ' XP' + (mul>1.01?' ×'+mul.toFixed(2):''));
+  // capture undo data before continuing
+  const undoSnap = {
+    nodeId: n.id, gainedXP: gain,
+    wasWeekly: n.type === 'weekly', cat: n.cat,
+    prevPlanetLevel: S.planets[n.cat] ? S.planets[n.cat].level : 1
+  };
+  showToast('+' + gain + ' XP' + (mul>1.01?' ×'+mul.toFixed(2):''), 5500, () => undoComplete(undoSnap));
   if(Math.random() < 0.15){ setTimeout(showRewardModal, 500); }
   checkLevelUp();
   if(S.totalCompleted % 100 === 0){ triggerSupernova(); }
@@ -829,6 +890,51 @@ function completeNode(id){
   updateAll();
   clearTimeout(window._comboTimer);
   window._comboTimer = setTimeout(()=>{ activeCombo = 0; updateAll(); }, COMBO_TIMEOUT);
+}
+
+function undoComplete(snap){
+  if(!snap) return;
+  const n = getNode(snap.nodeId);
+  if(!n || n.status !== 'done') return;
+  // revert task status
+  n.status = 'active';
+  n.burning = false;
+  // revert XP / counters
+  S.XP = Math.max(0, S.XP - snap.gainedXP);
+  S.totalCompleted = Math.max(0, (S.totalCompleted||0) - 1);
+  S.done = Math.max(0, (S.done||0) - 1);
+  S.week = Math.max(0, (S.week||0) - 1);
+  // revert combo
+  if(activeCombo > 0) activeCombo--;
+  // revert planet evoXP and possibly level
+  const p = S.planets[snap.cat];
+  if(p){
+    p.evoXP = Math.max(0, (p.evoXP||0) - snap.gainedXP * 0.5);
+    let lv = 1;
+    for(let i=1; i<=20; i++){ if(p.evoXP >= PLANET_THRESHOLDS[i]) lv = i; }
+    if(p.level > lv) p.level = lv;
+    // revert weekly satellite increment
+    if(snap.wasWeekly){
+      p.satellites = Math.max(0, (p.satellites||0) - 1);
+    }
+  }
+  // revert portal cross-feed (Lv16+ source)
+  if(snap.prevPlanetLevel >= 16){
+    const otherCat = snap.cat === 'life' ? 'work' : 'life';
+    const share = snap.prevPlanetLevel >= 20 ? 0.25 : (snap.prevPlanetLevel >= 18 ? 0.18 : 0.1);
+    const other = S.planets[otherCat];
+    if(other){
+      other.evoXP = Math.max(0, (other.evoXP||0) - snap.gainedXP * share);
+      let olv = 1;
+      for(let i=1; i<=20; i++){ if(other.evoXP >= PLANET_THRESHOLDS[i]) olv = i;}
+      if(other.level > olv) other.level = olv;
+    }
+  }
+  if(navigator.vibrate) navigator.vibrate(8);
+  save();
+  relayout();
+  updateAll();
+  showToast('↶ 已復原 -' + snap.gainedXP + ' XP');
 }
 
 function deferNode(id){
@@ -1009,12 +1115,29 @@ function triggerSupernova(){
   showToast('💥 超新星紀念！第 '+S.supernovas+' 次');
 }
 
-function showToast(text, duration){
+function showToast(text, duration, undoFn){
   const t = $('toast');
-  t.textContent = text;
+  t.innerHTML = '';
+  const span = document.createElement('span');
+  span.textContent = text;
+  t.appendChild(span);
+  if(undoFn){
+    const btn = document.createElement('button');
+    btn.textContent = '↶ 復原';
+    btn.style.cssText = 'background:rgba(136,221,255,0.2);border:1px solid rgba(136,221,255,0.4);color:#aaeeff;font-weight:700;padding:3px 10px;margin-left:10px;border-radius:12px;cursor:pointer;font-family:inherit;font-size:12px;';
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      undoFn();
+      t.classList.remove('show');
+    });
+    t.appendChild(btn);
+    t.style.pointerEvents = 'auto';
+  } else {
+    t.style.pointerEvents = '';
+  }
   t.classList.add('show');
   clearTimeout(window._toastT);
-  window._toastT = setTimeout(()=>t.classList.remove('show'), duration||2000);
+  window._toastT = setTimeout(()=>{ t.classList.remove('show'); t.style.pointerEvents=''; }, duration||2000);
 }
 function showCombo(n){
   const o = $('combo-overlay');
@@ -3310,6 +3433,9 @@ function updatePanels(){
     if(a.dueDate && b.dueDate) return a.dueDate - b.dueDate;
     return 0;
   });
+  // dynamic title with task count (helps mobile peek state)
+  const titleEl = document.querySelector('#panel-left .panel-title');
+  if(titleEl) titleEl.textContent = '⚡ 今日任務 · ' + all.length + ' 項';
   const list = $('task-list');
   list.innerHTML = '';
   if(!all.length){
@@ -3585,10 +3711,29 @@ function wireEvents(){
   });
   $('btn-add-cancel').addEventListener('click', ()=> closeModal('modal-add'));
   $('btn-add-confirm').addEventListener('click', confirmAdd);
-  $('panel-toggle').addEventListener('click', ()=>{
+  function togglePanelLeft(){
     const p = $('panel-left');
-    p.classList.toggle('collapsed');
-    $('panel-toggle').textContent = p.classList.contains('collapsed') ? '▶' : '◀';
+    if(window.innerWidth <= 720){
+      const open = p.classList.toggle('mobile-open');
+      document.body.classList.toggle('sheet-open', open);
+    } else {
+      p.classList.toggle('collapsed');
+      $('panel-toggle').textContent = p.classList.contains('collapsed') ? '▶' : '◀';
+    }
+  }
+  $('panel-toggle').addEventListener('click', e => { e.stopPropagation(); togglePanelLeft(); });
+  // tap on title (peek state) also expands
+  const panelTitle = document.querySelector('#panel-left .panel-title');
+  if(panelTitle) panelTitle.addEventListener('click', e => { e.stopPropagation(); togglePanelLeft(); });
+  // tap outside the sheet collapses it (mobile only)
+  document.addEventListener('click', e => {
+    if(window.innerWidth > 720) return;
+    const p = $('panel-left');
+    if(!p.classList.contains('mobile-open')) return;
+    if(p.contains(e.target)) return;
+    if(e.target.closest('.modal-bg, .toolbar, .ctx-menu, .toast')) return;
+    p.classList.remove('mobile-open');
+    document.body.classList.remove('sheet-open');
   });
   $('inp-name').addEventListener('keydown', e=>{
     if(e.key === 'Enter') confirmAdd();
