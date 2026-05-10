@@ -14,7 +14,7 @@
 <link rel="icon" type="image/png" id="favicon-link" href="">
 <link rel="manifest" id="manifest-link" href="">
 <style id="pwa-style">
-.a2hs-prompt{position:fixed;bottom:max(80px,env(safe-area-inset-bottom,0)+90px);left:12px;right:12px;background:rgba(8,12,28,0.97);border:1px solid rgba(199,125,255,0.45);border-radius:14px;padding:14px;z-index:600;box-shadow:0 8px 30px rgba(0,0,0,0.6);backdrop-filter:blur(14px);color:#e0e6ff;font-size:13px;line-height:1.6;animation:a2hsSlide 0.4s ease;}
+.a2hs-prompt{position:fixed;bottom:max(80px, calc(env(safe-area-inset-bottom, 0px) + 90px));left:12px;right:12px;background:rgba(8,12,28,0.97);border:1px solid rgba(199,125,255,0.45);border-radius:14px;padding:14px;z-index:600;box-shadow:0 8px 30px rgba(0,0,0,0.6);backdrop-filter:blur(14px);color:#e0e6ff;font-size:13px;line-height:1.6;animation:a2hsSlide 0.4s ease;}
 @keyframes a2hsSlide{from{transform:translateY(120%);opacity:0;}to{transform:translateY(0);opacity:1;}}
 .a2hs-prompt b{color:#c77dff;}
 .a2hs-prompt .hint{color:#aab;font-size:12px;}
@@ -63,7 +63,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
 .lv-num{font-family:'Orbitron',sans-serif;font-size:11px;color:#aab;white-space:nowrap;}
 
 .panel-left{position:fixed;top:80px;left:10px;width:200px;max-height:calc(100vh - 160px);background:var(--panel);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px;z-index:90;backdrop-filter:blur(10px);transition:transform 0.3s ease;overflow-y:auto;}
-.panel-left.collapsed{transform:translateX(-216px);}
+.panel-left.collapsed{transform:translateX(-200px);}
 .panel-toggle{position:absolute;right:-22px;top:30px;width:22px;height:50px;background:var(--panel);border:1px solid rgba(255,255,255,0.08);border-left:none;border-radius:0 8px 8px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;color:#888;}
 .panel-title{font-size:11px;color:#888;letter-spacing:2px;margin-bottom:8px;font-weight:700;}
 .task-item{padding:6px 8px;margin-bottom:4px;background:rgba(255,255,255,0.04);border-radius:6px;font-size:12px;cursor:pointer;border-left:3px solid transparent;transition:transform 0.25s ease, background 0.2s;display:flex;justify-content:space-between;align-items:center;gap:6px;position:relative;touch-action:pan-y;will-change:transform;}
@@ -79,6 +79,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
 .task-item.daily{background:rgba(255,195,0,0.08);}
 .task-item.weekly{background:rgba(199,125,255,0.08);}
 .task-item.calendar{background:rgba(136,221,255,0.10);}
+.task-item.is-star{background:linear-gradient(90deg, rgba(255,195,0,0.22), rgba(255,255,255,0.04))!important;border-left-color:#ffc300!important;box-shadow:0 0 14px rgba(255,195,0,0.25);}
 .task-item.burning{background:rgba(255,59,92,0.18);border-left-color:var(--burn);animation:burn 1s infinite;}
 .task-item .xp{font-family:'Orbitron',sans-serif;font-size:10px;color:#aab;}
 .task-item .meta{font-size:10px;color:#88a;margin-right:4px;}
@@ -155,6 +156,49 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
 .evolve-features div{margin:3px 0;}
 
 .cal-status-box{background:rgba(255,255,255,0.04);border-radius:8px;padding:10px;margin-bottom:10px;font-size:12px;color:#aab;}
+/* Shop tabs */
+.shop-tab{flex:1;padding:6px 8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:6px;color:#bbb;font-family:inherit;font-size:11px;cursor:pointer;transition:all 0.18s;min-width:60px;}
+.shop-tab:hover{background:rgba(255,255,255,0.1);}
+.shop-tab.active{background:linear-gradient(135deg,rgba(199,125,255,0.3),rgba(0,180,255,0.2));border-color:rgba(199,125,255,0.5);color:#fff;font-weight:700;}
+.shop-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 6px;text-align:center;font-size:11px;}
+.shop-item-emoji{font-size:28px;margin-bottom:2px;}
+.shop-item-name{font-weight:700;color:#fff;font-size:11px;line-height:1.2;}
+.shop-item-desc{font-size:9px;color:#888;margin:3px 0;line-height:1.3;min-height:22px;}
+.shop-btn{width:100%;padding:5px 4px;border:none;border-radius:5px;font-family:inherit;font-size:10px;font-weight:700;cursor:pointer;transition:transform 0.15s;}
+.shop-btn:hover:not(:disabled){transform:translateY(-1px);}
+.shop-btn.buy{background:linear-gradient(135deg,#c77dff,#00b4ff);color:#fff;}
+.shop-btn.equip{background:rgba(255,255,255,0.12);color:#aaeeff;}
+.shop-btn.equipped{background:rgba(0,230,118,0.25);color:#88ffaa;}
+.shop-btn.cant{background:rgba(255,255,255,0.04);color:#666;cursor:not-allowed;}
+/* Heatmap */
+.hm-grid{display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;grid-auto-columns:12px;gap:2px;padding:4px;}
+.hm-cell{width:12px;height:12px;border-radius:2px;background:#1a2a4a;cursor:default;}
+.hm-cell:hover{outline:1px solid rgba(255,255,255,0.5);}
+.hm-cell.l1{background:#2a5a3a;} .hm-cell.l2{background:#3a8a4a;} .hm-cell.l3{background:#5acc6a;}
+.hm-cell.perfect{background:#ffc300;} .hm-cell.attack{background:#ff3b5c;}
+/* Mentor pick grid */
+.mp-card{padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;cursor:pointer;text-align:center;transition:all 0.18s;}
+.mp-card:hover{background:rgba(199,125,255,0.15);border-color:rgba(199,125,255,0.4);}
+.mp-card.selected{background:rgba(199,125,255,0.25);border-color:rgba(199,125,255,0.6);}
+/* Mood buttons */
+.rf-mood.selected{border-color:#ffc300!important;background:rgba(255,195,0,0.15)!important;}
+/* Real reward card */
+.rw-card{padding:10px;margin-bottom:6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;font-size:12px;}
+.rw-card.achieved{background:rgba(255,195,0,0.12);border-color:rgba(255,195,0,0.4);}
+/* Focus mode */
+body.focus-mode .hud-top,body.focus-mode .panel-left,body.focus-mode .panel-right,body.focus-mode .toolbar{opacity:0!important;pointer-events:none!important;transition:opacity 0.4s;}
+body.focus-mode .focus-exit-hint{display:block;}
+.focus-exit-hint{display:none;position:fixed;top:14px;left:50%;transform:translateX(-50%);background:rgba(8,12,28,0.7);color:#aab;padding:6px 14px;border-radius:14px;font-size:11px;letter-spacing:1px;z-index:550;}
+/* Debug menu trigger (invisible) */
+.brand{cursor:pointer;}
+/* Active disaster banner */
+.disaster-banner{position:fixed;top:62px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,rgba(255,150,50,0.15),rgba(255,100,200,0.15));border:1px solid rgba(255,200,100,0.4);padding:5px 14px;border-radius:14px;font-size:11px;color:#ffd28a;z-index:80;pointer-events:none;}
+@media(max-width:720px){
+  #modal-character .modal{padding:14px !important;}
+  #modal-character > div > div:first-of-type > div{grid-template-columns:1fr !important;}
+  #char-canvas{width:140px;height:170px;}
+  .shop-tab{font-size:10px;padding:5px 4px;min-width:auto;flex:0 1 auto;}
+}
 .cal-status-box .ok{color:var(--done);}
 .cal-status-box .err{color:var(--burn);}
 .tier-legend{display:flex;gap:12px;justify-content:center;font-size:10px;color:#888;margin:6px 0;flex-wrap:wrap;}
@@ -163,7 +207,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
 
 @media(max-width:720px){
   /* HUD slim */
-  .hud-top{padding:6px 10px;padding-top:max(6px, env(safe-area-inset-top, 0));}
+  .hud-top{padding:6px 10px;padding-top:max(6px, env(safe-area-inset-top, 0px));}
   .brand{font-size:13px;letter-spacing:1px;}
   .stat-pills{display:none;}
   .lv-bar-wrap{margin-top:4px;gap:6px;}
@@ -177,8 +221,8 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
     top:auto;left:0;right:0;
     bottom:0;
     width:100%;max-width:100%;max-height:none;
-    height:calc(110px + env(safe-area-inset-bottom, 0));
-    padding-bottom:calc(8px + env(safe-area-inset-bottom, 0));
+    height:calc(110px + env(safe-area-inset-bottom, 0px));
+    padding-bottom:calc(8px + env(safe-area-inset-bottom, 0px));
     overflow:hidden;
     border-radius:16px 16px 0 0;
     border:1px solid rgba(255,255,255,0.08);
@@ -186,7 +230,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
     transition:height 0.32s cubic-bezier(0.4,0,0.2,1);
   }
   .panel-left.mobile-open{
-    height:calc(70vh + env(safe-area-inset-bottom, 0));
+    height:calc(70vh + env(safe-area-inset-bottom, 0px));
     overflow-y:auto;
   }
   .panel-left.collapsed{transform:none;}
@@ -205,7 +249,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
   .tier-legend{font-size:10px;}
   /* Toolbar: bigger tap, above sheet, hide when sheet open */
   .toolbar{
-    bottom:calc(120px + env(safe-area-inset-bottom, 0));
+    bottom:calc(120px + env(safe-area-inset-bottom, 0px));
     gap:6px;flex-wrap:nowrap;overflow-x:auto;max-width:96vw;
     transition:opacity 0.25s, transform 0.25s;
   }
@@ -222,8 +266,8 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
   .modal-actions{gap:6px;}
   .btn{padding:10px 16px;font-size:14px;min-height:44px;}
   .combo-overlay{font-size:50px;}
-  .a2hs-prompt{bottom:calc(180px + env(safe-area-inset-bottom, 0));}
-  .toast{top:calc(70px + env(safe-area-inset-top, 0));}
+  .a2hs-prompt{bottom:calc(180px + env(safe-area-inset-bottom, 0px));}
+  .toast{top:calc(70px + env(safe-area-inset-top, 0px));}
   .ctx-menu .ctx-item{padding:10px 14px;font-size:14px;min-height:40px;}
 }
 </style>
@@ -290,6 +334,9 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
   <button class="tool-btn cal" id="btn-calendar">📅 行事曆</button>
   <button class="tool-btn" id="btn-reset-cam">⊙</button>
   <button class="tool-btn" id="btn-stats">📊</button>
+  <button class="tool-btn" id="btn-heatmap" title="連擊熱力圖">🔥</button>
+  <button class="tool-btn" id="btn-rewards" title="真實世界獎勵">🎁</button>
+  <button class="tool-btn" id="btn-focus" title="專注模式">👁</button>
 </div>
 
 <div class="combo-overlay" id="combo-overlay">×2</div>
@@ -300,7 +347,10 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
 <!-- Add task modal -->
 <div class="modal-bg" id="modal-add">
   <div class="modal">
-    <h3 id="modal-add-title">新增任務</h3>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h3 id="modal-add-title" style="margin:0;">新增任務</h3>
+      <button class="btn btn-secondary" id="btn-from-template" style="font-size:11px;padding:5px 10px;">📋 從模板選</button>
+    </div>
     <label>任務名稱（最多 16 字）</label>
     <input id="inp-name" type="text" maxlength="16" placeholder="例如：閱讀 30 分鐘">
     <label>類別</label>
@@ -321,6 +371,27 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
       <option value="40">重要 +40 XP</option>
       <option value="80">大事 +80 XP</option>
     </select>
+    <label>身份標籤（完成後幫角色升級）</label>
+    <select id="inp-identity">
+      <option value="">— 不關聯任何角色 —</option>
+    </select>
+    <label>If-Then 觸發句（可選 · 提升 2-3 倍達成率）</label>
+    <select id="inp-ifthen-anchor">
+      <option value="">— 不設觸發 —</option>
+      <option>起床之後</option>
+      <option>早餐之後</option>
+      <option>洗澡之後</option>
+      <option>到辦公室之後</option>
+      <option>午餐之後</option>
+      <option>下午茶時間</option>
+      <option>下班之後</option>
+      <option>晚餐之後</option>
+      <option>洗碗之後</option>
+      <option>哄小孩睡之後</option>
+      <option>睡前</option>
+      <option value="__custom__">— 自訂觸發 —</option>
+    </select>
+    <input id="inp-ifthen-custom" type="text" maxlength="20" placeholder="例：開會結束之後 / 喝完咖啡" style="display:none;margin-top:4px;">
     <label>備註（最多 30 字，可選）</label>
     <input id="inp-note" type="text" maxlength="30" placeholder="">
     <div class="modal-actions">
@@ -449,6 +520,325 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;display:block;}
   </div>
 </div>
 
+<!-- Today's Three Stars modal -->
+<div class="modal-bg" id="modal-stars">
+  <div class="modal" style="max-width:460px;">
+    <div style="text-align:center;">
+      <div style="font-size:42px;">⭐ ⭐ ⭐</div>
+      <h3 style="margin:8px 0;">今天最重要的三件事？</h3>
+      <div style="font-size:12px;color:#aab;margin-bottom:14px;line-height:1.6;">
+        從清單中選 1–3 個今日聚焦任務。<br>
+        <b style="color:#ffc300;">三件全完成 = ★ 完美一天 + 100 XP</b>
+      </div>
+    </div>
+    <div id="stars-list" style="max-height:50vh;overflow-y:auto;margin:10px 0;"></div>
+    <div style="font-size:11px;color:#666;text-align:center;margin:8px 0;">
+      已選 <b id="stars-count" style="color:#ffc300;">0</b> / 3
+    </div>
+    <div class="modal-actions" style="justify-content:center;">
+      <button class="btn btn-secondary" id="btn-stars-skip">今天先不選</button>
+      <button class="btn btn-primary" id="btn-stars-confirm" disabled>確認鎖定</button>
+    </div>
+  </div>
+</div>
+
+<!-- Identity onboarding modal -->
+<div class="modal-bg" id="modal-identity-setup">
+  <div class="modal" style="max-width:520px;">
+    <div style="text-align:center;">
+      <div style="font-size:42px;">🪞</div>
+      <h3 style="margin:8px 0;">你想成為什麼樣的人？</h3>
+      <div style="font-size:12px;color:#aab;margin-bottom:14px;line-height:1.7;">
+        習慣的最深層動機不是「做事」，而是「成為」。<br>
+        選 1–5 個你想成為的身份。每完成相關任務，就為自己投一票。
+      </div>
+    </div>
+    <div id="identity-list" style="margin:10px 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px;"></div>
+    <div style="margin-top:12px;">
+      <label style="font-size:11px;color:#888;display:block;margin-bottom:4px;">自訂一個身份（選擇性）</label>
+      <input id="custom-identity" type="text" maxlength="10" placeholder="例：禪修者 / 投資者">
+    </div>
+    <div class="modal-actions" style="justify-content:center;">
+      <button class="btn btn-secondary" id="btn-identity-skip">先跳過</button>
+      <button class="btn btn-primary" id="btn-identity-save">完成設定</button>
+    </div>
+  </div>
+</div>
+
+<!-- Achievement unlock modal -->
+<div class="modal-bg" id="modal-achievement">
+  <div class="modal" style="max-width:380px;text-align:center;">
+    <div style="font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:3px;color:#888;">ACHIEVEMENT UNLOCKED</div>
+    <div style="font-size:64px;margin:14px 0;animation:rewardSpin 0.8s ease;" id="ach-emoji">🏆</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:22px;background:linear-gradient(135deg,#ffc300,#c77dff);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900;margin-bottom:6px;" id="ach-name">名稱</div>
+    <div style="font-size:13px;color:#bbb;margin-bottom:10px;" id="ach-desc">描述</div>
+    <div style="font-size:13px;color:#ffc300;font-weight:700;margin-bottom:14px;" id="ach-xp">+100 XP</div>
+    <button class="btn btn-primary" onclick="closeModal('modal-achievement')">繼續</button>
+  </div>
+</div>
+
+<!-- Perfect Day celebration modal -->
+<div class="modal-bg" id="modal-perfect-day">
+  <div class="modal" style="max-width:380px;text-align:center;">
+    <div style="font-size:64px;animation:rewardSpin 0.8s ease;">🌟</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:3px;color:#888;">PERFECT DAY</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:24px;background:linear-gradient(135deg,#ffc300,#ff6b2b);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900;margin:10px 0;">★ 完美一天 ★</div>
+    <div style="font-size:13px;color:#ccd;margin-bottom:6px;font-style:italic;">「你完成了今天最重要的三件事。」</div>
+    <div style="font-size:13px;color:#ffc300;font-weight:700;margin-bottom:14px;">+100 XP 完美獎勵</div>
+    <button class="btn btn-primary" onclick="closeModal('modal-perfect-day')">收下</button>
+  </div>
+</div>
+
+<!-- Character page modal -->
+<div class="modal-bg" id="modal-character">
+  <div class="modal" style="max-width:640px;width:96vw;position:relative;">
+    <button onclick="closeModal('modal-character')" style="position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;background:rgba(255,80,80,0.25);border:1.5px solid rgba(255,100,100,0.6);color:#ff8888;font-size:22px;font-weight:700;line-height:1;cursor:pointer;z-index:100;display:flex;align-items:center;justify-content:center;padding:0;">×</button>
+    <div style="padding-right:50px;">
+      <h3 id="char-name" style="margin:0;">🪞 角色</h3>
+    </div>
+    <div style="display:grid;grid-template-columns:130px 1fr;gap:14px;margin-top:14px;">
+      <div style="text-align:center;background:radial-gradient(circle,rgba(199,125,255,0.12),rgba(0,0,0,0));border-radius:12px;padding:8px 4px;overflow:hidden;">
+        <canvas id="char-canvas" width="100" height="120" style="display:block;margin:0 auto;width:100px;height:120px;image-rendering:pixelated;"></canvas>
+        <div style="font-family:'Orbitron',sans-serif;font-size:13px;color:#ffc300;font-weight:700;margin-top:4px;" id="char-level">Lv.1 / 100</div>
+        <div style="font-size:12px;color:#aab;" id="char-title">居民</div>
+      </div>
+      <div>
+        <div style="background:rgba(255,255,255,0.04);padding:10px;border-radius:8px;font-size:12px;line-height:1.7;">
+          <div style="display:flex;justify-content:space-between;color:#aab;font-size:10px;letter-spacing:1px;margin-bottom:4px;"><span>等級進度</span><span id="char-xp">0/1 XP</span></div>
+          <div style="height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;"><div id="char-xp-fill" style="height:100%;background:linear-gradient(90deg,#c77dff,#ffc300);transition:width 0.4s;width:0%"></div></div>
+          <div style="margin-top:8px;display:flex;justify-content:space-between;">
+            <span>💎 星塵：<b style="color:#88ddff;" id="char-dust">0</b></span>
+            <span>📋 <b id="char-tasks">0/0 任務</b></span>
+          </div>
+        </div>
+        <div id="shop-tabs" style="display:flex;gap:4px;margin-top:10px;flex-wrap:wrap;"></div>
+        <div id="shop-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin-top:8px;max-height:340px;overflow-y:auto;padding:4px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Character level up modal -->
+<div class="modal-bg" id="modal-charlevel">
+  <div class="modal" style="max-width:380px;text-align:center;">
+    <div style="font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:3px;color:#888;">CHARACTER LEVEL UP</div>
+    <canvas id="clu-canvas" width="120" height="160" style="display:block;margin:8px auto;"></canvas>
+    <div style="font-size:14px;color:#aab;" id="clu-name">早起者</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:30px;background:linear-gradient(135deg,#ffc300,#c77dff);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900;margin:6px 0;" id="clu-level">Lv.2</div>
+    <div style="font-size:13px;color:#fff;margin-bottom:6px;" id="clu-title">學徒</div>
+    <div style="font-size:13px;color:#88ddff;font-weight:700;margin-bottom:8px;" id="clu-dust">+5 星塵</div>
+    <div style="font-size:13px;color:#ffc300;margin-bottom:14px;" id="clu-milestone"></div>
+    <button class="btn btn-primary" onclick="closeModal('modal-charlevel')">繼續</button>
+  </div>
+</div>
+
+<!-- Task Templates Modal -->
+<div class="modal-bg" id="modal-templates">
+  <div class="modal" style="max-width:520px;">
+    <h3>📋 任務模板庫</h3>
+    <div style="font-size:12px;color:#aab;margin-bottom:10px;">點選一個模板自動填入新增任務的欄位</div>
+    <div id="tpl-list" style="max-height:60vh;overflow-y:auto;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-templates')">取消</button>
+    </div>
+  </div>
+</div>
+
+<!-- Daily Login Streak Modal -->
+<div class="modal-bg" id="modal-login">
+  <div class="modal" style="max-width:380px;text-align:center;">
+    <div style="font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:3px;color:#888;">DAILY LOGIN</div>
+    <div style="font-size:50px;margin:10px 0;">📅</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:22px;color:#ffc300;font-weight:900;" id="lg-day">第 1 天</div>
+    <div style="font-size:13px;color:#aab;margin:6px 0;" id="lg-streak">連續 1 天</div>
+    <div style="font-size:14px;color:#88ddff;font-weight:700;margin:10px 0;" id="lg-reward">獲得 5 星塵</div>
+    <div style="font-size:11px;color:#666;margin-bottom:14px;" id="lg-next">明天還能領 8 星塵</div>
+    <button class="btn btn-primary" onclick="closeModal('modal-login')">領取</button>
+  </div>
+</div>
+
+<!-- Mentor of the Day Modal -->
+<div class="modal-bg" id="modal-mentor">
+  <div class="modal" style="max-width:420px;text-align:center;">
+    <div style="font-size:50px;margin:8px 0;" id="mt-emoji">📖</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:3px;color:#888;">MENTOR'S WORD</div>
+    <div style="font-size:14px;color:#ffc300;font-weight:700;margin:6px 0;" id="mt-name">巴菲特</div>
+    <blockquote style="font-size:15px;color:#ddd;font-style:italic;line-height:1.7;margin:14px 0;padding:12px;border-left:3px solid rgba(199,125,255,0.5);background:rgba(255,255,255,0.03);" id="mt-quote">「...」</blockquote>
+    <div class="modal-actions" style="justify-content:center;">
+      <button class="btn btn-secondary" id="btn-mentor-change" style="font-size:12px;">換導師</button>
+      <button class="btn btn-primary" onclick="closeModal('modal-mentor')">收下</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mentor Pick Modal -->
+<div class="modal-bg" id="modal-mentor-pick">
+  <div class="modal" style="max-width:420px;">
+    <h3 style="text-align:center;">選一位精神導師</h3>
+    <div style="font-size:12px;color:#aab;text-align:center;margin-bottom:12px;">每天早上他會送你一句話</div>
+    <div id="mp-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;"></div>
+    <div class="modal-actions" style="justify-content:center;">
+      <button class="btn btn-secondary" onclick="closeModal('modal-mentor-pick')">不要</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reflection Modal -->
+<div class="modal-bg" id="modal-reflection">
+  <div class="modal" style="max-width:420px;">
+    <div style="text-align:center;">
+      <div style="font-size:42px;">🌙</div>
+      <h3 style="margin:6px 0;">今晚的反思</h3>
+      <div style="font-size:11px;color:#888;margin-bottom:12px;">3 個快速問題，建立每日收尾儀式</div>
+    </div>
+    <label>今天最有成就的任務？</label>
+    <input id="rf-best" type="text" maxlength="40" placeholder="可空白">
+    <label>明天最想做的？</label>
+    <input id="rf-tomorrow" type="text" maxlength="40" placeholder="可空白">
+    <label>今天的心情</label>
+    <div style="display:flex;gap:8px;justify-content:center;font-size:32px;margin:6px 0;">
+      <button class="rf-mood" data-mood="happy" style="background:none;border:2px solid transparent;cursor:pointer;border-radius:8px;padding:4px 8px;font-size:32px;">😊</button>
+      <button class="rf-mood" data-mood="neutral" style="background:none;border:2px solid transparent;cursor:pointer;border-radius:8px;padding:4px 8px;font-size:32px;">😐</button>
+      <button class="rf-mood" data-mood="sad" style="background:none;border:2px solid transparent;cursor:pointer;border-radius:8px;padding:4px 8px;font-size:32px;">😞</button>
+      <button class="rf-mood" data-mood="excited" style="background:none;border:2px solid transparent;cursor:pointer;border-radius:8px;padding:4px 8px;font-size:32px;">🤩</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-reflection')">跳過</button>
+      <button class="btn btn-primary" id="btn-rf-save">存入日記</button>
+    </div>
+  </div>
+</div>
+
+<!-- Heatmap Modal -->
+<div class="modal-bg" id="modal-heatmap">
+  <div class="modal" style="max-width:680px;width:96vw;">
+    <h3>🔥 一年習慣熱力圖</h3>
+    <div style="font-size:12px;color:#aab;margin-bottom:12px;">過去 365 天，每天的完成熱度</div>
+    <div id="heatmap-grid" style="overflow-x:auto;"></div>
+    <div style="display:flex;gap:14px;justify-content:center;font-size:11px;color:#888;margin-top:10px;">
+      <span><span style="display:inline-block;width:12px;height:12px;background:#1a2a4a;vertical-align:middle;margin-right:4px;"></span>無</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#2a5a3a;vertical-align:middle;margin-right:4px;"></span>少</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#3a8a4a;vertical-align:middle;margin-right:4px;"></span>多</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#5acc6a;vertical-align:middle;margin-right:4px;"></span>大量</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#ffc300;vertical-align:middle;margin-right:4px;"></span>完美一天</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#ff3b5c;vertical-align:middle;margin-right:4px;"></span>被攻擊</span>
+    </div>
+    <div id="heatmap-stats" style="font-size:12px;color:#aab;margin-top:14px;line-height:1.7;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModal('modal-heatmap')">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- Real World Rewards Modal -->
+<div class="modal-bg" id="modal-rewards">
+  <div class="modal" style="max-width:480px;">
+    <h3>🎁 真實世界獎勵</h3>
+    <div style="font-size:12px;color:#aab;margin-bottom:10px;">把虛擬進度變成現實犒賞，例如「攢到 1000 星塵 = 買一本書」。</div>
+    <div id="rw-list" style="margin-bottom:10px;"></div>
+    <details>
+      <summary style="cursor:pointer;color:#88ddff;font-size:13px;font-weight:700;padding:6px 0;">➕ 新增獎勵</summary>
+      <div style="padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;">
+        <label>獎勵名稱</label>
+        <input id="rw-new-name" type="text" maxlength="20" placeholder="例：買一本書 / 自助餐">
+        <label>達成條件</label>
+        <select id="rw-new-type">
+          <option value="totalDust">累積星塵總數</option>
+          <option value="totalCompleted">累積完成任務數</option>
+          <option value="streak">連擊天數</option>
+          <option value="charLevel">任一角色等級</option>
+          <option value="planetLevel">任一星球等級</option>
+        </select>
+        <label>目標數值</label>
+        <input id="rw-new-value" type="number" min="1" placeholder="例：1000">
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="btn-rw-add">加入</button>
+        </div>
+      </div>
+    </details>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModal('modal-rewards')">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- Disaster Event Modal -->
+<div class="modal-bg" id="modal-disaster">
+  <div class="modal" style="max-width:380px;text-align:center;">
+    <div style="font-size:50px;margin:10px 0;" id="ds-emoji">☄️</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:3px;color:#888;">COSMIC EVENT</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:24px;color:#ffc300;font-weight:900;margin:8px 0;" id="ds-name">流星雨</div>
+    <div style="font-size:14px;color:#ddd;line-height:1.6;margin:10px 0;" id="ds-desc">24 小時 完成 XP ×2</div>
+    <div style="font-size:11px;color:#666;margin-bottom:14px;">下次事件：6-9 天後</div>
+    <button class="btn btn-primary" onclick="closeModal('modal-disaster')">承受 / 享受</button>
+  </div>
+</div>
+
+<!-- Rebirth Modal -->
+<div class="modal-bg" id="modal-rebirth">
+  <div class="modal" style="max-width:420px;text-align:center;">
+    <div style="font-size:54px;margin:10px 0;animation:rewardSpin 0.8s ease;">🔥</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:3px;color:#888;">REBIRTH ERA</div>
+    <div style="font-family:'Orbitron',sans-serif;font-size:24px;background:linear-gradient(135deg,#ff6b2b,#ffc300);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900;margin:8px 0;">浴火重生</div>
+    <div style="font-size:14px;color:#ccd;font-style:italic;line-height:1.7;margin:14px 0;">「燃燒過的星球，灰燼下藏著新的火種。」</div>
+    <div style="background:rgba(255,107,43,0.1);border:1px solid rgba(255,107,43,0.3);border-radius:8px;padding:10px;font-size:12px;color:#ffd0b0;line-height:1.7;text-align:left;">
+      ✦ 接下來 7 天：完成所有任務 XP <b>×2</b><br>
+      ✦ 解鎖限定徽章「🔥 鳳凰」<br>
+      ✦ 邪惡星球進入 24 小時休眠<br>
+      ✦ 失敗從來不是終點，是另一個開始
+    </div>
+    <div class="modal-actions" style="justify-content:center;margin-top:14px;">
+      <button class="btn btn-primary" onclick="closeModal('modal-rebirth')">重新崛起</button>
+    </div>
+  </div>
+</div>
+
+<!-- Weekly Report Modal -->
+<div class="modal-bg" id="modal-weekly">
+  <div class="modal" style="max-width:440px;">
+    <h3>📊 本週報告</h3>
+    <div id="wk-content" style="font-size:13px;line-height:1.8;color:#bbb;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModal('modal-weekly')">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- Constellation Modal -->
+<div class="modal-bg" id="modal-constellation">
+  <div class="modal" style="max-width:420px;">
+    <h3 style="text-align:center;">⭐ 個人星座圖鑑</h3>
+    <div id="cn-list" style="font-size:12px;line-height:1.7;color:#aab;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModal('modal-constellation')">關閉</button>
+    </div>
+  </div>
+</div>
+
+<!-- Debug Menu Modal -->
+<div class="modal-bg" id="modal-debug">
+  <div class="modal" style="max-width:400px;">
+    <h3>☢ 開發者選單</h3>
+    <div style="font-size:11px;color:#888;margin-bottom:10px;">不應該在這裡，但既然你會了…</div>
+    <div style="display:grid;gap:6px;">
+      <button class="btn btn-secondary" id="dbg-xp">+1000 XP</button>
+      <button class="btn btn-secondary" id="dbg-dust">所有角色 +1000 星塵</button>
+      <button class="btn btn-secondary" id="dbg-level">所有星球 +1 級</button>
+      <button class="btn btn-secondary" id="dbg-evil">邪惡星球 +5 級</button>
+      <button class="btn btn-secondary" id="dbg-wave">召喚一波敵艦</button>
+      <button class="btn btn-secondary" id="dbg-disaster">觸發隨機災難</button>
+      <button class="btn btn-secondary" id="dbg-rebirth">觸發重生紀元</button>
+      <button class="btn btn-secondary" id="dbg-week">顯示週報</button>
+      <button class="btn btn-secondary" id="dbg-mentor">顯示導師語</button>
+      <button class="btn btn-secondary" id="dbg-heatmap-fill">填充過去 60 天樣本</button>
+      <button class="btn btn-danger" id="dbg-reset">⚠ 完全重置存檔</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="closeModal('modal-debug')">關閉</button>
+    </div>
+  </div>
+</div>
+
 <!-- Stats modal -->
 <div class="modal-bg" id="modal-stats">
   <div class="modal">
@@ -533,6 +923,338 @@ const PLANET_LEVELS = [null,
 ];
 
 const TIER_RING = { 1:'#ffd700', 2:'#b0c4de', 3:'#cd7f32' };
+
+/* ============== ACHIEVEMENTS ============== */
+// Each: id, name, emoji, desc, check(stats) → bool, xpReward
+const ACHIEVEMENTS = [
+  // 完成總數里程碑
+  {id:'first_done', emoji:'🌱', name:'第一步', desc:'完成第一個任務', xp:20, check:s=>s.totalCompleted>=1},
+  {id:'done_10', emoji:'🌿', name:'萌芽者', desc:'累積完成 10 個任務', xp:50, check:s=>s.totalCompleted>=10},
+  {id:'done_50', emoji:'🌳', name:'扎根者', desc:'累積完成 50 個任務', xp:120, check:s=>s.totalCompleted>=50},
+  {id:'done_100', emoji:'🏛️', name:'百事達成', desc:'累積完成 100 個任務', xp:300, check:s=>s.totalCompleted>=100},
+  {id:'done_500', emoji:'🗽', name:'磐石', desc:'累積完成 500 個任務', xp:800, check:s=>s.totalCompleted>=500},
+  {id:'done_1000', emoji:'🏔️', name:'千事不墜', desc:'累積完成 1000 個任務', xp:2000, check:s=>s.totalCompleted>=1000},
+  // 連擊
+  {id:'combo_5', emoji:'⚡', name:'初次手感', desc:'達成 5 連擊', xp:30, check:s=>s.streak>=5},
+  {id:'combo_10', emoji:'🔥', name:'熱手', desc:'達成 10 連擊', xp:80, check:s=>s.streak>=10},
+  {id:'streak_7', emoji:'📅', name:'一週堅持', desc:'7 天連擊', xp:100, check:s=>s.streak>=7},
+  {id:'streak_30', emoji:'🗓️', name:'月度大師', desc:'30 天連擊', xp:500, check:s=>s.streak>=30},
+  {id:'streak_100', emoji:'💯', name:'百日鐵人', desc:'100 天連擊', xp:1500, check:s=>s.streak>=100},
+  // 完美一天
+  {id:'perfect_1', emoji:'⭐', name:'第一個完美日', desc:'完成所有今日之星', xp:50, check:s=>s.perfectDayCount>=1},
+  {id:'perfect_7', emoji:'🌟', name:'完美一週', desc:'累積 7 個完美日', xp:200, check:s=>s.perfectDayCount>=7},
+  {id:'perfect_30', emoji:'✨', name:'完美月光', desc:'累積 30 個完美日', xp:700, check:s=>s.perfectDayCount>=30},
+  // 星球進化
+  {id:'life_lv5', emoji:'🌍', name:'生命誕生', desc:'生活星到達 Lv5', xp:100, check:s=>s.lifeLv>=5},
+  {id:'life_lv10', emoji:'🏙️', name:'生活帝國', desc:'生活星到達 Lv10', xp:300, check:s=>s.lifeLv>=10},
+  {id:'life_lv15', emoji:'🪐', name:'生活殖民', desc:'生活星到達 Lv15', xp:600, check:s=>s.lifeLv>=15},
+  {id:'life_lv20', emoji:'🌌', name:'生活銀河', desc:'生活星到達 Lv20', xp:1500, check:s=>s.lifeLv>=20},
+  {id:'work_lv5', emoji:'💼', name:'事業萌芽', desc:'工作星到達 Lv5', xp:100, check:s=>s.workLv>=5},
+  {id:'work_lv10', emoji:'🏢', name:'事業帝國', desc:'工作星到達 Lv10', xp:300, check:s=>s.workLv>=10},
+  {id:'work_lv15', emoji:'🛸', name:'事業殖民', desc:'工作星到達 Lv15', xp:600, check:s=>s.workLv>=15},
+  {id:'work_lv20', emoji:'💫', name:'事業銀河', desc:'工作星到達 Lv20', xp:1500, check:s=>s.workLv>=20},
+  {id:'dual_lv16', emoji:'🌀', name:'跨星傳送門', desc:'雙星都到 Lv16，傳送門開啟', xp:800, check:s=>s.lifeLv>=16 && s.workLv>=16},
+  // 玩家等級
+  {id:'player_lv5', emoji:'🏆', name:'成就獵人', desc:'玩家等級 5', xp:80, check:s=>s.playerLv>=5},
+  {id:'player_lv10', emoji:'👑', name:'宇宙旅人', desc:'玩家等級 10', xp:300, check:s=>s.playerLv>=10},
+  // 超新星
+  {id:'supernova_1', emoji:'💥', name:'第一場超新星', desc:'完成 100 個任務觸發超新星', xp:200, check:s=>s.supernovas>=1},
+  {id:'supernova_5', emoji:'☄️', name:'超新星狂熱', desc:'5 場超新星紀念', xp:1000, check:s=>s.supernovas>=5},
+  // 燃燒救援
+  {id:'rescue_1', emoji:'🛟', name:'拯救者', desc:'從燃燒中拯救一個任務', xp:30, check:s=>s.rescuedCount>=1},
+  {id:'rescue_5', emoji:'🚒', name:'反拖延戰士', desc:'拯救 5 個燃燒任務', xp:150, check:s=>s.rescuedCount>=5},
+  // 特殊
+  {id:'identity_set', emoji:'🪞', name:'認識自己', desc:'設定第一個身份', xp:30, check:s=>s.identityCount>=1},
+  {id:'identity_master', emoji:'🎓', name:'身份大師', desc:'有身份升到 Master 等級（200 票）', xp:500, check:s=>s.maxIdentityVotes>=200},
+];
+
+const IDENTITY_PRESETS = [
+  {name:'早起者', emoji:'🌅', hint:'每天早上完成的人'},
+  {name:'閱讀者', emoji:'📚', hint:'每天讀點什麼的人'},
+  {name:'運動者', emoji:'🏃', hint:'保持身體在動的人'},
+  {name:'創作者', emoji:'🎨', hint:'每天做出點什麼的人'},
+  {name:'整理者', emoji:'🧹', hint:'維持環境整潔的人'},
+  {name:'學習者', emoji:'🎓', hint:'每天精進新技能的人'},
+  {name:'寫作者', emoji:'✍️', hint:'用文字思考的人'},
+  {name:'冥想者', emoji:'🧘', hint:'每天靜下來的人'},
+  {name:'健康飲食者', emoji:'🥗', hint:'吃對食物的人'},
+  {name:'家人優先者', emoji:'👨‍👩‍👧', hint:'家人放心上的人'},
+];
+const IDENTITY_LEVELS = [
+  {votes:0, name:'新手 Novice'},
+  {votes:10, name:'學徒 Apprentice'},
+  {votes:50, name:'修煉者 Practitioner'},
+  {votes:200, name:'大師 Master'},
+  {votes:500, name:'傳奇 Legend'},
+];
+
+/* ============== CHARACTER (RPG) SYSTEM ============== */
+// Mixed XP curve based on Lally 2009 (66-day habit) + Ericsson (1200h competence)
+// Phase 1 (Lv 1-21):  habit seeding — 1 task/level
+// Phase 2 (Lv 22-66): habit stabilization — 3 tasks/level
+// Phase 3 (Lv 67-80): competence — 8 tasks/level
+// Phase 4 (Lv 81-95): mastery — 20 tasks/level
+// Phase 5 (Lv 96-100): legend — 50 tasks/level
+function charXpForLevel(lv){
+  if(lv <= 0) return 0;
+  if(lv <= 21) return 1;
+  if(lv <= 66) return 3;
+  if(lv <= 80) return 8;
+  if(lv <= 95) return 20;
+  return 50;
+}
+function charDustForLevel(lv){
+  if(lv <= 21) return 5;
+  if(lv <= 66) return 15;
+  if(lv <= 95) return 50;
+  return 100;
+}
+const CHAR_TITLES = [
+  null, /*Lv0*/
+  '居民','居民','居民','學徒','學徒',                 // 1-5
+  '學徒','學徒','學徒','學徒','探索者',                // 6-10
+  '探索者','探索者','探索者','探索者','探索者',        // 11-15
+  '探索者','探索者','探索者','探索者','探索者',        // 16-20
+  '習慣養成者','習慣養成者','習慣養成者','習慣養成者','習慣養成者', // 21-25
+  '習慣養成者','習慣養成者','習慣養成者','習慣養成者','行者',     // 26-30
+  '行者','行者','行者','行者','行者','行者','行者','行者','行者', // 31-39
+  '守恆者','守恆者','守恆者','守恆者','守恆者','守恆者','守恆者','守恆者','守恆者','達人', // 40-49→50
+  '達人','達人','達人','達人','達人','達人','達人','達人','達人','達人', // 50-59
+  '高階修煉者','高階修煉者','高階修煉者','高階修煉者','高階修煉者','高階修煉者','自動化大師', // 60-66
+  '自動化大師','自動化大師','自動化大師','自動化大師','自動化大師','自動化大師','自動化大師','自動化大師', // 67-74
+  '賢者','賢者','賢者','賢者','賢者','宗師', // 75-80
+  '宗師','宗師','宗師','宗師','宗師','宗師','宗師','星之繼承者', // 81-88
+  '星之繼承者','星之繼承者','星之繼承者','星之繼承者','星之繼承者','星之繼承者','神話', // 89-95
+  '神話','神話','神話','至尊','傳奇' // 96-100
+];
+const CHAR_MILESTONES = {
+  21:'習慣養成者',30:'行者',40:'守恆者',50:'達人',
+  60:'高階修煉者',66:'自動化大師',75:'賢者',80:'宗師',
+  88:'星之繼承者',95:'神話',99:'至尊',100:'傳奇'
+};
+
+/* ============== SHOP ITEMS ============== */
+// Each item: id, name, emoji, cat (outfit/tech/decor/pet/buff), price, desc, slot, draw(ctx,x,y,s,t)
+const SHOP_ITEMS = [
+  // ===== Outfits (cosmetic, slot:'outfit') =====
+  {id:'robe_novice',name:'新手布袍',emoji:'👕',cat:'outfit',slot:'outfit',price:50,desc:'居民起點裝',
+    draw:(c,x,y,s)=>{c.fillStyle='#999';c.fillRect(x-3*s,y-3*s,6*s,7*s);c.fillStyle='#777';c.fillRect(x-3*s,y+1*s,6*s,1*s);}},
+  {id:'robe_apprentice',name:'學徒紫袍',emoji:'🥋',cat:'outfit',slot:'outfit',price:200,desc:'簡約紫色學徒袍',
+    draw:(c,x,y,s)=>{c.fillStyle='#5a4a8a';c.fillRect(x-3*s,y-3*s,6*s,7*s);c.fillStyle='#7a6aaa';c.fillRect(x-2*s,y-2*s,4*s,1*s);c.fillStyle='#4a3a7a';c.fillRect(x-3*s,y+1*s,6*s,1*s);}},
+  {id:'cape_quantum',name:'量子披風',emoji:'🦸',cat:'outfit',slot:'cape',price:1000,desc:'隨步伐閃爍粒子尾跡',
+    draw:(c,x,y,s,t)=>{const a=0.55+Math.sin((t||0)*0.005)*0.25;c.fillStyle='rgba(199,125,255,'+a+')';c.fillRect(x-4*s,y-3*s,8*s,9*s);c.fillStyle='rgba(136,221,255,0.5)';for(let i=0;i<5;i++)c.fillRect(x-3*s+i*1.5*s,y-2*s+(i%3)*2*s,1*s,1*s);}},
+  {id:'armor_stardust',name:'星塵戰甲',emoji:'🛡️',cat:'outfit',slot:'outfit',price:1000,desc:'銀河紋路鎧甲',
+    draw:(c,x,y,s)=>{c.fillStyle='#2a2a3a';c.fillRect(x-4*s,y-3*s,1*s,2*s);c.fillRect(x+3*s,y-3*s,1*s,2*s);c.fillStyle='#3a4a6a';c.fillRect(x-3*s,y-3*s,6*s,5*s);c.fillStyle='#88aaff';c.fillRect(x-3*s,y-2*s,6*s,1*s);c.fillStyle='#2a3a5a';c.fillRect(x-3*s,y+2*s,6*s,2*s);c.fillStyle='#ffd700';c.fillRect(x-1*s,y-1*s,2*s,1*s);}},
+  {id:'mask_darkmatter',name:'暗物質面具',emoji:'🎭',cat:'outfit',slot:'mask',price:1000,desc:'半透明光譜面具',
+    draw:(c,x,y,s,t)=>{const h=((t||0)*0.05)%360;c.fillStyle='hsla('+h+',70%,60%,0.7)';c.fillRect(x-2*s,y-8*s,4*s,3*s);}},
+  {id:'crown_starkin',name:'星辰王冠',emoji:'👑',cat:'outfit',slot:'headgear',price:5000,desc:'漂浮 8 顆星粒環繞',
+    draw:(c,x,y,s,t)=>{c.fillStyle='#ffd700';c.fillRect(x-3*s,y-12*s,6*s,1*s);c.fillRect(x-2*s,y-13*s,1*s,1*s);c.fillRect(x,y-14*s,1*s,2*s);c.fillRect(x+1*s,y-13*s,1*s,1*s);
+      for(let i=0;i<8;i++){const a=(t||0)*0.001+i*Math.PI/4;c.fillStyle='rgba(255,255,200,'+(0.5+Math.sin(a*2)*0.4)+')';c.fillRect(x+Math.cos(a)*5*s,y-7*s+Math.sin(a)*5*s,1*s,1*s);}}},
+  {id:'wings_creator',name:'創世神之翼',emoji:'🪽',cat:'outfit',slot:'wings',price:5000,desc:'限量光翼，登入特效',
+    draw:(c,x,y,s,t)=>{const flap=Math.sin((t||0)*0.003)*1*s;c.fillStyle='rgba(255,220,150,0.75)';c.fillRect(x-7*s,y-2*s+flap,3*s,5*s);c.fillRect(x+4*s,y-2*s+flap,3*s,5*s);c.fillStyle='rgba(255,255,255,0.55)';c.fillRect(x-7*s,y-1*s+flap,1*s,3*s);c.fillRect(x+6*s,y-1*s+flap,1*s,3*s);}},
+  {id:'hood_shadow',name:'暗影兜帽',emoji:'🧥',cat:'outfit',slot:'headgear',price:200,desc:'神秘隱者兜帽',
+    draw:(c,x,y,s)=>{c.fillStyle='#1a1a2a';c.fillRect(x-4*s,y-11*s,8*s,7*s);c.fillStyle='#0a0a1a';c.fillRect(x-2*s,y-8*s,4*s,3*s);}},
+  {id:'sash_warrior',name:'戰士腰帶',emoji:'🥼',cat:'outfit',slot:'sash',price:200,desc:'紅色武鬥腰帶',
+    draw:(c,x,y,s)=>{c.fillStyle='#c4302b';c.fillRect(x-3*s,y+2*s,6*s,1*s);c.fillStyle='#ffd700';c.fillRect(x-1*s,y+2*s,1*s,1*s);}},
+  {id:'jumpsuit_pilot',name:'飛行員連身衣',emoji:'👨‍✈️',cat:'outfit',slot:'outfit',price:200,desc:'探險家標配',
+    draw:(c,x,y,s)=>{c.fillStyle='#7a8a3a';c.fillRect(x-3*s,y-3*s,6*s,7*s);c.fillStyle='#4a5a2a';c.fillRect(x,y-3*s,1*s,7*s);c.fillStyle='#aa8a3a';c.fillRect(x-1*s,y+1*s,2*s,1*s);}},
+
+  // ===== Sci-fi tech (slot:'planet' — affects planet rendering) =====
+  {id:'tech_plasma_cannon',name:'等離子炮',emoji:'🔫',cat:'tech',slot:'planet',price:1000,desc:'軌道防禦砲台',
+    drawPlanet:(c,cx,cy,r,t)=>{const a=(t||0)*0.0006;const dx=cx+Math.cos(a)*r*1.6,dy=cy+Math.sin(a)*r*1.6*0.55;c.fillStyle='#aaffcc';c.fillRect(dx-2,dy-2,4,4);c.fillStyle='#88ff88';c.beginPath();c.arc(dx,dy,3,0,Math.PI*2);c.fill();}},
+  {id:'tech_stargate',name:'星際傳送門',emoji:'🌀',cat:'tech',slot:'planet',price:5000,desc:'環繞星球的紫色光環門',
+    drawPlanet:(c,cx,cy,r,t)=>{c.save();c.globalCompositeOperation='lighter';c.translate(cx,cy);c.rotate((t||0)*0.001);for(let i=0;i<3;i++){c.strokeStyle='rgba(199,125,255,'+(0.5-i*0.12)+')';c.lineWidth=2-i*0.4;c.beginPath();c.ellipse(0,0,r*1.4+i*4,r*0.45+i*1.5,0,0,Math.PI*2);c.stroke();}c.restore();}},
+  {id:'tech_satellite',name:'軌道衛星',emoji:'🛰️',cat:'tech',slot:'planet',price:200,desc:'銀色繞行衛星',
+    drawPlanet:(c,cx,cy,r,t)=>{const a=(t||0)*0.0009;const dx=cx+Math.cos(a)*r*2,dy=cy+Math.sin(a)*r*2*0.4;c.fillStyle='#cccccc';c.fillRect(dx-3,dy-1,6,2);c.fillStyle='#88aaff';c.fillRect(dx-1,dy-1,2,2);}},
+  {id:'tech_skybridge',name:'星空橋',emoji:'🌉',cat:'tech',slot:'planet',price:1000,desc:'連接到伴生星的光橋',
+    drawPlanet:(c,cx,cy,r,t)=>{c.save();c.globalCompositeOperation='lighter';const grad=c.createLinearGradient(cx,cy-r,cx,cy-r*3);grad.addColorStop(0,'rgba(170,200,255,0.6)');grad.addColorStop(1,'rgba(170,200,255,0)');c.strokeStyle=grad;c.lineWidth=2;c.beginPath();c.moveTo(cx,cy-r);c.lineTo(cx,cy-r*3);c.stroke();c.restore();}},
+  {id:'tech_dyson_frag',name:'戴森球碎片',emoji:'⚙️',cat:'tech',slot:'planet',price:5000,desc:'恆星能量收集片',
+    drawPlanet:(c,cx,cy,r,t)=>{c.save();c.translate(cx,cy);c.rotate((t||0)*0.0003);c.strokeStyle='rgba(255,200,100,0.5)';c.lineWidth=1;for(let i=0;i<8;i++){c.beginPath();c.arc(0,0,r*1.3,(i/8)*Math.PI*2,(i/8+0.08)*Math.PI*2);c.stroke();}c.restore();}},
+  {id:'tech_wormhole_anchor',name:'蟲洞錨點',emoji:'⚓',cat:'tech',slot:'planet',price:1000,desc:'快速傳送錨',
+    drawPlanet:(c,cx,cy,r,t)=>{const p=Math.sin((t||0)*0.004)*0.3+0.7;c.fillStyle='rgba(199,125,255,'+p+')';c.beginPath();c.arc(cx-r,cy,4,0,Math.PI*2);c.fill();}},
+
+  // ===== Defense (slot:'planet' but combat-active vs evil fleet) =====
+  {id:'def_laser_turret',name:'雷射砲台',emoji:'🔫',cat:'tech',slot:'planet',price:500,desc:'自動射擊敵艦 (range 250)',isDefense:true,range:250,cooldown:1400,
+    drawPlanet:(c,cx,cy,r,t)=>{const a=(t||0)*0.0008;const dx=cx+Math.cos(a)*r*1.5,dy=cy+Math.sin(a)*r*1.5*0.55;c.fillStyle='#88ffaa';c.fillRect(dx-2,dy-2,4,4);}},
+  {id:'def_shield_dome',name:'防禦能量盾',emoji:'🛡️',cat:'tech',slot:'planet',price:1000,desc:'吸收 50% 攻擊損失',isDefense:true,damageReduction:0.5,
+    drawPlanet:(c,cx,cy,r,t)=>{c.save();c.globalCompositeOperation='lighter';const p=0.4+Math.sin((t||0)*0.003)*0.2;c.strokeStyle='rgba(100,200,255,'+p+')';c.lineWidth=1.2;for(let i=0;i<6;i++){const a=i*Math.PI/3+(t||0)*0.0005;c.beginPath();c.arc(cx,cy,r*1.18,a,a+Math.PI/3-0.05);c.stroke();}c.restore();}},
+  {id:'def_fleet',name:'太空艦隊',emoji:'🚀',cat:'tech',slot:'planet',price:2000,desc:'3 艘戰艦自動攔截 (range 300)',isDefense:true,fleetCount:3,range:300,cooldown:1800,
+    drawPlanet:(c,cx,cy,r,t)=>{for(let i=0;i<3;i++){const a=(t||0)*0.0012+i*Math.PI*2/3;const dx=cx+Math.cos(a)*r*1.7,dy=cy+Math.sin(a)*r*1.7*0.6;c.fillStyle='#aaeeff';c.beginPath();c.moveTo(dx+Math.cos(a+Math.PI/2)*4,dy+Math.sin(a+Math.PI/2)*4);c.lineTo(dx+Math.cos(a-1)*2,dy+Math.sin(a-1)*2);c.lineTo(dx+Math.cos(a+1)*2,dy+Math.sin(a+1)*2);c.closePath();c.fill();c.strokeStyle='rgba(255,200,100,0.6)';c.beginPath();c.moveTo(dx,dy);c.lineTo(dx-Math.cos(a+Math.PI/2)*5,dy-Math.sin(a+Math.PI/2)*5);c.stroke();}}},
+  {id:'def_army_gate',name:'軍隊星際傳送器',emoji:'🌐',cat:'tech',slot:'planet',price:3000,desc:'每 60 秒召喚援軍',isDefense:true,summonInterval:60000,
+    drawPlanet:(c,cx,cy,r,t)=>{c.save();c.translate(cx,cy);c.rotate((t||0)*0.002);c.strokeStyle='rgba(150,255,200,0.6)';c.lineWidth=1.5;c.beginPath();c.arc(0,r*1.3,8,0,Math.PI*2);c.stroke();c.fillStyle='rgba(150,255,200,'+(0.5+Math.sin((t||0)*0.005)*0.3)+')';c.beginPath();c.arc(0,r*1.3,3,0,Math.PI*2);c.fill();c.restore();}},
+  {id:'def_emp',name:'電磁脈衝炮',emoji:'⚡',cat:'tech',slot:'planet',price:5000,desc:'每 90 秒癱瘓所有敵艦',isDefense:true,empCooldown:90000,
+    drawPlanet:(c,cx,cy,r,t)=>{const flash=((t||0)%4000<150)?1:0;c.fillStyle=flash?'rgba(255,255,150,0.8)':'rgba(150,150,200,0.5)';c.beginPath();c.arc(cx-r*1.1,cy-r*0.6,4,0,Math.PI*2);c.fill();}},
+
+  // ===== Decorations (slot:'decoration' — extra visual near character/planet) =====
+  {id:'decor_lighthouse',name:'漂浮燈塔',emoji:'🗼',cat:'decor',slot:'decoration',price:200,desc:'私人空間光源地標',
+    drawNear:(c,x,y,s,t)=>{c.fillStyle='#88aaff';c.fillRect(x+15*s,y-8*s,3*s,12*s);const f=Math.sin((t||0)*0.005)*0.5+0.5;c.fillStyle='rgba(255,255,150,'+(0.5+f*0.5)+')';c.beginPath();c.arc(x+16*s,y-10*s,3,0,Math.PI*2);c.fill();}},
+  {id:'decor_dome',name:'生態穹頂',emoji:'🏟️',cat:'decor',slot:'decoration',price:1000,desc:'透明生物圈造景',
+    drawNear:(c,x,y,s)=>{c.strokeStyle='rgba(150,255,200,0.5)';c.lineWidth=1.5;c.beginPath();c.arc(x-15*s,y+4*s,8*s,Math.PI,0);c.stroke();c.fillStyle='rgba(150,255,200,0.15)';c.beginPath();c.arc(x-15*s,y+4*s,8*s,Math.PI,0);c.fill();}},
+  {id:'decor_fountain',name:'量子噴泉',emoji:'⛲',cat:'decor',slot:'decoration',price:200,desc:'反重力液體裝飾',
+    drawNear:(c,x,y,s,t)=>{for(let i=0;i<5;i++){const ph=((t||0)*0.005+i*0.4)%2;c.fillStyle='rgba(136,221,255,'+(1-ph*0.5)+')';c.fillRect(x+12*s+i*s,y+8*s-ph*8*s,1*s,2*s);}}},
+  {id:'decor_monument',name:'紀念碑',emoji:'🗿',cat:'decor',slot:'decoration',price:5000,desc:'刻名成就石碑',
+    drawNear:(c,x,y,s)=>{c.fillStyle='#888';c.fillRect(x-18*s,y-2*s,4*s,12*s);c.fillStyle='#aaa';c.fillRect(x-18*s,y-2*s,4*s,2*s);c.fillStyle='#ffd700';c.fillRect(x-17*s,y+3*s,2*s,1*s);}},
+  {id:'decor_mecha_temple',name:'機械神殿塔',emoji:'🏯',cat:'decor',slot:'decoration',price:5000,desc:'巨型可登頂建築',
+    drawNear:(c,x,y,s)=>{c.fillStyle='#5a4a3a';c.fillRect(x+14*s,y-12*s,5*s,20*s);c.fillStyle='#7a6a5a';c.fillRect(x+12*s,y-14*s,9*s,3*s);c.fillStyle='#ff8800';c.fillRect(x+15*s,y-9*s,1*s,1*s);c.fillRect(x+16*s,y-5*s,1*s,1*s);}},
+  {id:'decor_holo_garden',name:'全息花園',emoji:'🌸',cat:'decor',slot:'decoration',price:200,desc:'動態植物展示',
+    drawNear:(c,x,y,s,t)=>{const sw=Math.sin((t||0)*0.003)*0.5;c.fillStyle='#ff88cc';for(let i=0;i<3;i++){c.fillRect(x-12*s+i*3*s+sw*s,y+5*s,1*s,1*s);c.fillRect(x-13*s+i*3*s+sw*s,y+6*s,3*s,1*s);}}},
+
+  // ===== Pets/Mounts (slot:'pet') =====
+  {id:'pet_mecha_cat',name:'機械貓',emoji:'🐱',cat:'pet',slot:'pet',price:200,desc:'跟隨型寵物',
+    drawPet:(c,x,y,s,t)=>{const b=Math.sin((t||0)*0.005)*1*s;c.fillStyle='#888';c.fillRect(x-9*s,y+6*s+b,4*s,2*s);c.fillRect(x-7*s,y+4*s+b,2*s,2*s);c.fillRect(x-9*s,y+5*s+b,1*s,1*s);c.fillRect(x-5*s,y+5*s+b,1*s,1*s);c.fillStyle='#ffaa00';c.fillRect(x-6*s,y+5*s+b,1*s,1*s);}},
+  {id:'pet_plasma_hound',name:'等離子犬',emoji:'🐕',cat:'pet',slot:'pet',price:1000,desc:'戰鬥輔助寵物',
+    drawPet:(c,x,y,s,t)=>{const b=Math.sin((t||0)*0.005)*1*s;c.fillStyle='rgba(0,255,150,0.45)';c.fillRect(x-10*s,y+5*s+b,7*s,5*s);c.fillStyle='#88ffaa';c.fillRect(x-9*s,y+6*s+b,5*s,3*s);c.fillRect(x-6*s,y+4*s+b,2*s,2*s);c.fillStyle='#ffffff';c.fillRect(x-5*s,y+5*s+b,1*s,1*s);}},
+  {id:'pet_ai_companion',name:'AI 同伴',emoji:'🤖',cat:'pet',slot:'pet',price:1000,desc:'任務提示語音',
+    drawPet:(c,x,y,s,t)=>{const f=Math.sin((t||0)*0.003)*1*s;c.fillStyle='#aaccff';c.fillRect(x+5*s,y-4*s+f,3*s,3*s);c.fillStyle='#ffffff';c.fillRect(x+6*s,y-3*s+f,1*s,1*s);c.fillStyle='rgba(170,200,255,0.4)';c.fillRect(x+4*s,y-5*s+f,5*s,5*s);}},
+  {id:'pet_mecha_dragon',name:'機械龍',emoji:'🐲',cat:'pet',slot:'pet',price:5000,desc:'限量飛行坐騎',
+    drawPet:(c,x,y,s,t)=>{const f=Math.sin((t||0)*0.004)*2*s;c.fillStyle='#ff4400';c.fillRect(x+5*s,y-5*s+f,5*s,3*s);c.fillRect(x+9*s,y-4*s+f,2*s,2*s);c.fillStyle='#ffaa00';c.fillRect(x+5*s,y-3*s+f,4*s,1*s);c.fillStyle='rgba(255,100,50,0.5)';c.fillRect(x+4*s,y-6*s+f,7*s,5*s);}},
+  {id:'pet_spirit_fox',name:'靈體狐狸',emoji:'🦊',cat:'pet',slot:'pet',price:1000,desc:'半透明跟隨體',
+    drawPet:(c,x,y,s,t)=>{const a=0.45+Math.sin((t||0)*0.003)*0.3;c.fillStyle='rgba(255,150,80,'+a+')';c.fillRect(x-8*s,y+6*s,4*s,2*s);c.fillRect(x-5*s,y+5*s,2*s,2*s);c.fillStyle='rgba(255,200,150,'+(a*0.7)+')';c.fillRect(x-4*s,y+4*s,1*s,1*s);}},
+
+  // ===== Buffs (consumable) =====
+  {id:'buff_2x_xp',name:'雙倍經驗藥水',emoji:'🧪',cat:'buff',slot:null,price:200,desc:'24h 經驗 +100%',consumable:true},
+  {id:'buff_2x_dust',name:'雙倍星塵卡',emoji:'💎',cat:'buff',slot:null,price:200,desc:'24h 貨幣 +100%',consumable:true},
+  {id:'buff_revive',name:'復活幣',emoji:'🪙',cat:'buff',slot:null,price:50,desc:'救一次連擊',consumable:true},
+  {id:'buff_refresh',name:'任務刷新券',emoji:'🎫',cat:'buff',slot:null,price:50,desc:'重新選今日三星',consumable:true},
+  {id:'buff_hourglass',name:'時光沙漏',emoji:'⏳',cat:'buff',slot:null,price:1000,desc:'補回昨日進度',consumable:true},
+  {id:'buff_shield',name:'連擊護盾 ×3',emoji:'🛡️',cat:'buff',slot:null,price:200,desc:'3 張保險',consumable:true},
+];
+
+/* ===== MENTORS (Daily Inspiration) ===== */
+const MENTORS = [
+  {id:'buffett',name:'巴菲特',emoji:'💼',quotes:[
+    '別人貪婪我恐懼，別人恐懼我貪婪。','把好習慣當作鎖鏈，越早建立越輕鬆。',
+    '時間是好公司的朋友，是平庸公司的敵人。','只在你能理解的範圍內投資（包含時間）。',
+    '今天有人坐在樹蔭下，是因為有人在很久以前種下了那棵樹。'
+  ]},
+  {id:'jobs',name:'賈伯斯',emoji:'🍎',quotes:[
+    'Stay hungry, stay foolish.','你的時間有限，不要為別人而活。',
+    '創新就是區分領導者與追隨者。','要保持初學者的心態。',
+    '簡單可能比複雜更難——你必須努力清空思緒，才能讓它變得簡單。'
+  ]},
+  {id:'curie',name:'居禮夫人',emoji:'🔬',quotes:[
+    '我們必須有恆心，尤其要有自信。','人生沒什麼好怕的，只有需要去理解的東西。',
+    '不要把財富看得太重，把名聲看得太重——重要的是工作本身。','擔憂少一點，理解多一點。',
+    '我從不浪費時間在後悔上。'
+  ]},
+  {id:'einstein',name:'愛因斯坦',emoji:'🧠',quotes:[
+    '不要試圖成功，而是試圖成為有價值的人。','想像力比知識更重要。',
+    '在困境中，蘊藏著機會。','人生就像騎自行車，要保持平衡，就得不斷前進。',
+    '誰若想成為偉人，就必須學會把握時間。'
+  ]},
+  {id:'mandela',name:'曼德拉',emoji:'🕊️',quotes:[
+    '生命中最大的榮耀不在於從不跌倒，而在於每次跌倒後都能站起來。','教育是改變世界最強大的武器。',
+    '看似不可能，直到它被完成為止。','勇敢的人不是沒有恐懼，而是戰勝恐懼。',
+    '我從不輸——我要嘛贏，要嘛學到東西。'
+  ]},
+  {id:'hesse',name:'赫塞',emoji:'📖',quotes:[
+    '真正的我們，不是別人眼中的我們。','每個人的人生都是一條通往自己的道路。',
+    '當你愛上一件事，你才能體會到這件事的全部意義。','痛苦是讓你看清自己的鏡子。',
+    '世界唯一不變的，就是變化本身。'
+  ]},
+];
+
+/* ===== DISASTER EVENTS (Random weekly modifier) ===== */
+const DISASTERS = [
+  {id:'meteor',emoji:'☄️',name:'流星雨',desc:'24 小時 完成 XP ×2',duration:24*3600*1000,modifiers:{xpMul:2}},
+  {id:'solar_storm',emoji:'🌪️',name:'太陽風暴',desc:'24 小時 XP ×0.5、邪惡攻擊頻率 ×2',duration:24*3600*1000,modifiers:{xpMul:0.5,evilSpawnMul:2}},
+  {id:'blackhole',emoji:'🕳️',name:'黑洞引力',desc:'24 小時 防禦冷卻 ×2',duration:24*3600*1000,modifiers:{defCdMul:2}},
+  {id:'dust_rain',emoji:'💎',name:'雙倍星塵日',desc:'24 小時 星塵獲得 ×2',duration:24*3600*1000,modifiers:{dustMul:2}},
+  {id:'auspicious',emoji:'🌈',name:'吉星高照',desc:'本日完美一天獎勵 ×3',duration:24*3600*1000,modifiers:{perfectMul:3}},
+  {id:'cosmic_calm',emoji:'☮️',name:'宇宙寧靜',desc:'24 小時 邪惡星球休眠',duration:24*3600*1000,modifiers:{evilFreeze:true}},
+];
+
+/* ===== HIDDEN ACHIEVEMENTS appended to ACHIEVEMENTS list ===== */
+ACHIEVEMENTS.push(
+  {id:'midnight_warrior',emoji:'🌙',name:'午夜戰士',desc:'凌晨 0-3 點完成任務',xp:30,hidden:true,check:s=>s.midnightTasks>=1},
+  {id:'rapid_fire',emoji:'⚡',name:'閃電俠',desc:'1 分鐘內完成 3 個任務',xp:50,hidden:true,check:s=>s.rapidFire>=1},
+  {id:'phoenix',emoji:'🔥',name:'浴火鳳凰',desc:'從重生紀元復活',xp:200,hidden:true,check:s=>s.rebirthCount>=1},
+  {id:'pacifist',emoji:'🕊️',name:'和平主義者',desc:'30 天內未取消任何任務',xp:100,hidden:true,check:s=>s.daysSinceCancelled>=30},
+  {id:'overflowing',emoji:'💎',name:'富可敵國',desc:'單一角色累積 10000 星塵',xp:200,hidden:true,check:s=>s.maxDust>=10000},
+  {id:'collector',emoji:'🎁',name:'收藏家',desc:'擁有 20 個道具',xp:150,hidden:true,check:s=>s.totalItems>=20},
+  {id:'evil_friend',emoji:'☠️',name:'邪惡之友',desc:'邪惡星球升到 Lv10',xp:50,hidden:true,check:s=>s.evilLv>=10},
+  {id:'untouchable',emoji:'🛡️',name:'不可侵犯',desc:'30 天內邪惡星球攻擊 0 次成功',xp:300,hidden:true,check:s=>s.daysSinceHit>=30},
+  {id:'reflective',emoji:'🪞',name:'反思者',desc:'累積 7 天反思日誌',xp:100,hidden:true,check:s=>s.reflectionCount>=7},
+  {id:'login_30',emoji:'📅',name:'忠誠者',desc:'連續登入 30 天',xp:300,hidden:true,check:s=>s.loginStreak>=30},
+);
+
+/* ===== TASK TEMPLATES ===== */
+const TASK_TEMPLATES = [
+  // 健康 / 身體
+  {group:'💪 健康',label:'喝水 8 杯',cat:'life',type:'daily',xpVal:10,identity:'健康飲食者',ifThen:'起床之後'},
+  {group:'💪 健康',label:'晨跑 20 分鐘',cat:'life',type:'daily',xpVal:30,identity:'運動者',ifThen:'起床之後'},
+  {group:'💪 健康',label:'伸展操 10 分鐘',cat:'life',type:'daily',xpVal:15,identity:'運動者',ifThen:'起床之後'},
+  {group:'💪 健康',label:'重訓 30 分鐘',cat:'life',type:'daily',xpVal:40,identity:'運動者',ifThen:'下班之後'},
+  {group:'💪 健康',label:'冥想 10 分鐘',cat:'life',type:'daily',xpVal:20,identity:'冥想者',ifThen:'睡前'},
+  {group:'💪 健康',label:'健康早餐',cat:'life',type:'daily',xpVal:15,identity:'健康飲食者',ifThen:'起床之後'},
+  {group:'💪 健康',label:'步行 30 分鐘',cat:'life',type:'daily',xpVal:20,identity:'運動者',ifThen:'晚餐之後'},
+  // 學習 / 成長
+  {group:'📚 學習',label:'閱讀 30 分鐘',cat:'life',type:'daily',xpVal:30,identity:'閱讀者',ifThen:'睡前'},
+  {group:'📚 學習',label:'學新語言 15 分鐘',cat:'life',type:'daily',xpVal:20,identity:'學習者',ifThen:'早餐之後'},
+  {group:'📚 學習',label:'看一篇技術文章',cat:'work',type:'daily',xpVal:15,identity:'學習者',ifThen:'到辦公室之後'},
+  {group:'📚 學習',label:'寫日記',cat:'life',type:'daily',xpVal:15,identity:'寫作者',ifThen:'睡前'},
+  {group:'📚 學習',label:'線上課程 30 分鐘',cat:'life',type:'daily',xpVal:30,identity:'學習者'},
+  // 工作
+  {group:'💼 工作',label:'規劃今日 3 大事',cat:'work',type:'daily',xpVal:20,ifThen:'到辦公室之後'},
+  {group:'💼 工作',label:'回覆 Email',cat:'work',type:'daily',xpVal:15,ifThen:'到辦公室之後'},
+  {group:'💼 工作',label:'重要任務深度工作 1h',cat:'work',type:'daily',xpVal:40,ifThen:'到辦公室之後'},
+  {group:'💼 工作',label:'週報整理',cat:'work',type:'weekly',xpVal:40,ifThen:'下班之後'},
+  {group:'💼 工作',label:'規劃明日工作',cat:'work',type:'daily',xpVal:15,ifThen:'下班之後'},
+  // 整理 / 家事
+  {group:'🏠 整理',label:'整理桌面',cat:'life',type:'daily',xpVal:10,identity:'整理者'},
+  {group:'🏠 整理',label:'丟垃圾',cat:'life',type:'weekly',xpVal:20,identity:'整理者'},
+  {group:'🏠 整理',label:'洗衣服',cat:'life',type:'weekly',xpVal:30,identity:'整理者'},
+  {group:'🏠 整理',label:'掃地拖地',cat:'life',type:'weekly',xpVal:30,identity:'整理者'},
+  // 創作
+  {group:'🎨 創作',label:'寫作 30 分鐘',cat:'life',type:'daily',xpVal:30,identity:'寫作者'},
+  {group:'🎨 創作',label:'素描 15 分鐘',cat:'life',type:'daily',xpVal:20,identity:'創作者'},
+  {group:'🎨 創作',label:'拍一張照片',cat:'life',type:'daily',xpVal:10,identity:'創作者'},
+  // 家人 / 關係
+  {group:'❤️ 家人',label:'陪家人聊天 15 分鐘',cat:'life',type:'daily',xpVal:20,identity:'家人優先者',ifThen:'晚餐之後'},
+  {group:'❤️ 家人',label:'打電話給父母',cat:'life',type:'weekly',xpVal:30,identity:'家人優先者'},
+  {group:'❤️ 家人',label:'陪伴小孩讀書',cat:'life',type:'daily',xpVal:25,identity:'家人優先者',ifThen:'晚餐之後'},
+  {group:'❤️ 家人',label:'親子一起運動',cat:'life',type:'weekly',xpVal:40,identity:'家人優先者'},
+  {group:'❤️ 家人',label:'寫感謝便條',cat:'life',type:'weekly',xpVal:20,identity:'家人優先者'},
+  // 心靈 / 自我照顧
+  {group:'🧘 自我照顧',label:'深呼吸 3 分鐘',cat:'life',type:'daily',xpVal:10,identity:'冥想者',ifThen:'起床之後'},
+  {group:'🧘 自我照顧',label:'感恩日記三件事',cat:'life',type:'daily',xpVal:15,identity:'寫作者',ifThen:'睡前'},
+  {group:'🧘 自我照顧',label:'數位排毒 1h',cat:'life',type:'daily',xpVal:25,ifThen:'晚餐之後'},
+  {group:'🧘 自我照顧',label:'好好睡覺 7h+',cat:'life',type:'daily',xpVal:30,ifThen:'睡前'},
+  {group:'🧘 自我照顧',label:'瑜珈 20 分鐘',cat:'life',type:'daily',xpVal:25,identity:'運動者'},
+  // 財務
+  {group:'💰 財務',label:'記今日支出',cat:'life',type:'daily',xpVal:10,ifThen:'晚餐之後'},
+  {group:'💰 財務',label:'檢查信用卡帳單',cat:'life',type:'weekly',xpVal:15},
+  {group:'💰 財務',label:'閱讀理財文章',cat:'life',type:'weekly',xpVal:20,identity:'學習者'},
+  {group:'💰 財務',label:'存錢到目標帳戶',cat:'life',type:'weekly',xpVal:30},
+  // 社交
+  {group:'🤝 社交',label:'聯絡一位老朋友',cat:'life',type:'weekly',xpVal:25},
+  {group:'🤝 社交',label:'寫一篇社群貼文',cat:'work',type:'weekly',xpVal:20,identity:'寫作者'},
+  {group:'🤝 社交',label:'參加一個聚會 / 活動',cat:'life',type:'weekly',xpVal:40},
+  // 重大目標
+  {group:'🎯 大目標',label:'寫下年度目標',cat:'life',type:'once',xpVal:80},
+  {group:'🎯 大目標',label:'本月主題拆解計畫',cat:'work',type:'once',xpVal:60},
+  {group:'🎯 大目標',label:'季度回顧 + 調整',cat:'work',type:'once',xpVal:80},
+  // 工作進階
+  {group:'💼 工作',label:'1on1 同事/主管',cat:'work',type:'weekly',xpVal:30},
+  {group:'💼 工作',label:'學習產業新工具',cat:'work',type:'weekly',xpVal:40,identity:'學習者'},
+  {group:'💼 工作',label:'整理桌面 + 清空收件匣',cat:'work',type:'weekly',xpVal:25,identity:'整理者',ifThen:'下班之後'},
+  {group:'💼 工作',label:'寫一篇工作日誌',cat:'work',type:'daily',xpVal:15,identity:'寫作者',ifThen:'下班之後'},
+  // 健康進階
+  {group:'💪 健康',label:'量體重',cat:'life',type:'weekly',xpVal:10},
+  {group:'💪 健康',label:'看牙醫',cat:'life',type:'once',xpVal:40},
+  {group:'💪 健康',label:'年度健檢',cat:'life',type:'once',xpVal:80},
+  // 創作進階
+  {group:'🎨 創作',label:'發表作品到平台',cat:'life',type:'weekly',xpVal:60,identity:'創作者'},
+  {group:'🎨 創作',label:'學習新技法',cat:'life',type:'weekly',xpVal:30,identity:'創作者'},
+];
+
+const SHOP_CATEGORIES = [
+  {id:'outfit',name:'裝扮',emoji:'👕'},
+  {id:'tech',name:'星球科技',emoji:'🛸'},
+  {id:'decor',name:'裝飾',emoji:'🏛️'},
+  {id:'pet',name:'寵物',emoji:'🐾'},
+  {id:'buff',name:'功能道具',emoji:'⚡'},
+];
 const TIER_RADIUS = { 0:32, 1:18, 2:15, 3:12 };
 
 /* ============== DEVICE / PERF FLAGS ============== */
@@ -623,6 +1345,56 @@ function ensureSchema(){
   S.totalCompleted = S.totalCompleted || S.done || 0;
   S.lastCometWeek = S.lastCometWeek || '';
   S.calendar = S.calendar || {sources:[], containerNodeId:null};
+  // Phase A: motivation systems
+  S.today = S.today || {date:'', starIds:[], completed:{}, perfectDayCount:0};
+  S.streakInsurance = S.streakInsurance == null ? 0 : S.streakInsurance;
+  S.streakInsuranceProgress = S.streakInsuranceProgress == null ? 0 : S.streakInsuranceProgress;
+  S.achievements = S.achievements || {};
+  S.identities = S.identities || [];
+  S.identityOnboarded = S.identityOnboarded || false;
+  // === Evil Planet System ===
+  S.evilPlanet = S.evilPlanet || {
+    unlocked:false, level:1, evoXP:0,
+    x:0, y:-340,
+    lastWaveAt:0, totalSpawned:0, totalKilled:0, attacksAbsorbed:0,
+    bossActiveUntil:0
+  };
+  // === New Phase B feature schema ===
+  S.dailyLogin = S.dailyLogin || {lastDate:'', streak:0, totalLogins:0};
+  S.reflections = S.reflections || []; // {date, best, tomorrow, mood}
+  S.realRewards = S.realRewards || []; // {id,name,type,targetValue,achievedAt}
+  S.activeDisaster = S.activeDisaster || null;
+  S.disasterHistory = S.disasterHistory || [];
+  S.completionLog = S.completionLog || {}; // 'YYYY-MM-DD' → {count, perfect, attacks, ids[]}
+  S.mentor = S.mentor || null;
+  S.lastMentorDate = S.lastMentorDate || '';
+  S.rebirth = S.rebirth || null; // {startDate, endDate, completedQuests:[]}
+  S.midnightTasks = S.midnightTasks || 0;
+  S.rapidFire = S.rapidFire || 0;
+  S.lastCompleteAt = S.lastCompleteAt || 0;
+  S.rapidTasksWindow = S.rapidTasksWindow || []; // timestamps
+  S.daysSinceCancelled = S.daysSinceCancelled == null ? 999 : S.daysSinceCancelled;
+  S.daysSinceHit = S.daysSinceHit == null ? 999 : S.daysSinceHit;
+  S.constellations = S.constellations || []; // {month, taskIds, savedAt}
+  S.weeklyReports = S.weeklyReports || []; // {weekStart, completed, mood, etc}
+  S.lastWeeklyReportAt = S.lastWeeklyReportAt || 0;
+  // migrate old votes-based identity → new RPG character system
+  S.identities.forEach(id => {
+    if(id.level === undefined){
+      // convert votes to xp and derive level
+      const votes = id.votes || 0;
+      let lv = 1, xp = votes;
+      while(lv < 100 && xp >= charXpForLevel(lv)){
+        xp -= charXpForLevel(lv);
+        lv++;
+      }
+      id.level = lv;
+      id.xp = xp;
+      id.starDust = id.starDust == null ? Math.floor(votes * 0.5) : id.starDust;
+      id.ownedItems = id.ownedItems || ['robe_novice'];
+      id.equipped = id.equipped || {outfit:'robe_novice', headgear:null, mask:null, cape:null, sash:null, wings:null, planet:null, decoration:null, pet:null};
+    }
+  });
   // migrate single-source legacy → multi-source array
   if(!S.calendar.sources){
     S.calendar.sources = [];
@@ -845,12 +1617,25 @@ function completeNode(id){
   let mul = 1 + activeCombo*0.25;
   if(activeBoosts.boost3 > 0){ mul *= 1.5; activeBoosts.boost3--; }
   if(activeBoosts.todayx2) mul *= 2;
+  // Disaster XP multiplier
+  mul *= getDisasterModifier('xpMul') || 1;
+  // Rebirth bonus (×2 for 7 days)
+  if(isInRebirth()) mul *= 2;
   let gain = Math.round(n.xpVal * mul);
+  const wasBurning = !!n.burning;
+  const wasStar = isStarTask(n.id);
   n.status='done'; n.burning=false;
   S.XP += gain;
   S.done = (S.done||0) + 1;
   S.week = (S.week||0) + 1;
   S.totalCompleted = (S.totalCompleted||0) + 1;
+  if(wasBurning) S.rescuedCount = (S.rescuedCount||0) + 1;
+  if(wasStar){
+    S.today.completed = S.today.completed || {};
+    S.today.completed[n.id] = true;
+  }
+  // identity vote
+  if(n.identity) castIdentityVote(n.identity);
   if(navigator.vibrate) navigator.vibrate(activeCombo >= 3 ? [8,30,8] : 12);
   activeCombo++;
   comboLastTime = Date.now();
@@ -885,6 +1670,26 @@ function completeNode(id){
   if(Math.random() < 0.15){ setTimeout(showRewardModal, 500); }
   checkLevelUp();
   if(S.totalCompleted % 100 === 0){ triggerSupernova(); }
+  // === Motivation systems (Phase A) ===
+  tickStreakInsurance();
+  if(wasStar){ maybeAwardPerfectDay(); }
+  // log completion for heatmap / constellation / weekly
+  logCompletion(n.id, !!(S.today && S.today.starIds && S.today.starIds.every(sid => S.today.completed[sid])));
+  // hidden achievement counters
+  const hour = new Date().getHours();
+  if(hour >= 0 && hour < 3) S.midnightTasks = (S.midnightTasks||0) + 1;
+  // rapid fire (3 tasks in 60s)
+  S.rapidTasksWindow = (S.rapidTasksWindow||[]).filter(t => Date.now() - t < 60000);
+  S.rapidTasksWindow.push(Date.now());
+  if(S.rapidTasksWindow.length >= 3) S.rapidFire = (S.rapidFire||0) + 1;
+  // combo voice
+  if(activeCombo === 3) speak('combo3');
+  if(activeCombo === 7) speak('combo7');
+  // check real-world rewards
+  checkRealRewards();
+  // check rebirth condition
+  checkRebirthTrigger();
+  checkAchievements();
   save();
   relayout();
   updateAll();
@@ -960,11 +1765,14 @@ function cancelNode(id){
   const n = getNode(id);
   if(!n || n.isRoot) return;
   if(n.isCalendarContainer){ showToast('行事曆容器無法取消'); return; }
+  let totalFeed = 0;
   const cancelTree = (nid) => {
     const node = getNode(nid);
     if(!node) return;
     if(node.status !== 'cancelled'){
       node.status = 'cancelled';
+      // feed evil planet
+      totalFeed += (node.xpVal || 10);
       if(!node.isRoot && S.planets[node.cat]){
         S.planets[node.cat].asteroids = S.planets[node.cat].asteroids || [];
         S.planets[node.cat].asteroids.push({
@@ -980,7 +1788,29 @@ function cancelNode(id){
     getAllChildren(nid).forEach(c => cancelTree(c.id));
   };
   cancelTree(id);
+  if(totalFeed > 0){
+    feedEvilPlanet(totalFeed);
+  }
   save(); relayout(); updateAll();
+}
+
+function feedEvilPlanet(amount){
+  const ep = S.evilPlanet;
+  const wasUnlocked = ep.unlocked;
+  if(!ep.unlocked){
+    ep.unlocked = true;
+    setTimeout(() => showToast('🔴 偵測到敵對能量訊號…邪惡星球誕生', 4500), 600);
+  }
+  ep.evoXP = (ep.evoXP||0) + amount;
+  // level up by same thresholds (capped at 20)
+  const oldLv = ep.level;
+  while(ep.level < 20 && ep.evoXP >= PLANET_THRESHOLDS[ep.level + 1]){
+    ep.level++;
+  }
+  if(ep.level > oldLv){
+    setTimeout(() => showToast('💀 邪惡星球升級至 Lv.'+ep.level+'，威脅升高', 3500), wasUnlocked?800:2000);
+    if(navigator.vibrate) navigator.vibrate([50, 30, 50]);
+  }
 }
 
 function unpinSubtree(id){
@@ -1012,6 +1842,8 @@ function addNode(parentId, opts){
   if(opts.calendarUid){ node.calendarUid = opts.calendarUid; node.source = 'calendar'; node.dueDate = opts.dueDate; }
   if(opts.calendarSourceId){ node.calendarSourceId = opts.calendarSourceId; }
   if(opts.isCalendarContainer){ node.isCalendarContainer = true; }
+  if(opts.identity){ node.identity = opts.identity; }
+  if(opts.ifThen){ node.ifThen = opts.ifThen; }
   S.N.push(node);
   save();
   relayout();
@@ -1167,6 +1999,14 @@ function openAddModal(parentId){
   $('inp-note').value = '';
   $('inp-type').value = 'once';
   $('inp-xp').value = '20';
+  if($('inp-ifthen-anchor')) $('inp-ifthen-anchor').value = '';
+  if($('inp-ifthen-custom')){ $('inp-ifthen-custom').value=''; $('inp-ifthen-custom').style.display='none'; }
+  // populate identity options dynamically
+  const idSel = $('inp-identity');
+  if(idSel){
+    idSel.innerHTML = '<option value="">— 不關聯任何角色 —</option>' +
+      (S.identities||[]).map(i => '<option value="'+escapeHtml(i.name)+'">'+i.emoji+' '+escapeHtml(i.name)+'（Lv.'+(i.level||1)+'）</option>').join('');
+  }
   if(parent){
     $('inp-cat').value = parent.cat;
     $('inp-cat').disabled = true;
@@ -1181,11 +2021,20 @@ function confirmAdd(){
   if(!parentId){
     parentId = $('inp-cat').value === 'life' ? lifeRoot().id : workRoot().id;
   }
+  // If-Then anchor
+  let ifThen = null;
+  const anchorSel = $('inp-ifthen-anchor');
+  if(anchorSel && anchorSel.value){
+    const anchor = anchorSel.value === '__custom__' ? $('inp-ifthen-custom').value.trim().slice(0,20) : anchorSel.value;
+    if(anchor) ifThen = anchor;
+  }
   addNode(parentId, {
     label: name,
     type: $('inp-type').value,
     xpVal: parseInt($('inp-xp').value, 10),
-    note: $('inp-note').value.trim()
+    note: $('inp-note').value.trim(),
+    identity: ($('inp-identity') && $('inp-identity').value) || null,
+    ifThen
   });
   closeModal('modal-add');
   addCtxParent = null;
@@ -1275,6 +2124,1311 @@ function showPlanetDetail(cat){
   openModal('modal-planet');
 }
 
+/* ============== TASK TEMPLATES ============== */
+function showTemplatesModal(){
+  // group templates
+  const groups = {};
+  TASK_TEMPLATES.forEach(t => {
+    groups[t.group] = groups[t.group] || [];
+    groups[t.group].push(t);
+  });
+  const list = $('tpl-list');
+  let html = '';
+  for(const [grp, items] of Object.entries(groups)){
+    html += '<div style="font-size:13px;font-weight:700;color:#ffc300;margin:10px 0 4px;">'+grp+'</div>';
+    html += items.map((t, idx) => {
+      const tplIdx = TASK_TEMPLATES.indexOf(t);
+      const dot = t.cat === 'work' ? '#00b4ff' : '#ff6b2b';
+      const idTag = t.identity ? '<span style="font-size:9px;color:#88ddff;margin-left:4px;">@'+t.identity+'</span>' : '';
+      const ifTag = t.ifThen ? '<div style="font-size:10px;color:#88ccff;font-style:italic;margin-top:2px;">⏱ '+t.ifThen+'之後</div>' : '';
+      return '<div class="tpl-item" data-idx="'+tplIdx+'" style="display:flex;justify-content:space-between;align-items:flex-start;padding:8px 10px;margin-bottom:4px;background:rgba(255,255,255,0.04);border-left:3px solid '+dot+';border-radius:6px;cursor:pointer;font-size:13px;transition:background 0.15s;">'+
+        '<div><div>'+escapeHtml(t.label)+idTag+'</div>'+ifTag+'</div>'+
+        '<span style="font-family:Orbitron,sans-serif;font-size:11px;color:#aab;">'+(t.type==='daily'?'每日':t.type==='weekly'?'每週':'單次')+' · +'+t.xpVal+'</span>'+
+      '</div>';
+    }).join('');
+  }
+  list.innerHTML = html;
+  list.querySelectorAll('.tpl-item').forEach(el => {
+    el.addEventListener('mouseenter', () => el.style.background = 'rgba(199,125,255,0.15)');
+    el.addEventListener('mouseleave', () => el.style.background = 'rgba(255,255,255,0.04)');
+    el.addEventListener('click', () => {
+      const tpl = TASK_TEMPLATES[parseInt(el.dataset.idx,10)];
+      applyTemplate(tpl);
+      closeModal('modal-templates');
+    });
+  });
+  openModal('modal-templates');
+}
+function applyTemplate(tpl){
+  $('inp-name').value = tpl.label;
+  $('inp-type').value = tpl.type;
+  $('inp-xp').value = String(tpl.xpVal);
+  // set category if not locked
+  const catSel = $('inp-cat');
+  if(catSel && !catSel.disabled) catSel.value = tpl.cat;
+  // identity
+  if(tpl.identity){
+    const idSel = $('inp-identity');
+    if(idSel){
+      const exists = Array.from(idSel.options).some(o => o.value === tpl.identity);
+      if(exists) idSel.value = tpl.identity;
+    }
+  }
+  // if-then
+  if(tpl.ifThen){
+    const anchorSel = $('inp-ifthen-anchor');
+    if(anchorSel){
+      const opts = Array.from(anchorSel.options);
+      if(opts.some(o => o.value === tpl.ifThen)){
+        anchorSel.value = tpl.ifThen;
+        $('inp-ifthen-custom').style.display = 'none';
+      } else {
+        anchorSel.value = '__custom__';
+        $('inp-ifthen-custom').style.display = 'block';
+        $('inp-ifthen-custom').value = tpl.ifThen;
+      }
+    }
+  }
+  showToast('📋 已套用模板：'+tpl.label, 1800);
+}
+
+/* ============== DAILY LOGIN STREAK ============== */
+function checkDailyLogin(){
+  const today = new Date().toDateString();
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  const dl = S.dailyLogin;
+  if(dl.lastDate === today) return; // already logged in today
+  if(dl.lastDate === yesterday) dl.streak = (dl.streak||0) + 1;
+  else dl.streak = 1;
+  dl.lastDate = today;
+  dl.totalLogins = (dl.totalLogins||0) + 1;
+  // reward formula
+  const rewards = [5, 8, 12, 18, 25, 35, 50, 70, 90, 110, 135, 160, 190, 220];
+  const reward = rewards[Math.min(dl.streak-1, rewards.length-1)] + Math.max(0, dl.streak - rewards.length) * 25;
+  // distribute starDust to all identities
+  if(S.identities && S.identities.length){
+    const each = Math.ceil(reward / S.identities.length);
+    S.identities.forEach(id => { id.starDust = (id.starDust||0) + each; });
+  }
+  S.XP += Math.floor(reward * 0.5);
+  $('lg-day').textContent = '第 ' + dl.streak + ' 天';
+  $('lg-streak').textContent = '連續登入 ' + dl.streak + ' 天 · 總計 ' + dl.totalLogins;
+  $('lg-reward').textContent = '獲得 ' + reward + ' 星塵 + ' + Math.floor(reward * 0.5) + ' XP';
+  const next = rewards[Math.min(dl.streak, rewards.length-1)] + Math.max(0, dl.streak + 1 - rewards.length) * 25;
+  $('lg-next').textContent = '明天再來能領 ' + next + ' 星塵';
+  save();
+  setTimeout(() => openModal('modal-login'), 800);
+  if(navigator.vibrate) navigator.vibrate(20);
+  checkAchievements();
+}
+
+/* ============== MENTOR (Daily Quote) ============== */
+function showMentorPickModal(){
+  const grid = $('mp-grid');
+  grid.innerHTML = MENTORS.map(m =>
+    '<div class="mp-card'+(S.mentor===m.id?' selected':'')+'" data-id="'+m.id+'">'+
+      '<div style="font-size:28px;">'+m.emoji+'</div>'+
+      '<div style="font-weight:700;color:#fff;font-size:13px;margin-top:4px;">'+m.name+'</div>'+
+    '</div>'
+  ).join('');
+  grid.querySelectorAll('.mp-card').forEach(c => {
+    c.addEventListener('click', () => {
+      S.mentor = c.dataset.id;
+      save();
+      closeModal('modal-mentor-pick');
+      showMentorQuote(true);
+    });
+  });
+  openModal('modal-mentor-pick');
+}
+function showMentorQuote(force){
+  if(!S.mentor){ if(force) showMentorPickModal(); return; }
+  const today = new Date().toDateString();
+  if(S.lastMentorDate === today && !force) return;
+  S.lastMentorDate = today;
+  const m = MENTORS.find(x => x.id === S.mentor);
+  if(!m) return;
+  const quote = m.quotes[Math.floor(Math.random() * m.quotes.length)];
+  $('mt-emoji').textContent = m.emoji;
+  $('mt-name').textContent = m.name;
+  $('mt-quote').textContent = '「' + quote + '」';
+  save();
+  setTimeout(() => openModal('modal-mentor'), 600);
+}
+
+/* ============== REFLECTION ============== */
+let _refMood = '';
+function showReflectionModal(){
+  $('rf-best').value = '';
+  $('rf-tomorrow').value = '';
+  _refMood = '';
+  document.querySelectorAll('.rf-mood').forEach(b => b.classList.remove('selected'));
+  openModal('modal-reflection');
+}
+function maybeNudgeReflection(){
+  const now = new Date();
+  if(now.getHours() < 21) return;
+  const today = now.toDateString();
+  const last = (S.reflections||[]).slice(-1)[0];
+  if(last && last.date === today) return;
+  // gentle hint, not auto-pop
+  showToast('🌙 21:00 了，要寫今晚反思嗎？(右鍵 ✦ logo)', 4500);
+}
+
+/* ============== HEATMAP ============== */
+function showHeatmapModal(){
+  const grid = $('heatmap-grid');
+  const log = S.completionLog || {};
+  // build 365 days from today backwards
+  const days = [];
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  for(let i=364;i>=0;i--){
+    const d = new Date(today.getTime() - i*86400000);
+    const key = d.toISOString().slice(0,10);
+    const entry = log[key] || {count:0, perfect:false, attacks:0};
+    days.push({d, key, ...entry});
+  }
+  // pad to start of week (Sunday)
+  const firstDay = days[0].d.getDay();
+  const html = '<div class="hm-grid">' +
+    Array(firstDay).fill('<div class="hm-cell" style="visibility:hidden;"></div>').join('') +
+    days.map(day => {
+      let cls = '';
+      if(day.attacks > 0 && day.count === 0) cls = 'attack';
+      else if(day.perfect) cls = 'perfect';
+      else if(day.count >= 8) cls = 'l3';
+      else if(day.count >= 4) cls = 'l2';
+      else if(day.count >= 1) cls = 'l1';
+      return '<div class="hm-cell '+cls+'" title="'+day.key+': '+day.count+' 任務'+(day.perfect?' ★完美':'')+(day.attacks>0?' ⚔️被攻擊':'')+'"></div>';
+    }).join('') + '</div>';
+  grid.innerHTML = html;
+  // stats
+  const totalDays = Object.keys(log).length;
+  const perfectDays = Object.values(log).filter(d => d.perfect).length;
+  const totalTasksLogged = Object.values(log).reduce((s,d) => s + (d.count||0), 0);
+  const best = Object.entries(log).reduce((m, [k,d]) => (d.count||0) > (m.count||0) ? {date:k, count:d.count} : m, {});
+  $('heatmap-stats').innerHTML =
+    '<b>活躍天數：</b>' + totalDays + ' · <b>完美一天：</b>' + perfectDays +
+    '<br><b>累積完成：</b>' + totalTasksLogged + ' 個任務' +
+    (best.date ? '<br><b>最佳一天：</b>' + best.date + '（' + best.count + ' 個任務）' : '');
+  openModal('modal-heatmap');
+}
+function logCompletion(nodeId, perfect){
+  const today = new Date().toISOString().slice(0,10);
+  S.completionLog[today] = S.completionLog[today] || {count:0, perfect:false, attacks:0, ids:[]};
+  S.completionLog[today].count++;
+  if(perfect) S.completionLog[today].perfect = true;
+  S.completionLog[today].ids = S.completionLog[today].ids || [];
+  S.completionLog[today].ids.push(nodeId);
+}
+function logAttack(){
+  const today = new Date().toISOString().slice(0,10);
+  S.completionLog[today] = S.completionLog[today] || {count:0, perfect:false, attacks:0};
+  S.completionLog[today].attacks = (S.completionLog[today].attacks||0) + 1;
+}
+
+/* ============== REAL-WORLD REWARDS ============== */
+const REWARD_TYPE_NAMES = {
+  totalDust:'累積星塵總數', totalCompleted:'累積完成任務數',
+  streak:'連擊天數', charLevel:'任一角色等級', planetLevel:'任一星球等級'
+};
+function getRewardCurrent(type){
+  switch(type){
+    case 'totalDust': return (S.identities||[]).reduce((s,id)=>s+(id.starDust||0),0);
+    case 'totalCompleted': return S.totalCompleted||0;
+    case 'streak': return S.streak||0;
+    case 'charLevel': return Math.max(1, ...(S.identities||[]).map(id=>id.level||1));
+    case 'planetLevel': return Math.max((S.planets.life||{}).level||1, (S.planets.work||{}).level||1);
+  }
+  return 0;
+}
+function showRewardsModal(){
+  const list = $('rw-list');
+  if(!S.realRewards || S.realRewards.length === 0){
+    list.innerHTML = '<div style="font-size:11px;color:#666;text-align:center;padding:14px;">尚未設定任何獎勵</div>';
+  } else {
+    list.innerHTML = S.realRewards.map((r,i) => {
+      const cur = getRewardCurrent(r.type);
+      const pct = Math.min(100, cur/r.targetValue*100);
+      const got = !!r.achievedAt;
+      return '<div class="rw-card '+(got?'achieved':'')+'" data-idx="'+i+'">'+
+        '<div style="display:flex;justify-content:space-between;"><b>'+(got?'🎉 ':'')+escapeHtml(r.name)+'</b><button data-act="del" data-idx="'+i+'" style="background:none;border:none;color:#666;cursor:pointer;font-size:14px;">×</button></div>'+
+        '<div style="font-size:10px;color:#888;">'+REWARD_TYPE_NAMES[r.type]+' ≥ '+r.targetValue+'</div>'+
+        '<div style="height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:'+pct+'%;background:'+(got?'#ffc300':'linear-gradient(90deg,#c77dff,#88ddff)')+';"></div></div>'+
+        '<div style="font-size:11px;color:#aab;margin-top:3px;">'+cur+' / '+r.targetValue+(got?' ✓ '+new Date(r.achievedAt).toLocaleDateString('zh-TW'):'')+'</div>'+
+      '</div>';
+    }).join('');
+    list.querySelectorAll('[data-act="del"]').forEach(b => {
+      b.addEventListener('click', e => {
+        e.stopPropagation();
+        if(confirm('刪除這個獎勵？')){
+          S.realRewards.splice(parseInt(b.dataset.idx,10),1);
+          save();
+          showRewardsModal();
+        }
+      });
+    });
+  }
+  openModal('modal-rewards');
+}
+function checkRealRewards(){
+  if(!S.realRewards) return;
+  S.realRewards.forEach(r => {
+    if(r.achievedAt) return;
+    const cur = getRewardCurrent(r.type);
+    if(cur >= r.targetValue){
+      r.achievedAt = Date.now();
+      showToast('🎉 真實獎勵達成：'+r.name+'！記得犒賞自己～', 6000);
+      if(navigator.vibrate) navigator.vibrate([20, 60, 20, 60, 20]);
+    }
+  });
+}
+
+/* ============== DISASTER EVENTS ============== */
+function getActiveDisaster(){
+  if(!S.activeDisaster) return null;
+  if(Date.now() > S.activeDisaster.endTime){ S.activeDisaster = null; return null; }
+  return S.activeDisaster;
+}
+function maybeSpawnDisaster(){
+  if(getActiveDisaster()) return;
+  const lastEnd = (S.disasterHistory||[]).slice(-1)[0]?.endTime || 0;
+  // gap 6-9 days
+  if(Date.now() - lastEnd < 6 * 86400000) return;
+  const choice = DISASTERS[Math.floor(Math.random() * DISASTERS.length)];
+  S.activeDisaster = {
+    id: choice.id,
+    startTime: Date.now(),
+    endTime: Date.now() + choice.duration,
+    modifiers: choice.modifiers
+  };
+  S.disasterHistory.push({id:choice.id, startTime:Date.now(), endTime:S.activeDisaster.endTime});
+  $('ds-emoji').textContent = choice.emoji;
+  $('ds-name').textContent = choice.name;
+  $('ds-desc').textContent = choice.desc;
+  setTimeout(() => openModal('modal-disaster'), 500);
+  save();
+}
+function getDisasterModifier(key){
+  const d = getActiveDisaster();
+  if(!d || !d.modifiers) return 1;
+  return d.modifiers[key] || 1;
+}
+function disasterBannerUpdate(){
+  let el = document.getElementById('disaster-banner');
+  const d = getActiveDisaster();
+  if(d){
+    const choice = DISASTERS.find(x => x.id === d.id);
+    if(!el){
+      el = document.createElement('div');
+      el.id = 'disaster-banner';
+      el.className = 'disaster-banner';
+      document.body.appendChild(el);
+    }
+    const remaining = Math.ceil((d.endTime - Date.now())/3600000);
+    el.textContent = choice.emoji + ' ' + choice.name + ' · 剩 ' + remaining + 'h';
+  } else if(el){ el.remove(); }
+}
+
+/* ============== REBIRTH ============== */
+function checkRebirthTrigger(){
+  if(S.rebirth) return; // already in rebirth
+  const lp = S.planets.life, wp = S.planets.work;
+  if((lp && lp.level <= 5 && lp.evoXP < 50) && (wp && wp.level <= 5 && wp.evoXP < 50)){
+    triggerRebirth();
+  }
+}
+function triggerRebirth(){
+  S.rebirth = {
+    startDate: Date.now(),
+    endDate: Date.now() + 7*86400000,
+    completedQuests: []
+  };
+  S.rebirthCount = (S.rebirthCount||0) + 1;
+  if(S.evilPlanet) S.evilPlanet.lastWaveAt = Date.now() + 24*3600000; // 24h pause
+  setTimeout(() => openModal('modal-rebirth'), 600);
+  if(navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+  save();
+  checkAchievements();
+}
+function isInRebirth(){
+  return S.rebirth && Date.now() < S.rebirth.endDate;
+}
+
+/* ============== WEEKLY REPORT ============== */
+function maybeShowWeeklyReport(){
+  const dow = new Date().getDay();
+  if(dow !== 0) return; // Sunday only
+  if(Date.now() - (S.lastWeeklyReportAt||0) < 6*86400000) return;
+  S.lastWeeklyReportAt = Date.now();
+  generateWeeklyReport();
+  save();
+}
+function generateWeeklyReport(){
+  // collect last 7 days from completionLog
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  let total = 0, perfectCount = 0, attackCount = 0, activeDays = 0;
+  for(let i=0;i<7;i++){
+    const d = new Date(today.getTime() - i*86400000);
+    const key = d.toISOString().slice(0,10);
+    const e = (S.completionLog||{})[key] || {};
+    total += e.count||0;
+    if(e.perfect) perfectCount++;
+    attackCount += e.attacks||0;
+    if(e.count > 0) activeDays++;
+  }
+  // last week comparison
+  let prevTotal = 0;
+  for(let i=7;i<14;i++){
+    const d = new Date(today.getTime() - i*86400000);
+    const key = d.toISOString().slice(0,10);
+    prevTotal += (S.completionLog||{})[key]?.count || 0;
+  }
+  const change = prevTotal > 0 ? Math.round((total - prevTotal)/prevTotal * 100) : null;
+  // 1% projection
+  const dailyRate = total / 7;
+  const yearProjection = Math.round(dailyRate * 365);
+  $('wk-content').innerHTML = `
+    <div style="text-align:center;font-family:'Orbitron',sans-serif;font-size:32px;color:#ffc300;font-weight:900;">${total} 個任務</div>
+    <div style="text-align:center;color:#aab;margin-bottom:14px;">本週累積完成</div>
+    <hr style="border-color:rgba(255,255,255,0.1);">
+    <div>📅 <b>活躍天數：</b>${activeDays} / 7 天</div>
+    <div>⭐ <b>完美一天：</b>${perfectCount} 次</div>
+    <div>⚔️ <b>被攻擊：</b>${attackCount} 次</div>
+    ${change !== null ? '<div>📈 <b>對比上週：</b>'+(change>=0?'+':'')+change+'%</div>' : ''}
+    <hr style="border-color:rgba(255,255,255,0.1);">
+    <div style="background:rgba(199,125,255,0.08);padding:10px;border-radius:8px;font-size:12px;line-height:1.7;">
+      💡 <b>複利推估</b>：若維持目前速率，1 年後你將完成<br>
+      <b style="font-family:'Orbitron',sans-serif;color:#ffc300;font-size:18px;">${yearProjection.toLocaleString()} 個任務</b>
+    </div>
+  `;
+  openModal('modal-weekly');
+}
+
+/* ============== CONSTELLATION (Monthly) ============== */
+function maybeGenerateConstellation(){
+  const now = new Date();
+  if(now.getDate() !== 1) return; // only generate on day 1 of new month
+  const lastMonth = new Date(now.getFullYear(), now.getMonth()-1, 1);
+  const monthKey = lastMonth.getFullYear() + '-' + String(lastMonth.getMonth()+1).padStart(2,'0');
+  if((S.constellations||[]).some(c => c.month === monthKey)) return;
+  // collect taskIds completed last month
+  const ids = [];
+  for(let i=0;i<31;i++){
+    const d = new Date(lastMonth.getTime() + i*86400000);
+    if(d.getMonth() !== lastMonth.getMonth()) break;
+    const key = d.toISOString().slice(0,10);
+    const e = (S.completionLog||{})[key];
+    if(e && e.ids) ids.push(...e.ids);
+  }
+  if(ids.length === 0) return;
+  S.constellations.push({month:monthKey, taskIds:ids, savedAt:Date.now()});
+  save();
+  setTimeout(() => showToast('⭐ 上月星座已封存！(📊 → 個人星座圖鑑)', 3500), 2000);
+}
+function showConstellationModal(){
+  const list = $('cn-list');
+  if(!S.constellations || S.constellations.length === 0){
+    list.innerHTML = '<div style="text-align:center;color:#666;padding:14px;">每月 1 號自動封存上月完成的任務為一個星座</div>';
+  } else {
+    list.innerHTML = S.constellations.slice().reverse().map(c =>
+      '<div style="padding:8px 10px;background:rgba(199,125,255,0.08);border-radius:6px;margin-bottom:5px;">'+
+      '<b>'+c.month+'</b> · '+c.taskIds.length+' 顆星 · '+new Date(c.savedAt).toLocaleDateString('zh-TW')+
+      '</div>'
+    ).join('');
+  }
+  openModal('modal-constellation');
+}
+
+/* ============== AI VOICE NARRATION ============== */
+let _voiceEnabled = true;
+const VOICE_LINES = {
+  combo3:['漂亮，第三連擊！','Excellent. Three in a row.','你抓到節奏了。'],
+  combo7:['不可思議！七連擊！','正在進入心流狀態。','停不下來了！'],
+  levelup:['等級提升。','再進化一次。','下一個高度。'],
+  perfectDay:['今天，你贏了。','完美。Stay hungry.','三事達成，這就是你。']
+};
+function speak(category){
+  if(!_voiceEnabled || !window.speechSynthesis) return;
+  const lines = VOICE_LINES[category];
+  if(!lines) return;
+  const u = new SpeechSynthesisUtterance(lines[Math.floor(Math.random()*lines.length)]);
+  u.lang = 'zh-TW';
+  u.rate = 1; u.pitch = 1; u.volume = 0.8;
+  try { window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); } catch(e){}
+}
+
+/* ============== FOCUS MODE ============== */
+function toggleFocusMode(){
+  document.body.classList.toggle('focus-mode');
+  let h = document.querySelector('.focus-exit-hint');
+  if(!h){
+    h = document.createElement('div');
+    h.className = 'focus-exit-hint';
+    h.innerHTML = '專注模式 · 按 <b>F</b> / <b>ESC</b> 或點此退出';
+    h.style.cursor = 'pointer';
+    h.addEventListener('click', toggleFocusMode);
+    document.body.appendChild(h);
+  }
+}
+
+/* ============== EVIL PLANET / COMBAT ============== */
+let _enemies = []; // {x, y, vx, vy, targetCat, hp, born, stunned}
+let _lasers = []; // {fromX, fromY, toX, toY, life, color}
+let _lastDefenseTick = {};
+let _lastEMP = 0;
+let _lastSummon = 0;
+const ENEMY_DAMAGE_FRACTION = 0.04;
+
+function drawEvilPlanet(t){
+  if(!S.evilPlanet || !S.evilPlanet.unlocked) return;
+  const sp = worldToScreen(S.evilPlanet.x, S.evilPlanet.y);
+  const baseR = 22 + S.evilPlanet.level * 2.2;
+  const r = baseR * (sp.scale || cam.z);
+  const ctx = ctxPlanet;
+  ctx.save();
+  ctx.translate(sp.sx, sp.sy);
+  // ominous red glow
+  const pulse = 0.5 + Math.sin(t*0.003) * 0.3;
+  const glow = ctx.createRadialGradient(0,0, r*0.6, 0,0, r*2.4);
+  glow.addColorStop(0, `rgba(255,40,30,${0.45+pulse*0.25})`);
+  glow.addColorStop(0.5, 'rgba(120,0,40,0.25)');
+  glow.addColorStop(1, 'rgba(120,0,40,0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(0,0, r*2.4, 0, Math.PI*2);
+  ctx.fill();
+  // dark sphere body
+  const body = ctx.createRadialGradient(-r*0.3, -r*0.4, r*0.1, 0, 0, r);
+  body.addColorStop(0, '#5a2030');
+  body.addColorStop(0.5, '#2a0010');
+  body.addColorStop(1, '#0a0005');
+  ctx.fillStyle = body;
+  ctx.beginPath();
+  ctx.arc(0,0, r, 0, Math.PI*2);
+  ctx.fill();
+  // jagged crack pattern on surface
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(0,0, r, 0, Math.PI*2);
+  ctx.clip();
+  const rng = seedRng('evil');
+  ctx.strokeStyle = '#ff3322';
+  ctx.lineWidth = 1.4;
+  for(let i=0;i<10;i++){
+    ctx.beginPath();
+    ctx.globalAlpha = 0.5 + 0.4*Math.sin(t*0.003 + i);
+    const sx = (rng()-0.5)*r*1.6, sy = (rng()-0.5)*r*1.6;
+    ctx.moveTo(sx, sy);
+    for(let j=0;j<4;j++) ctx.lineTo(sx + (rng()-0.5)*r*0.5, sy + (rng()-0.5)*r*0.5);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+  // single ominous eye
+  const eyeOpen = (Math.sin(t*0.0015) > -0.7);
+  if(eyeOpen){
+    ctx.fillStyle = `rgba(255,200,50,${0.85+pulse*0.15})`;
+    ctx.beginPath();
+    ctx.ellipse(0, -r*0.1, r*0.18, r*0.08, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.ellipse(0, -r*0.1, r*0.06, r*0.06, 0, 0, Math.PI*2);
+    ctx.fill();
+  }
+  ctx.restore();
+  // jagged spike outline
+  ctx.strokeStyle = `rgba(255,80,60,${0.5+pulse*0.3})`;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  for(let i=0;i<24;i++){
+    const a = i/24*Math.PI*2;
+    const sp2 = (i%2===0?1.04:1.12);
+    const x = Math.cos(a)*r*sp2, y = Math.sin(a)*r*sp2;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.stroke();
+  ctx.restore();
+  // label
+  ctx.save();
+  ctx.fillStyle = 'rgba(255,80,60,0.85)';
+  ctx.font = 'bold 11px "Orbitron", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('☠ Lv.'+S.evilPlanet.level+' 邪惡星球', sp.sx, sp.sy + r + 18);
+  ctx.fillStyle = 'rgba(255,80,60,0.5)';
+  ctx.font = '10px "Noto Sans TC"';
+  const wave = enemyWaveCountdown();
+  ctx.fillText(wave > 0 ? '下一波 '+wave+'s' : '部署中…', sp.sx, sp.sy + r + 32);
+  ctx.restore();
+}
+
+function enemyWaveInterval(){
+  const lv = S.evilPlanet.level;
+  // Lv1: 5 min, scaling down to ~30s at Lv20
+  return Math.max(30000, 300000 - (lv-1)*14000);
+}
+function enemyWaveSize(){
+  const lv = S.evilPlanet.level;
+  return Math.min(10, 1 + Math.floor(lv * 0.45));
+}
+function enemyWaveCountdown(){
+  if(!S.evilPlanet || !S.evilPlanet.unlocked) return -1;
+  const dt = enemyWaveInterval() - (Date.now() - (S.evilPlanet.lastWaveAt || 0));
+  return Math.max(0, Math.ceil(dt / 1000));
+}
+function maybeSpawnEnemyWave(){
+  if(!S.evilPlanet || !S.evilPlanet.unlocked) return;
+  if(_enemies.length >= 30) return; // safety cap
+  const interval = enemyWaveInterval();
+  if(Date.now() - (S.evilPlanet.lastWaveAt || 0) < interval) return;
+  S.evilPlanet.lastWaveAt = Date.now();
+  const size = enemyWaveSize();
+  const targetCat = Math.random() < 0.5 ? 'life' : 'work';
+  for(let i=0;i<size;i++){
+    setTimeout(() => {
+      const ang = Math.random() * Math.PI * 2;
+      _enemies.push({
+        x: S.evilPlanet.x + Math.cos(ang)*30,
+        y: S.evilPlanet.y + Math.sin(ang)*30,
+        targetCat,
+        speed: 0.7 + Math.random()*0.4 + S.evilPlanet.level*0.05,
+        hp: 1,
+        born: Date.now(),
+        size: 4 + Math.random()*2
+      });
+    }, i*250);
+  }
+  S.evilPlanet.totalSpawned = (S.evilPlanet.totalSpawned||0) + size;
+  showToast('⚠️ 警報：'+size+' 艘敵艦來襲（目標：'+(targetCat==='life'?'生活':'工作')+'星）', 3500);
+  if(navigator.vibrate) navigator.vibrate([80, 50, 80]);
+}
+
+function updateEnemiesAndDefense(t, dt){
+  if(!S.evilPlanet || !S.evilPlanet.unlocked) return;
+  // EMP check
+  const empOwner = (S.identities||[]).find(id => id.equipped && id.equipped.planet === 'def_emp');
+  if(empOwner && Date.now() - _lastEMP > 90000 && _enemies.length > 3){
+    _lastEMP = Date.now();
+    _enemies.forEach(e => { e.stunned = Date.now() + 3500; });
+    showToast('⚡ 電磁脈衝啟動！敵艦癱瘓 3.5 秒', 2500);
+  }
+  // Army gate summon (heals slow defense)
+  const gateOwner = (S.identities||[]).find(id => id.equipped && id.equipped.planet === 'def_army_gate');
+  if(gateOwner && Date.now() - _lastSummon > 60000 && _enemies.length > 0){
+    _lastSummon = Date.now();
+    // remove up to 3 enemies (allies arrive and clear)
+    for(let i=_enemies.length-1; i>=0 && (_enemies.length - i) <= 3; i--){
+      const e = _enemies[i];
+      _lasers.push({fromX:0, fromY:0, toX:e.x, toY:e.y, life:1, color:'rgba(150,255,200,0.9)'});
+      _enemies.splice(i,1);
+      S.evilPlanet.totalKilled = (S.evilPlanet.totalKilled||0)+1;
+    }
+    showToast('🌐 援軍傳送門啟動，清除敵艦', 2200);
+  }
+  // Move enemies & check collisions
+  for(let i=_enemies.length-1; i>=0; i--){
+    const e = _enemies[i];
+    if(e.stunned && Date.now() < e.stunned) continue;
+    const target = e.targetCat === 'life' ? lifeRoot() : workRoot();
+    if(!target){ _enemies.splice(i,1); continue; }
+    const dx = target.x - e.x, dy = target.y - e.y;
+    const dist = Math.hypot(dx, dy) || 1;
+    e.x += (dx/dist) * e.speed;
+    e.y += (dy/dist) * e.speed;
+    if(dist < target.r + 18){
+      // hit planet
+      damagePlanet(e.targetCat);
+      _enemies.splice(i,1);
+    }
+  }
+  // Defense lasers (plasma cannon, laser turret, fleet)
+  (S.identities||[]).forEach(id => {
+    if(!id.equipped) return;
+    const techId = id.equipped.planet;
+    if(!techId) return;
+    const item = SHOP_ITEMS.find(i => i.id === techId);
+    if(!item || !item.isDefense) return;
+    if(item.id === 'def_shield_dome' || item.id === 'def_emp' || item.id === 'def_army_gate') return;
+    // shooting weapon
+    const cooldown = item.cooldown || 1500;
+    const range = item.range || 220;
+    const fleetCount = item.fleetCount || 1;
+    const key = id.name + '_' + item.id;
+    if(Date.now() - (_lastDefenseTick[key]||0) < cooldown) return;
+    // find nearest enemy in range (worldspace) of either planet
+    const planets = [lifeRoot(), workRoot()].filter(Boolean);
+    let target = null, bestD = range;
+    for(const p of planets){
+      for(const e of _enemies){
+        const d = Math.hypot(p.x - e.x, p.y - e.y);
+        if(d < bestD){ bestD = d; target = e; }
+      }
+    }
+    if(target){
+      _lastDefenseTick[key] = Date.now();
+      // shooter origin: nearer planet
+      let from = lifeRoot();
+      if(workRoot() && Math.hypot(workRoot().x - target.x, workRoot().y - target.y) < Math.hypot(from.x - target.x, from.y - target.y)) from = workRoot();
+      for(let f=0; f<fleetCount; f++){
+        _lasers.push({fromX:from.x, fromY:from.y, toX:target.x, toY:target.y, life:1, color: item.id==='def_fleet' ? 'rgba(170,238,255,0.9)' : 'rgba(150,255,150,0.9)'});
+      }
+      target.hp -= fleetCount;
+      if(target.hp <= 0){
+        const idx = _enemies.indexOf(target);
+        if(idx >= 0){
+          // explosion particles at enemy position
+          const esp = worldToScreen(target.x, target.y);
+          spawnParticles(esp.sx, esp.sy, '#ff5522', 14);
+          spawnParticles(esp.sx, esp.sy, '#ffaa00', 10);
+          spawnParticles(esp.sx, esp.sy, '#ffffff', 4);
+          _enemies.splice(idx, 1);
+          S.evilPlanet.totalKilled = (S.evilPlanet.totalKilled||0)+1;
+        }
+      }
+    }
+  });
+  // age lasers
+  for(let i=_lasers.length-1; i>=0; i--){
+    _lasers[i].life -= 0.06;
+    if(_lasers[i].life <= 0) _lasers.splice(i,1);
+  }
+}
+
+function damagePlanet(cat){
+  const p = S.planets[cat];
+  if(!p) return;
+  // shield damage reduction
+  let reduction = 0;
+  (S.identities||[]).forEach(id => {
+    if(id.equipped && id.equipped.planet === 'def_shield_dome'){
+      const item = SHOP_ITEMS.find(i => i.id === 'def_shield_dome');
+      if(item) reduction = Math.max(reduction, item.damageReduction);
+    }
+  });
+  let dmg = Math.floor((p.evoXP || 0) * ENEMY_DAMAGE_FRACTION * (1 - reduction));
+  dmg = Math.max(1, dmg);
+  p.evoXP = Math.max(0, p.evoXP - dmg);
+  // recalculate level
+  let lv = 1;
+  for(let i=1; i<=20; i++){ if(p.evoXP >= PLANET_THRESHOLDS[i]) lv = i; }
+  p.level = lv;
+  S.evilPlanet.attacksAbsorbed = (S.evilPlanet.attacksAbsorbed||0)+1;
+  logAttack();
+  S.daysSinceHit = 0;
+  // visual impact: red flash + impact particles + enemy ship explosion at planet
+  _attackFlash = 1;
+  const sp = worldToScreen(/* root pos */ (cat==='life'?lifeRoot():workRoot()).x, (cat==='life'?lifeRoot():workRoot()).y);
+  spawnParticles(sp.sx, sp.sy, '#ff3030', 28);
+  spawnParticles(sp.sx, sp.sy, '#ffaa44', 18);
+  spawnParticles(sp.sx, sp.sy, '#ffffff', 8);
+  showBurnBanner('💥 '+(cat==='life'?'生活':'工作')+'星受襲！-'+dmg+' 進化值'+(reduction>0?'（盾減 '+(reduction*100|0)+'%）':''));
+  if(navigator.vibrate) navigator.vibrate([100, 30, 100]);
+  save();
+  updateAll();
+}
+
+function drawEnemiesAndLasers(t){
+  const ctx = ctxPart;
+  // enemies
+  for(const e of _enemies){
+    const sp = worldToScreen(e.x, e.y);
+    const stunned = e.stunned && Date.now() < e.stunned;
+    const sz = (e.size||7) * (sp.scale||cam.z) * 1.4;  // 40% bigger
+    const target = e.targetCat === 'life' ? lifeRoot() : workRoot();
+    const ang = target ? Math.atan2(target.y - e.y, target.x - e.x) : 0;
+    ctx.save();
+    ctx.translate(sp.sx, sp.sy);
+    ctx.rotate(ang);
+    // engine flame trail (behind ship)
+    if(!stunned){
+      const flick = 0.7 + Math.sin(t*0.02)*0.3;
+      const tg = ctx.createLinearGradient(-sz*0.5, 0, -sz*2.4, 0);
+      tg.addColorStop(0, 'rgba(255,150,40,'+flick+')');
+      tg.addColorStop(0.5, 'rgba(255,80,30,0.5)');
+      tg.addColorStop(1, 'rgba(255,40,30,0)');
+      ctx.fillStyle = tg;
+      ctx.beginPath();
+      ctx.moveTo(-sz*0.5, sz*0.4);
+      ctx.lineTo(-sz*2.4, 0);
+      ctx.lineTo(-sz*0.5, -sz*0.4);
+      ctx.closePath();
+      ctx.fill();
+    }
+    // outer red glow
+    const gg = ctx.createRadialGradient(0,0,0,0,0,sz*1.5);
+    gg.addColorStop(0, stunned ? 'rgba(150,150,255,0.5)' : 'rgba(255,30,30,0.4)');
+    gg.addColorStop(1, 'rgba(255,30,30,0)');
+    ctx.fillStyle = gg;
+    ctx.beginPath();
+    ctx.arc(0, 0, sz*1.5, 0, Math.PI*2);
+    ctx.fill();
+    // hull (darker)
+    ctx.fillStyle = stunned ? 'rgba(150,150,255,0.85)' : '#5a1822';
+    ctx.beginPath();
+    ctx.moveTo(sz*1.2, 0);
+    ctx.lineTo(-sz*0.7, sz*0.7);
+    ctx.lineTo(-sz*0.4, 0);
+    ctx.lineTo(-sz*0.7, -sz*0.7);
+    ctx.closePath();
+    ctx.fill();
+    // hull accent line
+    ctx.strokeStyle = stunned ? 'rgba(180,180,255,0.8)' : '#ff3322';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(sz*0.9, 0);
+    ctx.lineTo(-sz*0.4, 0);
+    ctx.stroke();
+    // cockpit
+    ctx.fillStyle = stunned ? '#aaaaff' : '#ff8866';
+    ctx.fillRect(sz*0.2, -sz*0.2, sz*0.4, sz*0.4);
+    ctx.restore();
+  }
+  // lasers (bigger, more dramatic)
+  for(const l of _lasers){
+    const fromS = worldToScreen(l.fromX, l.fromY);
+    const toS = worldToScreen(l.toX, l.toY);
+    ctx.strokeStyle = l.color;
+    ctx.globalAlpha = l.life;
+    ctx.lineWidth = 4 * l.life;
+    ctx.shadowColor = l.color;
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.moveTo(fromS.sx, fromS.sy);
+    ctx.lineTo(toS.sx, toS.sy);
+    ctx.stroke();
+    // bright core
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(255,255,255,'+(l.life*0.9)+')';
+    ctx.shadowBlur = 0;
+    ctx.beginPath();
+    ctx.moveTo(fromS.sx, fromS.sy);
+    ctx.lineTo(toS.sx, toS.sy);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+  }
+  // attack flash overlay
+  if(_attackFlash > 0){
+    ctx.fillStyle = 'rgba(255,30,30,'+(_attackFlash*0.35)+')';
+    ctx.fillRect(0, 0, W, H);
+    _attackFlash -= 0.08;
+  }
+}
+let _attackFlash = 0;
+
+/* ============== TODAY'S THREE STARS ============== */
+function maybeShowTodayStarsPrompt(){
+  const today = new Date().toDateString();
+  if(S.today.date === today) return;
+  // new day — reset and prompt
+  if(S.today.date && S.today.starIds && S.today.starIds.length > 0){
+    // previous day's stars expire (no longer pinned)
+    S.today.starIds = [];
+    S.today.completed = {};
+  }
+  S.today.date = today;
+  save();
+  // Find candidate tasks
+  const candidates = S.N.filter(n =>
+    !n.isRoot && !n.isCalendarContainer &&
+    (n.status === 'active' || n.status === 'deferred')
+  );
+  if(candidates.length === 0) return;
+  setTimeout(() => showTodayStarsModal(candidates), 600);
+}
+function showTodayStarsModal(candidates){
+  const list = $('stars-list');
+  const selected = new Set();
+  list.innerHTML = candidates.slice(0, 30).map(n => {
+    const dot = n.cat === 'work' ? '#00b4ff' : '#ff6b2b';
+    return '<div class="star-pick" data-id="'+n.id+'" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;margin-bottom:5px;background:rgba(255,255,255,0.04);border-radius:8px;border-left:3px solid '+dot+';cursor:pointer;font-size:13px;transition:all 0.18s;">'+
+      '<span>'+escapeHtml(n.label)+'</span>'+
+      '<span style="font-family:Orbitron,sans-serif;font-size:11px;color:#aab;">+'+n.xpVal+'</span>'+
+    '</div>';
+  }).join('');
+  function refresh(){
+    $('stars-count').textContent = selected.size;
+    $('btn-stars-confirm').disabled = selected.size === 0;
+    list.querySelectorAll('.star-pick').forEach(el => {
+      const isSelected = selected.has(el.dataset.id);
+      el.style.background = isSelected ? 'rgba(255,195,0,0.25)' : 'rgba(255,255,255,0.04)';
+      el.style.boxShadow = isSelected ? '0 0 18px rgba(255,195,0,0.5)' : 'none';
+    });
+  }
+  list.querySelectorAll('.star-pick').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.id;
+      if(selected.has(id)) selected.delete(id);
+      else if(selected.size < 3) selected.add(id);
+      refresh();
+    });
+  });
+  refresh();
+  $('btn-stars-skip').onclick = () => {
+    closeModal('modal-stars');
+  };
+  $('btn-stars-confirm').onclick = () => {
+    S.today.starIds = Array.from(selected);
+    S.today.completed = {};
+    save();
+    updateAll();
+    closeModal('modal-stars');
+    showToast('⭐ 今日三星已鎖定！', 2500);
+  };
+  openModal('modal-stars');
+}
+function maybeAwardPerfectDay(){
+  const stars = S.today.starIds || [];
+  if(stars.length === 0) return false;
+  const allDone = stars.every(id => S.today.completed[id]);
+  if(!allDone) return false;
+  if(S.today.perfectAwardedDate === S.today.date) return false; // already awarded
+  S.today.perfectAwardedDate = S.today.date;
+  S.today.perfectDayCount = (S.today.perfectDayCount || 0) + 1;
+  S.XP += 100;
+  if(navigator.vibrate) navigator.vibrate([20, 40, 20, 40, 60]);
+  setTimeout(() => openModal('modal-perfect-day'), 600);
+  return true;
+}
+function isStarTask(id){ return (S.today.starIds || []).indexOf(id) >= 0; }
+
+/* ============== STREAK INSURANCE ============== */
+function tickStreakInsurance(){
+  // Earn 1 insurance every 7 streak days, max 2
+  const earned = Math.floor((S.streak || 0) / 7);
+  const target = Math.min(2, earned);
+  if(target > S.streakInsuranceProgress){
+    const gained = target - S.streakInsuranceProgress;
+    S.streakInsurance = Math.min(2, (S.streakInsurance || 0) + gained);
+    S.streakInsuranceProgress = target;
+    showToast('🛡️ 連擊保險 +1（共 '+S.streakInsurance+' 張）', 3500);
+  }
+}
+
+/* ============== IDENTITY ============== */
+function showIdentitySetupModal(){
+  const list = $('identity-list');
+  const selected = new Set();
+  list.innerHTML = IDENTITY_PRESETS.map((p, i) =>
+    '<div class="id-pick" data-name="'+p.name+'" data-emoji="'+p.emoji+'" style="padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;cursor:pointer;text-align:center;transition:all 0.18s;border:1px solid rgba(255,255,255,0.08);">'+
+      '<div style="font-size:22px;">'+p.emoji+'</div>'+
+      '<div style="font-size:12px;font-weight:700;margin:3px 0;">'+p.name+'</div>'+
+      '<div style="font-size:10px;color:#888;">'+p.hint+'</div>'+
+    '</div>'
+  ).join('');
+  function refresh(){
+    list.querySelectorAll('.id-pick').forEach(el => {
+      const sel = selected.has(el.dataset.name);
+      el.style.background = sel ? 'rgba(199,125,255,0.25)' : 'rgba(255,255,255,0.04)';
+      el.style.borderColor = sel ? 'rgba(199,125,255,0.6)' : 'rgba(255,255,255,0.08)';
+    });
+  }
+  list.querySelectorAll('.id-pick').forEach(el => {
+    el.addEventListener('click', () => {
+      const n = el.dataset.name;
+      if(selected.has(n)) selected.delete(n);
+      else if(selected.size < 5) selected.add(n);
+      refresh();
+    });
+  });
+  $('btn-identity-skip').onclick = () => {
+    S.identityOnboarded = true;
+    save();
+    closeModal('modal-identity-setup');
+  };
+  $('btn-identity-save').onclick = () => {
+    // preserve existing identity progress where names match
+    const existing = {};
+    (S.identities||[]).forEach(i => { existing[i.name] = i; });
+    S.identities = [];
+    const mkChar = (name, emoji) => existing[name] || {
+      name, emoji, votes:0, level:1, xp:0, starDust:0,
+      ownedItems:['robe_novice'],
+      equipped:{outfit:'robe_novice',headgear:null,mask:null,cape:null,sash:null,wings:null,planet:null,decoration:null,pet:null}
+    };
+    selected.forEach(name => {
+      const p = IDENTITY_PRESETS.find(x => x.name === name);
+      S.identities.push(mkChar(p.name, p.emoji));
+    });
+    const custom = $('custom-identity').value.trim().slice(0, 10);
+    if(custom){
+      S.identities.push(mkChar(custom, '🪞'));
+    }
+    S.identityOnboarded = true;
+    save();
+    updateAll();
+    closeModal('modal-identity-setup');
+    if(S.identities.length){
+      showToast('🪞 已設定 '+S.identities.length+' 個身份', 2500);
+      checkAchievements();
+    }
+  };
+  openModal('modal-identity-setup');
+}
+function getIdentityLevel(votes){
+  let lv = IDENTITY_LEVELS[0];
+  for(const L of IDENTITY_LEVELS){
+    if(votes >= L.votes) lv = L;
+  }
+  return lv;
+}
+function castIdentityVote(identityName){
+  const id = S.identities.find(i => i.name === identityName);
+  if(!id) return;
+  id.votes = (id.votes || 0) + 1;
+  awardCharXP(id, 1);
+}
+
+function awardCharXP(id, amount){
+  if(!id) return;
+  if(id.level == null) id.level = 1;
+  if(id.xp == null) id.xp = 0;
+  id.xp += amount;
+  let leveledUp = false;
+  let totalDust = 0;
+  while(id.level < 100 && id.xp >= charXpForLevel(id.level)){
+    id.xp -= charXpForLevel(id.level);
+    id.level++;
+    const dust = charDustForLevel(id.level);
+    id.starDust = (id.starDust || 0) + dust;
+    totalDust += dust;
+    leveledUp = true;
+    if(navigator.vibrate) navigator.vibrate([15, 30, 15]);
+  }
+  if(leveledUp){
+    showCharLevelUp(id, totalDust);
+  } else {
+    showToast('🪞 「'+id.name+'」+'+amount+' XP', 1800);
+  }
+}
+
+function showCharLevelUp(id, dust){
+  const title = CHAR_TITLES[id.level] || '居民';
+  const milestone = CHAR_MILESTONES[id.level];
+  $('clu-emoji').textContent = id.emoji;
+  $('clu-name').textContent = id.name;
+  $('clu-level').textContent = 'Lv.' + id.level;
+  $('clu-title').textContent = title;
+  $('clu-dust').textContent = '+' + dust + ' 星塵';
+  $('clu-milestone').textContent = milestone ? '🎖️ 里程碑：' + milestone : '';
+  $('clu-milestone').style.display = milestone ? 'block' : 'none';
+  // draw character preview
+  const prevCv = $('clu-canvas');
+  if(prevCv){
+    const pctx = prevCv.getContext('2d');
+    pctx.clearRect(0,0,prevCv.width,prevCv.height);
+    drawCharacter(pctx, id, prevCv.width/2, prevCv.height*0.62, 3, performance.now());
+  }
+  openModal('modal-charlevel');
+}
+
+/* ===== Character pixel art ===== */
+function drawCharacter(c, id, x, y, s, t){
+  // background aura (some outfit slots)
+  const wings = id.equipped && id.equipped.wings;
+  const cape = id.equipped && id.equipped.cape;
+  if(wings){
+    const item = SHOP_ITEMS.find(i => i.id === wings);
+    if(item && item.draw) item.draw(c, x, y, s, t);
+  }
+  if(cape){
+    const item = SHOP_ITEMS.find(i => i.id === cape);
+    if(item && item.draw) item.draw(c, x, y, s, t);
+  }
+  // base body
+  drawCharBody(c, x, y, s, id.level);
+  // outfit
+  const outfit = id.equipped && id.equipped.outfit;
+  if(outfit){
+    const item = SHOP_ITEMS.find(i => i.id === outfit);
+    if(item && item.draw) item.draw(c, x, y, s, t);
+  }
+  // sash
+  const sash = id.equipped && id.equipped.sash;
+  if(sash){
+    const item = SHOP_ITEMS.find(i => i.id === sash);
+    if(item && item.draw) item.draw(c, x, y, s, t);
+  }
+  // legs
+  drawCharLegs(c, x, y, s, id.level);
+  // mask
+  const mask = id.equipped && id.equipped.mask;
+  if(mask){
+    const item = SHOP_ITEMS.find(i => i.id === mask);
+    if(item && item.draw) item.draw(c, x, y, s, t);
+  }
+  // headgear
+  const hg = id.equipped && id.equipped.headgear;
+  if(hg){
+    const item = SHOP_ITEMS.find(i => i.id === hg);
+    if(item && item.draw) item.draw(c, x, y, s, t);
+  }
+  // pet
+  const pet = id.equipped && id.equipped.pet;
+  if(pet){
+    const item = SHOP_ITEMS.find(i => i.id === pet);
+    if(item && item.drawPet) item.drawPet(c, x, y, s, t);
+  }
+  // decoration
+  const decor = id.equipped && id.equipped.decoration;
+  if(decor){
+    const item = SHOP_ITEMS.find(i => i.id === decor);
+    if(item && item.drawNear) item.drawNear(c, x, y, s, t);
+  }
+  // level-based aura halo
+  if(id.level >= 50){
+    const a = 0.2 + Math.sin((t||0)*0.003)*0.15;
+    c.strokeStyle = 'rgba(255,215,80,'+a+')';
+    c.lineWidth = 2;
+    c.beginPath();
+    c.arc(x, y-4*s, 14*s, 0, Math.PI*2);
+    c.stroke();
+  }
+  if(id.level >= 95){
+    // legend particles
+    for(let i=0;i<8;i++){
+      const a = (t||0)*0.001+i*Math.PI/4;
+      c.fillStyle = 'rgba(255,255,200,'+(0.4+Math.sin(a*3)*0.3)+')';
+      c.fillRect(x+Math.cos(a)*16*s, y-4*s+Math.sin(a)*16*s, 1*s, 1*s);
+    }
+  }
+}
+function drawCharBody(c, x, y, s, level){
+  const skin = '#f5c8a0';
+  // 1. Head base (skin)
+  c.fillStyle = skin;
+  c.fillRect(x-3*s, y-10*s, 6*s, 6*s);
+  // 2. Hair (top + sides)
+  c.fillStyle = '#2a1810';
+  c.fillRect(x-3*s, y-10*s, 6*s, 2*s);  // bangs
+  c.fillRect(x-3*s, y-10*s, 1*s, 4*s);  // left side
+  c.fillRect(x+2*s, y-10*s, 1*s, 4*s);  // right side
+  // 3. Eyes
+  c.fillStyle = '#1a1a2a';
+  c.fillRect(x-2*s, y-7*s, 1*s, 1*s);
+  c.fillRect(x+1*s, y-7*s, 1*s, 1*s);
+  // 4. Mouth
+  c.fillStyle = '#a04060';
+  c.fillRect(x-1*s, y-5*s, 1*s, 1*s);
+  // 5. Neck
+  c.fillStyle = skin;
+  c.fillRect(x-1*s, y-4*s, 2*s, 1*s);
+  // 6. Default torso (overridden by outfit)
+  c.fillStyle = '#a8a8b8';
+  c.fillRect(x-3*s, y-3*s, 6*s, 7*s);
+  // 7. Arms
+  c.fillStyle = skin;
+  c.fillRect(x-4*s, y-3*s, 1*s, 6*s);
+  c.fillRect(x+3*s, y-3*s, 1*s, 6*s);
+  // 8. Hands
+  c.fillRect(x-4*s, y+3*s, 1*s, 1*s);
+  c.fillRect(x+3*s, y+3*s, 1*s, 1*s);
+}
+function drawCharLegs(c, x, y, s, level){
+  c.fillStyle = '#2a2540';
+  c.fillRect(x-3*s, y+4*s, 2*s, 5*s);
+  c.fillRect(x+1*s, y+4*s, 2*s, 5*s);
+  c.fillStyle = '#1a1a30';
+  c.fillRect(x-3*s, y+9*s, 2*s, 1*s);
+  c.fillRect(x+1*s, y+9*s, 2*s, 1*s);
+}
+
+/* ============== CHARACTER PAGE & SHOP ============== */
+let _currentCharId = null; // identity name being viewed
+let _currentShopCat = 'outfit';
+
+function showCharacterModal(identityName){
+  const id = S.identities.find(i => i.name === identityName);
+  if(!id) return;
+  _currentCharId = identityName;
+  _currentShopCat = 'outfit';
+  renderCharacterPage();
+  openModal('modal-character');
+}
+
+function renderCharacterPage(){
+  const id = S.identities.find(i => i.name === _currentCharId);
+  if(!id) return;
+  const title = CHAR_TITLES[id.level] || '居民';
+  const xpNeeded = charXpForLevel(id.level);
+  const xpPct = Math.min(100, (id.xp / xpNeeded) * 100);
+  $('char-name').textContent = id.emoji + ' ' + id.name;
+  $('char-title').textContent = title;
+  $('char-level').textContent = 'Lv.' + id.level + ' / 100';
+  $('char-xp').textContent = id.xp + ' / ' + xpNeeded + ' XP';
+  $('char-xp-fill').style.width = xpPct + '%';
+  $('char-dust').textContent = (id.starDust || 0).toLocaleString();
+  // count related tasks
+  const totalTasks = S.N.filter(n => n.identity === id.name).length;
+  const doneTasks = S.N.filter(n => n.identity === id.name && n.status === 'done').length;
+  $('char-tasks').textContent = doneTasks + ' / ' + totalTasks + ' 任務';
+  // shop tabs
+  const tabs = $('shop-tabs');
+  tabs.innerHTML = SHOP_CATEGORIES.map(c =>
+    '<button class="shop-tab '+(_currentShopCat===c.id?'active':'')+'" data-cat="'+c.id+'">'+c.emoji+' '+c.name+'</button>'
+  ).join('');
+  tabs.querySelectorAll('.shop-tab').forEach(b => {
+    b.addEventListener('click', () => {
+      _currentShopCat = b.dataset.cat;
+      renderCharacterPage();
+    });
+  });
+  // shop items
+  const items = SHOP_ITEMS.filter(it => it.cat === _currentShopCat);
+  const owned = id.ownedItems || [];
+  const grid = $('shop-grid');
+  grid.innerHTML = items.map(it => {
+    const isOwned = owned.indexOf(it.id) >= 0;
+    const isEquipped = it.slot && id.equipped && id.equipped[it.slot] === it.id;
+    const canAfford = (id.starDust || 0) >= it.price;
+    let btnLabel, btnClass, btnDisabled = false;
+    if(isEquipped){ btnLabel = '✓ 已裝備'; btnClass = 'equipped'; btnDisabled = true; }
+    else if(isOwned){ btnLabel = it.consumable ? '使用' : '裝備'; btnClass = 'equip'; }
+    else if(canAfford){ btnLabel = '購買 ' + it.price + ' 💎'; btnClass = 'buy'; }
+    else { btnLabel = '不足 ' + it.price + ' 💎'; btnClass = 'cant'; btnDisabled = true; }
+    return '<div class="shop-item">'+
+      '<div class="shop-item-emoji">'+it.emoji+'</div>'+
+      '<div class="shop-item-name">'+escapeHtml(it.name)+'</div>'+
+      '<div class="shop-item-desc">'+escapeHtml(it.desc)+'</div>'+
+      '<button class="shop-btn '+btnClass+'" data-id="'+it.id+'" '+(btnDisabled?'disabled':'')+'>'+btnLabel+'</button>'+
+    '</div>';
+  }).join('');
+  grid.querySelectorAll('.shop-btn').forEach(b => {
+    b.addEventListener('click', () => onShopItemClick(b.dataset.id));
+  });
+  // draw character canvas
+  const cv = $('char-canvas');
+  if(cv){
+    const cctx = cv.getContext('2d');
+    cctx.clearRect(0,0,cv.width,cv.height);
+    drawCharacter(cctx, id, cv.width/2, cv.height*0.62, 3, performance.now());
+  }
+}
+function onShopItemClick(itemId){
+  const id = S.identities.find(i => i.name === _currentCharId);
+  if(!id) return;
+  const item = SHOP_ITEMS.find(i => i.id === itemId);
+  if(!item) return;
+  const owned = id.ownedItems || [];
+  if(item.consumable && owned.indexOf(itemId) >= 0){
+    useConsumable(id, item);
+    renderCharacterPage();
+    return;
+  }
+  if(owned.indexOf(itemId) >= 0){
+    // toggle equip
+    if(item.slot){
+      id.equipped[item.slot] = id.equipped[item.slot] === itemId ? null : itemId;
+      save(); renderCharacterPage();
+      showToast('✓ 已'+(id.equipped[item.slot]?'裝備':'卸下')+'「'+item.name+'」', 1800);
+    }
+    return;
+  }
+  // purchase
+  if((id.starDust || 0) < item.price){
+    showToast('💎 星塵不足');
+    return;
+  }
+  if(!confirm('用 '+item.price+' 星塵購買「'+item.name+'」？')) return;
+  id.starDust -= item.price;
+  id.ownedItems = id.ownedItems || [];
+  id.ownedItems.push(itemId);
+  // auto-equip if first of slot
+  if(item.slot && (!id.equipped[item.slot])){
+    id.equipped[item.slot] = itemId;
+  }
+  save();
+  renderCharacterPage();
+  if(navigator.vibrate) navigator.vibrate([10, 20, 10]);
+  showToast('🎉 購入「'+item.name+'」', 2200);
+}
+function useConsumable(id, item){
+  switch(item.id){
+    case 'buff_revive':
+      S.streakInsurance = Math.min(2, (S.streakInsurance||0) + 1);
+      showToast('🪙 連擊保險 +1');
+      break;
+    case 'buff_shield':
+      S.streakInsurance = Math.min(99, (S.streakInsurance||0) + 3);
+      showToast('🛡️ 保險 +3（暫時上限解除）');
+      break;
+    case 'buff_2x_xp':
+      S.boostXpUntil = Date.now() + 24*3600*1000;
+      showToast('🧪 24h 經驗 ×2 啟動');
+      break;
+    case 'buff_2x_dust':
+      S.boostDustUntil = Date.now() + 24*3600*1000;
+      showToast('💎 24h 星塵 ×2 啟動');
+      break;
+    case 'buff_refresh':
+      S.today.starIds = []; S.today.completed = {};
+      showToast('🎫 三星已重置，請重選');
+      break;
+    case 'buff_hourglass':
+      // crude: refund star count of yesterday
+      showToast('⏳ 補回 1 顆星塵（占位）');
+      id.starDust += 1;
+      break;
+  }
+  // remove consumable
+  const idx = id.ownedItems.indexOf(item.id);
+  if(idx >= 0) id.ownedItems.splice(idx, 1);
+  save();
+}
+
+/* ============== ACHIEVEMENTS ============== */
+let _achievementQueue = [];
+function checkAchievements(){
+  const lifeLv = (S.planets.life||{}).level || 1;
+  const workLv = (S.planets.work||{}).level || 1;
+  const playerLv = getCurrentLevel();
+  const maxIdentityVotes = (S.identities||[]).reduce((m, i) => Math.max(m, i.votes||0), 0);
+  const maxDust = (S.identities||[]).reduce((m, i) => Math.max(m, i.starDust||0), 0);
+  const totalItems = (S.identities||[]).reduce((m, i) => m + ((i.ownedItems||[]).length), 0);
+  const stats = {
+    totalCompleted: S.totalCompleted || 0,
+    streak: S.streak || 0,
+    perfectDayCount: S.today.perfectDayCount || 0,
+    lifeLv, workLv, playerLv,
+    supernovas: S.supernovas || 0,
+    rescuedCount: S.rescuedCount || 0,
+    identityCount: (S.identities||[]).length,
+    maxIdentityVotes, maxDust, totalItems,
+    midnightTasks: S.midnightTasks || 0,
+    rapidFire: S.rapidFire || 0,
+    rebirthCount: S.rebirthCount || 0,
+    daysSinceCancelled: S.daysSinceCancelled || 0,
+    daysSinceHit: S.daysSinceHit || 0,
+    evilLv: (S.evilPlanet||{}).level || 1,
+    reflectionCount: S.reflectionCount || 0,
+    loginStreak: (S.dailyLogin||{}).streak || 0
+  };
+  for(const ach of ACHIEVEMENTS){
+    if(S.achievements[ach.id]) continue;
+    if(ach.check(stats)){
+      S.achievements[ach.id] = Date.now();
+      S.XP += ach.xp;
+      _achievementQueue.push(ach);
+    }
+  }
+  if(_achievementQueue.length){
+    setTimeout(processAchievementQueue, 700);
+  }
+}
+function processAchievementQueue(){
+  if(!_achievementQueue.length) return;
+  const ach = _achievementQueue.shift();
+  $('ach-emoji').textContent = ach.emoji;
+  $('ach-name').textContent = ach.name;
+  $('ach-desc').textContent = ach.desc;
+  $('ach-xp').textContent = '+' + ach.xp + ' XP';
+  if(navigator.vibrate) navigator.vibrate([20, 50, 20]);
+  openModal('modal-achievement');
+}
+
 /* ============== EXPORT / IMPORT ============== */
 function exportData(){
   try {
@@ -1352,11 +3506,63 @@ function showStatsModal(){
     <div style="font-size:11px;color:#888;">進化值 ${Math.floor(wp.evoXP)} · 衛星 ×${wp.satellites||0} · 小行星 ×${(wp.asteroids||[]).length}</div>
     <hr style="border-color:rgba(255,255,255,0.1);margin:8px 0;">
     <div><b>📅 行事曆：</b>${calStatus}</div>
+    <div><b>🛡️ 連擊保險：</b>${S.streakInsurance||0} / 2 張</div>
+    <div><b>⭐ 完美日累積：</b>${S.today.perfectDayCount||0} 次</div>
+    <div><b>🛟 燃燒救援：</b>${S.rescuedCount||0} 次</div>
+    ${S.identities && S.identities.length ? '<hr style="border-color:rgba(255,255,255,0.1);margin:8px 0;"><div><b>🪞 身份角色</b><span style="font-size:10px;color:#888;font-weight:normal;"> · 點擊查看角色頁面</span></div>' + S.identities.map(id => {
+      const lv = id.level || 1;
+      const title = CHAR_TITLES[lv] || '居民';
+      const xpNeeded = charXpForLevel(lv);
+      const pct = Math.min(100, ((id.xp||0) / xpNeeded) * 100);
+      return `<div class="char-stat-row" data-identity="${escapeHtml(id.name)}" style="font-size:12px;margin:4px 0;padding:7px 9px;background:rgba(199,125,255,0.08);border-radius:7px;cursor:pointer;border:1px solid rgba(199,125,255,0.15);transition:all 0.15s;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span><b>${id.emoji} ${escapeHtml(id.name)}</b> · Lv.${lv} ${title}</span>
+          <span style="font-size:11px;color:#88ddff;">💎 ${id.starDust||0}</span>
+        </div>
+        <div style="height:4px;background:rgba(255,255,255,0.08);border-radius:2px;margin-top:4px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#c77dff,#ffc300);"></div></div>
+      </div>`;
+    }).join('') : ''}
     <hr style="border-color:rgba(255,255,255,0.1);margin:8px 0;">
-    <div style="font-size:11px;color:#777;">操作：左鍵點任務=完成 · 右鍵=選單 · 拖曳節點=移動 · 點星球=詳情 · 滾輪=縮放</div>
+    <div><b>🏆 成就：</b>${Object.keys(S.achievements||{}).length} / ${ACHIEVEMENTS.length}</div>
+    <details style="margin-top:6px;">
+      <summary style="cursor:pointer;color:#88ddff;font-size:12px;">展開全部成就</summary>
+      <div style="max-height:200px;overflow-y:auto;margin-top:6px;font-size:11px;line-height:1.7;">
+        ${ACHIEVEMENTS.map(a => {
+          const got = !!(S.achievements||{})[a.id];
+          return `<div style="opacity:${got?1:0.4};margin:2px 0;">${a.emoji} <b>${escapeHtml(a.name)}</b>${got?' <span style="color:#88dd99;">✓</span>':''} <span style="color:#888;font-size:10px;">${escapeHtml(a.desc)}</span></div>`;
+        }).join('')}
+      </div>
+    </details>
+    <hr style="border-color:rgba(255,255,255,0.1);margin:8px 0;">
+    <div style="text-align:center;margin:10px 0;">
+      <button class="btn btn-secondary" id="btn-redo-identity" style="font-size:12px;">🪞 重新設定身份</button>
+      <button class="btn btn-secondary" id="btn-redo-stars" style="font-size:12px;margin-left:6px;">⭐ 重新選今日三星</button>
+    </div>
+    <div style="font-size:11px;color:#777;">操作：點任務=完成 · 左滑=完成 · 右滑=延後 · 右鍵=選單</div>
   `;
   $('stats-content').innerHTML = html;
   openModal('modal-stats');
+  const r1 = $('btn-redo-identity');
+  if(r1) r1.addEventListener('click', () => {
+    closeModal('modal-stats');
+    showIdentitySetupModal();
+  });
+  // identity rows → open character page
+  document.querySelectorAll('.char-stat-row').forEach(row => {
+    row.addEventListener('click', () => {
+      closeModal('modal-stats');
+      showCharacterModal(row.dataset.identity);
+    });
+  });
+  const r2 = $('btn-redo-stars');
+  if(r2) r2.addEventListener('click', () => {
+    closeModal('modal-stats');
+    const candidates = S.N.filter(n => !n.isRoot && !n.isCalendarContainer && (n.status==='active'||n.status==='deferred'));
+    if(candidates.length === 0){ showToast('沒有可選的任務'); return; }
+    S.today.date = new Date().toDateString();
+    S.today.completed = {};
+    showTodayStarsModal(candidates);
+  });
 }
 
 /* ============== CALENDAR ============== */
@@ -1721,6 +3927,16 @@ function initStarfield(){
     });
   }
 }
+function getSkyPalette(){
+  const hour = new Date().getHours();
+  if(hour >= 5 && hour < 8) return {phase:'dawn', stops:[[0,'#3a1a44'],[0.5,'#1f0f30'],[1,'#04060f']], starHue:[210,240,255], starAlpha:0.6};
+  if(hour >= 8 && hour < 12) return {phase:'morning', stops:[[0,'#1f3068'],[0.5,'#0a1a3a'],[1,'#04060f']], starHue:[200,230,255], starAlpha:0.5};
+  if(hour >= 12 && hour < 17) return {phase:'afternoon', stops:[[0,'#1a2858'],[0.5,'#0a1a3a'],[1,'#04060f']], starHue:[210,225,255], starAlpha:0.55};
+  if(hour >= 17 && hour < 20) return {phase:'dusk', stops:[[0,'#4a2236'],[0.5,'#2a132a'],[1,'#04060f']], starHue:[255,180,200], starAlpha:0.7};
+  if(hour >= 20 && hour < 23) return {phase:'evening', stops:[[0,'#0d1338'],[0.5,'#06091e'],[1,'#04060f']], starHue:[200,220,255], starAlpha:0.85};
+  return {phase:'night', stops:[[0,'#0a1030'],[0.5,'#06081f'],[1,'#04060f']], starHue:[200,220,255], starAlpha:1};
+}
+
 function drawStarfield(t){
   ctxStar.clearRect(0,0,W,H);
   const lifeLv = S.planets.life.level;
@@ -1732,16 +3948,47 @@ function drawStarfield(t){
     grad.addColorStop(0.4, '#0a0a2a');
     grad.addColorStop(1, '#04060f');
   } else {
-    grad.addColorStop(0, '#0a1030');
-    grad.addColorStop(1, '#04060f');
+    const sky = getSkyPalette();
+    sky.stops.forEach(([p, c]) => grad.addColorStop(p, c));
   }
   ctxStar.fillStyle = grad;
   ctxStar.fillRect(0,0,W,H);
+  // Sun/moon glow accent for time of day
+  if(!galaxyMode){
+    const sky = getSkyPalette();
+    if(sky.phase === 'dawn' || sky.phase === 'morning'){
+      const sunX = sky.phase === 'dawn' ? W*0.15 : W*0.3;
+      const sunY = H*0.85;
+      const sg = ctxStar.createRadialGradient(sunX, sunY, 10, sunX, sunY, W*0.45);
+      sg.addColorStop(0, 'rgba(255,200,150,0.35)');
+      sg.addColorStop(1, 'rgba(255,200,150,0)');
+      ctxStar.fillStyle = sg;
+      ctxStar.fillRect(0,0,W,H);
+    } else if(sky.phase === 'dusk'){
+      const sunX = W*0.85, sunY = H*0.85;
+      const sg = ctxStar.createRadialGradient(sunX, sunY, 10, sunX, sunY, W*0.5);
+      sg.addColorStop(0, 'rgba(255,140,100,0.45)');
+      sg.addColorStop(1, 'rgba(255,140,100,0)');
+      ctxStar.fillStyle = sg;
+      ctxStar.fillRect(0,0,W,H);
+    } else if(sky.phase === 'night'){
+      const sg = ctxStar.createRadialGradient(W*0.85, H*0.15, 5, W*0.85, H*0.15, W*0.25);
+      sg.addColorStop(0, 'rgba(220,230,255,0.5)');
+      sg.addColorStop(0.5, 'rgba(220,230,255,0.15)');
+      sg.addColorStop(1, 'rgba(220,230,255,0)');
+      ctxStar.fillStyle = sg;
+      ctxStar.beginPath();
+      ctxStar.arc(W*0.85, H*0.15, 18, 0, Math.PI*2);
+      ctxStar.fill();
+      ctxStar.fillRect(0,0,W,H);
+    }
+  }
   if(galaxyMode) drawGalaxyArms(t);
+  const sky = getSkyPalette();
   for(const s of starfieldStars){
     s.tw += s.twSpeed;
-    const a = 0.3 + (Math.sin(s.tw)*0.5+0.5)*0.7;
-    ctxStar.fillStyle = `rgba(200,220,255,${a})`;
+    const a = (0.3 + (Math.sin(s.tw)*0.5+0.5)*0.7) * (galaxyMode ? 1 : sky.starAlpha);
+    ctxStar.fillStyle = `rgba(${sky.starHue[0]},${sky.starHue[1]},${sky.starHue[2]},${a})`;
     ctxStar.beginPath();
     ctxStar.arc(s.x*W, s.y*H, s.r, 0, Math.PI*2);
     ctxStar.fill();
@@ -1801,11 +4048,30 @@ function drawPlanetCanvas(t){
     return aP.depth - bP.depth;
   });
   for(const p of planetList) drawPlanet(ctxPlanet, p.n, p.ps, t);
+  // Evil planet
+  drawEvilPlanet(t);
 }
 function drawPlanet(ctx, node, planetState, t){
   const sp = worldToScreen(node.x, node.y);
   const lv = planetState.level;
-  const cfg = PLANET_LEVELS[lv];
+  let cfg = PLANET_LEVELS[lv];
+  // Differentiate life (warm) vs work (cool) at low levels (1-9 where surfaces look generic)
+  if(lv <= 9 && (node.cat === 'life' || node.cat === 'work')){
+    cfg = Object.assign({}, cfg, {colors: Object.assign({}, cfg.colors)});
+    if(node.cat === 'life'){
+      // warm tones (sunset / fire / vitality)
+      cfg.colors.glow = lv <= 3 ? '#ff7733' : (lv <= 6 ? '#ff9966' : '#ffaa66');
+      cfg.colors.primary = lv <= 3 ? '#cc4422' : (lv <= 6 ? '#aa5533' : '#aa6644');
+      cfg.colors.secondary = '#3a1010';
+      cfg.colors.accent = '#ffcc88';
+    } else if(node.cat === 'work'){
+      // cool tones (deep ocean / steel / discipline)
+      cfg.colors.glow = lv <= 3 ? '#3377ff' : (lv <= 6 ? '#4488cc' : '#5599dd');
+      cfg.colors.primary = lv <= 3 ? '#2244aa' : (lv <= 6 ? '#3366aa' : '#4477bb');
+      cfg.colors.secondary = '#0a1a3a';
+      cfg.colors.accent = '#88ccff';
+    }
+  }
   const r = cfg.radius * (sp.scale || cam.z);
   // background-layer features (drawn before glow)
   if(cfg.dysonSphere) drawDysonSphere(ctx, sp.sx, sp.sy, r, t, cfg);
@@ -1847,6 +4113,14 @@ function drawPlanet(ctx, node, planetState, t){
   if(cfg.secondPlanet) drawSecondPlanet(ctx, sp.sx, sp.sy, r, t, cfg.secondPlanet);
   if(cfg.ships) drawShips(ctx, sp.sx, sp.sy, r, t, cfg.ships);
   drawCancelledAsteroids(ctx, sp.sx, sp.sy, r, planetState, t);
+  // Render equipped planet-tech items from all identities
+  (S.identities||[]).forEach(id => {
+    if(!id.equipped) return;
+    const techId = id.equipped.planet;
+    if(!techId) return;
+    const item = SHOP_ITEMS.find(i => i.id === techId);
+    if(item && item.drawPlanet) item.drawPlanet(ctx, sp.sx, sp.sy, r, t);
+  });
   drawPlanetProgressRing(ctx, sp.sx, sp.sy, r, planetState);
   // tech HUD bracket (Lv 10+)
   if(lv >= 10) drawPlanetHUD(ctx, sp.sx, sp.sy, r, lv, cfg);
@@ -3046,8 +5320,8 @@ function drawPortal(lr, wr, t){
 function drawMain(t){
   ctxMain.clearRect(0,0,W,H);
   drawConnections();
-  // hide done & cancelled — keep only active/deferred on canvas
-  const drawList = S.N.filter(n => n.status === 'active' || n.status === 'deferred');
+  // hide done & cancelled, hide root (planet renders separately) — keep only active/deferred non-root
+  const drawList = S.N.filter(n => !n.isRoot && (n.status === 'active' || n.status === 'deferred'));
   drawList.sort((a,b)=> getDepth(a) - getDepth(b));
   for(const n of drawList) drawNode(n, t);
 }
@@ -3163,6 +5437,26 @@ function drawNode(n, t){
     ctx.beginPath();
     ctx.arc(sp.sx, sp.sy, r + 1.5, 0, Math.PI*2);
     ctx.stroke();
+  }
+  // ⭐ today's-star pulsing gold ring
+  if(n.status === 'active' && isStarTask(n.id)){
+    const pulse = 0.5 + Math.sin(t*0.005)*0.5;
+    // outer glow
+    const sg = ctx.createRadialGradient(sp.sx, sp.sy, r, sp.sx, sp.sy, r*2.2);
+    sg.addColorStop(0, `rgba(255,195,0,${0.35+pulse*0.3})`);
+    sg.addColorStop(1, 'rgba(255,195,0,0)');
+    ctx.fillStyle = sg;
+    ctx.beginPath();
+    ctx.arc(sp.sx, sp.sy, r*2.2, 0, Math.PI*2);
+    ctx.fill();
+    // ring
+    ctx.strokeStyle = `rgba(255,215,80,${0.65+pulse*0.35})`;
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([6,3]);
+    ctx.beginPath();
+    ctx.arc(sp.sx, sp.sy, r + 9, t*0.0008, Math.PI*2 + t*0.0008);
+    ctx.stroke();
+    ctx.setLineDash([]);
   }
   if(n.type === 'daily' && n.status === 'active'){
     ctx.strokeStyle = `rgba(255,195,0,${0.5 + Math.sin(t*0.004)*0.4})`;
@@ -3448,9 +5742,13 @@ function updatePanels(){
       if(n.type==='weekly') cls.push('weekly');
       if(n.source==='calendar') cls.push('calendar');
       if(n.burning) cls.push('burning');
+      const isStar = isStarTask(n.id);
+      if(isStar) cls.push('is-star');
       div.className = cls.join(' ');
       const meta = n.source === 'calendar' && n.dueDate ? `<span class="meta">📅 ${fmtDate(n.dueDate)}</span>` : '';
-      div.innerHTML = `<span style="overflow:hidden;text-overflow:ellipsis;">${meta}${escapeHtml(n.label)}</span><span class="xp">+${n.xpVal}</span>`;
+      const starPre = isStar ? '<span style="color:#ffc300;margin-right:4px;text-shadow:0 0 6px rgba(255,195,0,0.7);">⭐</span>' : '';
+      const ifThenLine = n.ifThen ? `<div style="font-size:10px;color:#88ccff;font-style:italic;margin-top:2px;opacity:0.85;">⏱ ${escapeHtml(n.ifThen)}之後</div>` : '';
+      div.innerHTML = `<div style="flex:1;min-width:0;overflow:hidden;"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${starPre}${meta}${escapeHtml(n.label)}</div>${ifThenLine}</div><span class="xp">+${n.xpVal}</span>`;
       attachSwipeGesture(div, n.id);
       div.addEventListener('click', ()=> completeNode(n.id));
       list.appendChild(div);
@@ -3691,6 +5989,113 @@ function wireEvents(){
   $('btn-stats').addEventListener('click', showStatsModal);
   $('btn-export').addEventListener('click', exportData);
   $('btn-import').addEventListener('click', importData);
+  $('btn-heatmap').addEventListener('click', showHeatmapModal);
+  $('btn-rewards').addEventListener('click', showRewardsModal);
+  $('btn-focus').addEventListener('click', toggleFocusMode);
+  // global ESC / F: close any open modal, exit focus mode
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape'){
+      // priority 1: focus mode
+      if(document.body.classList.contains('focus-mode')){
+        toggleFocusMode();
+        e.preventDefault();
+        return;
+      }
+      // priority 2: top-most open modal
+      const open = Array.from(document.querySelectorAll('.modal-bg.show'));
+      if(open.length){
+        open[open.length-1].classList.remove('show');
+        e.preventDefault();
+      }
+    } else if((e.key === 'f' || e.key === 'F') && document.body.classList.contains('focus-mode')){
+      toggleFocusMode();
+    }
+  });
+  // Click on focus-exit-hint exits
+  setTimeout(() => {
+    const fh = document.querySelector('.focus-exit-hint');
+    if(fh) fh.addEventListener('click', toggleFocusMode);
+  }, 100);
+  // Click on modal backdrop (not inner) closes that modal
+  document.querySelectorAll('.modal-bg').forEach(bg => {
+    bg.addEventListener('click', e => {
+      if(e.target === bg) bg.classList.remove('show');
+    });
+  });
+  // Real-world rewards add
+  $('btn-rw-add').addEventListener('click', () => {
+    const name = $('rw-new-name').value.trim();
+    const type = $('rw-new-type').value;
+    const v = parseInt($('rw-new-value').value, 10);
+    if(!name || !v || v <= 0){ showToast('請完整填寫'); return; }
+    S.realRewards.push({id:uid(), name:name.slice(0,20), type, targetValue:v});
+    save();
+    $('rw-new-name').value=''; $('rw-new-value').value='';
+    showRewardsModal();
+  });
+  // Reflection
+  document.querySelectorAll('.rf-mood').forEach(b => {
+    b.addEventListener('click', () => {
+      _refMood = b.dataset.mood;
+      document.querySelectorAll('.rf-mood').forEach(x => x.classList.remove('selected'));
+      b.classList.add('selected');
+    });
+  });
+  $('btn-rf-save').addEventListener('click', () => {
+    S.reflections.push({
+      date: new Date().toDateString(),
+      best: $('rf-best').value.trim(),
+      tomorrow: $('rf-tomorrow').value.trim(),
+      mood: _refMood
+    });
+    S.reflectionCount = (S.reflections||[]).length;
+    save();
+    closeModal('modal-reflection');
+    showToast('🌙 反思已存入日記', 2000);
+    if(navigator.vibrate) navigator.vibrate(15);
+    checkAchievements();
+  });
+  $('btn-mentor-change').addEventListener('click', () => {
+    closeModal('modal-mentor');
+    showMentorPickModal();
+  });
+  // brand 5x click → debug menu
+  let _brandClicks = 0, _brandTimer = null;
+  document.querySelector('.brand').addEventListener('click', () => {
+    _brandClicks++;
+    clearTimeout(_brandTimer);
+    _brandTimer = setTimeout(() => { _brandClicks = 0; }, 1500);
+    if(_brandClicks >= 5){
+      _brandClicks = 0;
+      openModal('modal-debug');
+    }
+  });
+  // Debug menu actions
+  $('dbg-xp').addEventListener('click', () => { S.XP += 1000; save(); updateAll(); showToast('+1000 XP'); });
+  $('dbg-dust').addEventListener('click', () => { (S.identities||[]).forEach(i=>i.starDust=(i.starDust||0)+1000); save(); showToast('所有角色 +1000 星塵'); });
+  $('dbg-level').addEventListener('click', () => {
+    ['life','work'].forEach(c => { const p=S.planets[c]; if(p && p.level<20){ p.level++; p.evoXP=PLANET_THRESHOLDS[p.level]; }});
+    relayout(); save(); updateAll(); showToast('星球 +1 級');
+  });
+  $('dbg-evil').addEventListener('click', () => { feedEvilPlanet(2000); showToast('邪惡 +5'); });
+  $('dbg-wave').addEventListener('click', () => { S.evilPlanet.unlocked=true; S.evilPlanet.lastWaveAt=0; showToast('召喚敵艦中...'); });
+  $('dbg-disaster').addEventListener('click', () => { S.disasterHistory=[]; S.activeDisaster=null; maybeSpawnDisaster(); });
+  $('dbg-rebirth').addEventListener('click', triggerRebirth);
+  $('dbg-week').addEventListener('click', () => { closeModal('modal-debug'); generateWeeklyReport(); });
+  $('dbg-mentor').addEventListener('click', () => { closeModal('modal-debug'); showMentorQuote(true); });
+  $('dbg-heatmap-fill').addEventListener('click', () => {
+    const today = new Date(); today.setHours(0,0,0,0);
+    for(let i=0;i<60;i++){
+      const d = new Date(today.getTime()-i*86400000);
+      const key = d.toISOString().slice(0,10);
+      const cnt = Math.floor(Math.random()*8);
+      S.completionLog[key] = {count:cnt, perfect:Math.random()<0.15, attacks:Math.random()<0.05?1:0, ids:[]};
+    }
+    save(); showToast('已填充 60 天樣本資料');
+  });
+  $('dbg-reset').addEventListener('click', () => {
+    if(confirm('完全重置所有存檔？無法復原')){ localStorage.removeItem(STORAGE_KEY); location.reload(); }
+  });
   $('btn-calendar').addEventListener('click', ()=>{
     refreshCalendarUI();
     openModal('modal-calendar');
@@ -3711,6 +6116,7 @@ function wireEvents(){
   });
   $('btn-add-cancel').addEventListener('click', ()=> closeModal('modal-add'));
   $('btn-add-confirm').addEventListener('click', confirmAdd);
+  if($('btn-from-template')) $('btn-from-template').addEventListener('click', showTemplatesModal);
   function togglePanelLeft(){
     const p = $('panel-left');
     if(window.innerWidth <= 720){
@@ -3739,6 +6145,13 @@ function wireEvents(){
     if(e.key === 'Enter') confirmAdd();
     if(e.key === 'Escape') closeModal('modal-add');
   });
+  if($('inp-ifthen-anchor')){
+    $('inp-ifthen-anchor').addEventListener('change', e=>{
+      const isCustom = e.target.value === '__custom__';
+      $('inp-ifthen-custom').style.display = isCustom ? 'block' : 'none';
+      if(isCustom) setTimeout(() => $('inp-ifthen-custom').focus(), 50);
+    });
+  }
   // planet tag clicks → planet detail
   document.querySelectorAll('.planet-tag').forEach(el=>{
     el.addEventListener('click', e=>{
@@ -3843,19 +6256,47 @@ function periodicNudge(){
   }
 }
 function initialNudge(){
-  const todays = S.N.filter(n=>(n.type==='daily'||n.type==='weekly') && n.status==='active').length;
-  if(todays > 0) showToast('☀️ 今日有 '+todays+' 個任務等著你', 3000);
+  // Onboarding: first time → identity setup
+  if(!S.identityOnboarded){
+    setTimeout(showIdentitySetupModal, 1500);
+    return;
+  }
+  // Modal queue: daily login → mentor → disaster spawn → today's stars → weekly report → constellation
+  setTimeout(checkDailyLogin, 800);
+  setTimeout(() => showMentorQuote(false), 3000);
+  setTimeout(maybeSpawnDisaster, 5000);
+  setTimeout(maybeShowWeeklyReport, 6500);
+  setTimeout(maybeGenerateConstellation, 7500);
+  setTimeout(maybeNudgeReflection, 9000);
+  // Daily ritual: today's three stars (if new day)
+  maybeShowTodayStarsPrompt();
+  // Standard nudge after a beat (only if no modal opened)
+  setTimeout(() => {
+    if(document.querySelector('.modal-bg.show')) return;
+    const todays = S.N.filter(n=>(n.type==='daily'||n.type==='weekly') && n.status==='active').length;
+    if(todays > 0) showToast('☀️ 今日有 '+todays+' 個任務等著你', 3000);
+  }, 2500);
   // auto-sync calendars on startup if any source is stale
   const sources = S.calendar.sources || [];
   if(sources.length > 0){
     const stale = sources.some(s => Date.now() - (s.lastFetch||0) > 10*60*1000);
     if(stale) syncAllCalendars(true);
   }
+  // Achievement check on launch (catch any retroactive)
+  checkAchievements();
 }
 
 /* ============== MAIN LOOP ============== */
 function tick(t){
   _frameNum++;
+  // disaster banner refresh (every ~30 frames)
+  if(_frameNum % 30 === 0) disasterBannerUpdate();
+  // evil planet combat update — paused if disaster freezes evil
+  const evilFrozen = getDisasterModifier('evilFreeze') === true;
+  if(S && S.evilPlanet && S.evilPlanet.unlocked && !evilFrozen){
+    maybeSpawnEnemyWave();
+    updateEnemiesAndDefense(t, 16);
+  }
   drawStarfield(t);
   // Heavy planet rendering: 30fps on mobile (skip every other frame), 60fps on desktop
   if(!IS_MOBILE || _frameNum % 2 === 0){
@@ -3863,6 +6304,10 @@ function tick(t){
   }
   drawMain(t);
   drawParticles(t);
+  // enemies & defense lasers (after particles canvas cleared, draw on top)
+  if(S && S.evilPlanet && S.evilPlanet.unlocked){
+    drawEnemiesAndLasers(t);
+  }
   if(activeCombo > 0 && Date.now() - comboLastTime > COMBO_TIMEOUT){
     activeCombo = 0;
     updateAll();
